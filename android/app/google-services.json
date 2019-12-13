@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "752841003267",
+    "firebase_url": "https://madureirasports-ddffd.firebaseio.com",
+    "project_id": "madureirasports-ddffd",
+    "storage_bucket": "madureirasports-ddffd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:752841003267:android:f7e27576f8c58d28781936",
+        "android_client_info": {
+          "package_name": "com.appbakerz.flutter_scaffold"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "752841003267-i6e98ad510ui66o2c2lu4ro5sq9rmemb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFiplq3F3ITTx-oAUyT_iySxgLpEitqLU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "752841003267-i6e98ad510ui66o2c2lu4ro5sq9rmemb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
