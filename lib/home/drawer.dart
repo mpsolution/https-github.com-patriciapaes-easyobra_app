@@ -14,159 +14,157 @@ class _AppDrawerState extends State<AppDrawer> {
   @override
   Widget build(BuildContext context) {
     AuthBlock auth = Provider.of<AuthBlock>(context);
-    final Carrinho  = Provider.of<CarrinhoState>(context);
+    final Carrinho = Provider.of<CarrinhoState>(context);
     final firebaseUser = Provider.of<FirebaseUser>(context);
     final List<Map> opcoesMinhaConta = [
-      {"icone":Icons.home,"nome":"Endereços","link":"/Enderecos"},
-      {"icone":Icons.home,"nome":"Termos e condições","link":""},
-      {"icone":Icons.home,"nome":"Suporte","link":""},
-      {"icone":Icons.home,"nome":"Indique o seu profissional","link":""},      
+      {"icone": Icons.home, "nome": "Endereços", "link": "/Enderecos"},
+      {"icone": Icons.home, "nome": "Termos e condições", "link": ""},
+      {"icone": Icons.home, "nome": "Suporte", "link": ""},
+      {"icone": Icons.home, "nome": "Indique o seu profissional", "link": ""},
     ];
     final List<Map> opcoesMinhaPasta = [
-      {"icone":Icons.home,"nome":"Meus Orçamentos","link":"/MeusOrcamentos"},
-      {"icone":Icons.home,"nome":"Meus Serviços","link":"/MeusServicos"},
-      {"icone":Icons.home,"nome":"Minhas Compras","link":"/MinhasCompras"},
-      {"icone":Icons.home,"nome":"Forma de Pagamento","link":"/Pagamentos"},
-      {"icone":Icons.home,"nome":"Meus Projetos","link":""},
+      {
+        "icone": Icons.home,
+        "nome": "Meus Orçamentos",
+        "link": "/MeusOrcamentos"
+      },
+      {"icone": Icons.home, "nome": "Meus Serviços", "link": "/MeusServicos"},
+      {"icone": Icons.home, "nome": "Minhas Compras", "link": "/MinhasCompras"},
+      {
+        "icone": Icons.home,
+        "nome": "Forma de Pagamento",
+        "link": "/Pagamentos"
+      },
+      {"icone": Icons.home, "nome": "Meus Projetos", "link": "/MeusProjetos"},
     ];
-    
-    List<Widget> criarMenu(List<Map> opcoes){
-                  return  opcoes.map<Widget>((opcao){
-                      return Container(
-                                        decoration: BoxDecoration(color: Colors.white , border: Border(
-                                                                    bottom: BorderSide(width: 1.0,color: Colors.black)
-                                                                  )),
-                                                  child:ListTile(
-                                            leading: Icon(opcao['icone'], color: Theme.of(context).accentColor),
-                                            title: Text(opcao['nome']),
-                                            onTap: () {
-                                              Navigator.pop(context);
-                                              Navigator.pushNamed(context,opcao['link']);
-                                            },
-                                          ), 
-                                                );
-                      }).toList();
+
+    List<Widget> criarMenu(List<Map> opcoes) {
+      return opcoes.map<Widget>((opcao) {
+        return Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border:
+                  Border(bottom: BorderSide(width: 1.0, color: Colors.black))),
+          child: ListTile(
+            leading: Icon(opcao['icone'], color: Theme.of(context).accentColor),
+            title: Text(opcao['nome']),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, opcao['link']);
+            },
+          ),
+        );
+      }).toList();
     }
+
     List<Widget> widgetMinhaPasta = criarMenu(opcoesMinhaPasta);
     List<Widget> widgetMinhaConta = criarMenu(opcoesMinhaConta);
-    
 
     return Column(
       children: <Widget>[
-        if (firebaseUser != null)
+        if ((firebaseUser != null) && (firebaseUser == null))
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(
-              image: DecorationImage(
+                image: DecorationImage(
               fit: BoxFit.cover,
               image: AssetImage('assets/images/drawer-header.jpg'),
             )),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  firebaseUser.photoUrl.toString()),
+              backgroundImage: NetworkImage(firebaseUser.photoUrl.toString()),
             ),
-            accountEmail:(firebaseUser.email != null)? Text(firebaseUser.email.toString()) : Text(''),
-            accountName: (firebaseUser.displayName != null)? Text('Olá  ' + firebaseUser.displayName.toString()) : Text(''),
+            accountEmail: (firebaseUser.email != null)
+                ? Text(firebaseUser.email.toString())
+                : Text(''),
+            accountName: (firebaseUser.displayName != null)
+                ? Text('Olá  ' + firebaseUser.displayName.toString())
+                : Text(''),
           ),
-          Container(
-            margin: EdgeInsets.only(top: 20.0,left: 5.0,right: 5.0),
-            child: Column(
-              
-              children: <Widget>[
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Padding(
+        Container(
+          margin: EdgeInsets.only(top: 20.0, left: 5.0, right: 5.0),
+          child: Column(
+            children: <Widget>[
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Padding(
                       padding: EdgeInsets.all(8.0),
                       child: CircleAvatar(
-                    backgroundImage: NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f5Tq7UJLc10WyFDBXoJKjlgnqmd8s6mRBxMfqj_NVLH5VEny&s'),
-                    maxRadius: 40,
-                    )
-                    
-                  ),
+                        backgroundImage: NetworkImage(
+                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f5Tq7UJLc10WyFDBXoJKjlgnqmd8s6mRBxMfqj_NVLH5VEny&s'),
+                        maxRadius: 40,
+                      )),
                   Expanded(
-                    child:Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children:<Widget>[
-                                      Text('Maria Eduarda'),
-                                      Row(children: <Widget>[
-                                        Text("4.92"),
-                                        Icon(Icons.star,color:Colors.black)
-                                      ],),
-                                      Row(children: <Widget>[
-                                        Text('Editar Perfil'),
-                                        Icon(Icons.settings,color:Colors.grey)
-                                      ],)
-                    ]
-                   
-                  ),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('Maria Eduarda'),
+                          Row(
+                            children: <Widget>[
+                              Text("4.92"),
+                              Icon(Icons.star, color: Colors.black)
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text('Editar Perfil'),
+                              Icon(Icons.settings, color: Colors.grey)
+                            ],
+                          )
+                        ]),
                   )
-                  
-                  ],
-                ),
-                
-            Card(
-              shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)
+                ],
               ),
-              child:Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[               
-                Text("Créditos + Bônus"),
-                Text("R\$ 80,00"),
-                Icon(Icons.chevron_right,color:Colors.black),
-              ],) 
-            ),
-                
-              ],
-            ),
+              Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text("Créditos + Bônus"),
+                      Text("R\$ 80,00"),
+                      Icon(Icons.chevron_right, color: Colors.black),
+                    ],
+                  )),
+            ],
           ),
-          
+        ),
         Expanded(
           child: ListView(
             shrinkWrap: true,
             children: <Widget>[
-                    Padding(padding: EdgeInsets.all(8.0),),
-                    Container(
-                      alignment: Alignment(-0.9,0.5),
-                      
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(width: 1.0,color: Colors.black)
-                        )
-                      ),
-                      child:Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text("Minha Pasta") ,
-                      )
-                     
-                    ,
-                    ),
-                   ...widgetMinhaPasta,
-                   Padding(padding: EdgeInsets.all(8.0),),
-                    Container(
-                      alignment: Alignment(-0.9,0.5),
-                      
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(width: 1.0,color: Colors.black)
-                        )
-                      ),
-                      child:Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text("Minha Conta") ,
-                      )
-                     
-                    ,
-                    ), 
-                    ...widgetMinhaConta
-                         
+              Padding(
+                padding: EdgeInsets.all(8.0),
+              ),
+              Container(
+                alignment: Alignment(-0.9, 0.5),
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(width: 1.0, color: Colors.black))),
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text("Minha Pasta"),
+                ),
+              ),
+              ...widgetMinhaPasta,
+              Padding(
+                padding: EdgeInsets.all(8.0),
+              ),
+              Container(
+                alignment: Alignment(-0.9, 0.5),
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(width: 1.0, color: Colors.black))),
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text("Minha Conta"),
+                ),
+              ),
+              ...widgetMinhaConta
 
-              
-               /**
+              /**
               ListTile(
                 leading: Icon(Icons.shopping_basket,
                     color: Theme.of(context).accentColor),

@@ -10,6 +10,7 @@ import 'package:flutter_scaffold/home/home.dart';
 import 'package:flutter_scaffold/meusorcamentos/meusorcamentos.dart';
 import 'package:flutter_scaffold/meusorcamentos/orcamentos.dart';
 import 'package:flutter_scaffold/meusorcamentos/portifoliodoprofissional.dart';
+import 'package:flutter_scaffold/meusprojetos/meusprojetos.dart';
 import 'package:flutter_scaffold/meusservicos/meusservicos.dart';
 import 'package:flutter_scaffold/minhascompras/minhascompras.dart';
 import 'package:flutter_scaffold/pedido.dart';
@@ -55,7 +56,8 @@ void main() {
         '/PortifolioDoProfissional':(BuildContext context) => PortifolioDoProfissional(),
         '/Pagamentos':(BuildContext context)  => Pagamentos(),
         '/AdicionarCartao':(BuildContext context) => AdicionarCartao(),
-        '/Enderecos':(BuildContext context) => Enderecos()
+        '/Enderecos':(BuildContext context) => Enderecos(),
+        '/MeusProjetos':(BuildContext context) => MeusProjetos()
       },
     ),
   ));
