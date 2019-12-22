@@ -3,6 +3,7 @@ import 'package:flutter_scaffold/auth/auth.dart';
 import 'package:flutter_scaffold/blocks/auth_block.dart';
 import 'package:flutter_scaffold/cart.dart';
 import 'package:flutter_scaffold/categorise.dart';
+import 'package:flutter_scaffold/dicas/dica.dart';
 import 'package:flutter_scaffold/enderecos/enderecos.dart';
 import 'package:flutter_scaffold/formapagamento/adicionarcartaocredito.dart';
 import 'package:flutter_scaffold/formapagamento/pagamentos.dart';
@@ -24,6 +25,7 @@ import './provider/carrinho.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiProvider(
     providers: [ChangeNotifierProvider<CarrinhoState>.value(value: CarrinhoState()),
             ChangeNotifierProvider<AuthBlock>.value(value: AuthBlock()) ,
@@ -57,7 +59,9 @@ void main() {
         '/Pagamentos':(BuildContext context)  => Pagamentos(),
         '/AdicionarCartao':(BuildContext context) => AdicionarCartao(),
         '/Enderecos':(BuildContext context) => Enderecos(),
-        '/MeusProjetos':(BuildContext context) => MeusProjetos()
+        '/MeusProjetos':(BuildContext context) => MeusProjetos(),
+        '/Dica':(BuildContext context) =>Dica()
+
       },
     ),
   ));

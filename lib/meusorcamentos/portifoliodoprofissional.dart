@@ -206,17 +206,13 @@ class _PortifolioDoProfissionalState extends State<PortifolioDoProfissional> {
              Expanded(
                child:Align(
                alignment: Alignment.bottomCenter,
-               child: ButtonTheme(
-                      buttonColor: Colors.grey,
-                      minWidth: MediaQuery.of(context).size.width * 0.9 ,
-                      child:RaisedButton(
-                                  onPressed: () {},
-                                  child: const Text(
-                                    'Aceitar',
-                                    style: TextStyle(fontSize: 20,color: Colors.white)
-                                  ),
-                                ) ,
-                    ),
+               child: RaisedButton(
+                           onPressed: () {},
+                           child: const Text(
+                             'Aceitar',
+                             style: TextStyle(fontSize: 20,color: Colors.white)
+                           ),
+                         ),
              ) ,
              )
                

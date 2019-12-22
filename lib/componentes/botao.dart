@@ -11,14 +11,11 @@ class Botao extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
                alignment: Alignment.bottomCenter,
-               child: ButtonTheme(
-                      buttonColor: cor,
-                      minWidth: MediaQuery.of(context).size.width * 0.9 ,
-                      child:RaisedButton(                                  
-                                  child: Text(nome,style:TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold)
-                                  ),
-                                ) ,
-                    ),
+               child: RaisedButton(    
+                           onPressed: (){},                            
+                           child: Text(nome,style:TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold)
+                           ),
+                         ),
              );
   }
 }

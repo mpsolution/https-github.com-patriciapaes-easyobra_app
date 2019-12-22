@@ -66,6 +66,7 @@ class AuthService {
   }
 
   getUser() async {
+    
     String user = await storage.read(key: 'user');
     if (user != null) {
       return jsonDecode(user);

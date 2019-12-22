@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_scaffold/dicas/dicas.dart';
 import 'package:flutter_scaffold/provider/carrinho.dart';
 import 'package:provider/provider.dart';
 
@@ -57,7 +58,16 @@ class _HomeState extends State<Home> {
     },
   ];
   String _busca = "";
-
+  int _selectedIndex = 0;
+   List<Widget> _widgetOptions =[
+              Dicas() ,
+  ];
+  void _onItemTapped(int index) {
+    print("INDEX A SER SETADO " + index.toString());
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final carrinho = Provider.of<CarrinhoState>(context);
@@ -73,7 +83,8 @@ class _HomeState extends State<Home> {
         child: AppDrawer(),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
         backgroundColor: Colors.grey,
         fixedColor: Colors.orange,
         unselectedItemColor: Colors.grey,
@@ -98,11 +109,11 @@ class _HomeState extends State<Home> {
           )
         ],
       ),
-      body: SafeArea(
+      body:SafeArea(
         top: false,
         left: false,
         right: false,
-        child: CustomScrollView(
+        child:CustomScrollView(
             // Add the app bar and list of items as slivers in the next steps.
             slivers: <Widget>[
               SliverAppBar(
@@ -167,9 +178,9 @@ class _HomeState extends State<Home> {
                 // back up the list of items.
                 // floating: true,
                 // Display a placeholder widget to visualize the shrinking size.
-                flexibleSpace: HomeSlider(),
+                flexibleSpace: (_selectedIndex == 0) ? HomeSlider() : null,
                 // Make the initial height of the SliverAppBar larger than normal.
-                expandedHeight: 300,
+                expandedHeight:(_selectedIndex == 0) ? 300 : 60,
               ),
               SliverList(
                 // Use a delegate to build items as they're scrolled on screen.
@@ -178,7 +189,7 @@ class _HomeState extends State<Home> {
                   // displays the index of the current item.
                   (context, index) => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                    children: (_selectedIndex == 0) ? <Widget>[                      
                       Padding(
                         padding:
                             EdgeInsets.only(top: 14.0, left: 8.0, right: 8.0),
@@ -261,14 +272,15 @@ class _HomeState extends State<Home> {
                           }).toList(),
                         ),
                       )
-                    ],
+                    ] : (_selectedIndex == 1) ? [Dicas()] : null,
+                    
                   ),
                   // Builds 1000 ListTiles
                   childCount: 1,
                 ),
               )
             ]),
-      ),
+      )
     );
   }
 }
