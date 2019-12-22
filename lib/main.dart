@@ -19,6 +19,7 @@ import 'package:flutter_scaffold/pedidos.dart';
 import 'package:flutter_scaffold/product_detail.dart';
 import 'package:flutter_scaffold/settings.dart';
 import 'package:flutter_scaffold/shop/shop.dart';
+import 'package:flutter_scaffold/solicitarServico/solicitarServico.dart';
 import 'package:flutter_scaffold/wishlist.dart';
 import 'package:provider/provider.dart';
 import './provider/carrinho.dart';
@@ -60,7 +61,8 @@ void main() {
         '/AdicionarCartao':(BuildContext context) => AdicionarCartao(),
         '/Enderecos':(BuildContext context) => Enderecos(),
         '/MeusProjetos':(BuildContext context) => MeusProjetos(),
-        '/Dica':(BuildContext context) =>Dica()
+        '/Dica':(BuildContext context) =>Dica(),
+        '/SolicitarServico':(BuildContext context) => SolicitarServico()
 
       },
     ),
