@@ -8,6 +8,7 @@ import 'package:flutter_scaffold/enderecos/enderecos.dart';
 import 'package:flutter_scaffold/formapagamento/adicionarcartaocredito.dart';
 import 'package:flutter_scaffold/formapagamento/pagamentos.dart';
 import 'package:flutter_scaffold/home/home.dart';
+import 'package:flutter_scaffold/meusgastos/meusgastos.dart';
 import 'package:flutter_scaffold/meusorcamentos/meusorcamentos.dart';
 import 'package:flutter_scaffold/meusorcamentos/orcamentos.dart';
 import 'package:flutter_scaffold/meusorcamentos/portifoliodoprofissional.dart';
@@ -19,6 +20,7 @@ import 'package:flutter_scaffold/pedidos.dart';
 import 'package:flutter_scaffold/product_detail.dart';
 import 'package:flutter_scaffold/settings.dart';
 import 'package:flutter_scaffold/shop/shop.dart';
+import 'package:flutter_scaffold/solicitarServico/servicos.dart';
 import 'package:flutter_scaffold/solicitarServico/solicitarServico.dart';
 import 'package:flutter_scaffold/wishlist.dart';
 import 'package:provider/provider.dart';
@@ -62,7 +64,9 @@ void main() {
         '/Enderecos':(BuildContext context) => Enderecos(),
         '/MeusProjetos':(BuildContext context) => MeusProjetos(),
         '/Dica':(BuildContext context) =>Dica(),
-        '/SolicitarServico':(BuildContext context) => SolicitarServico()
+        '/SolicitarServico':(BuildContext context) => SolicitarServico(),
+        '/Servicos':(BuildContext context) => Servicos(),
+        '/MeusGastos':(BuildContext context) => MeusGastos()
 
       },
     ),

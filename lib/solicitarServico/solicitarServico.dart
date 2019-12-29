@@ -12,6 +12,9 @@ class SolicitarServico extends StatefulWidget {
 class _SolicitarServicoState extends State<SolicitarServico> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   TextStyle titulo = TextStyle(fontWeight: FontWeight.bold);
+  List<String> reparos = ["Reparo","Teste1","Teste2"];
+  List<String> construcao = ["Construção","Teste3","Teste4"];
+  List<String> reforma   = ["Reforma","Teste5","Teste6"];
   String _busca;
    @override
   Widget build(BuildContext context) {
@@ -91,26 +94,18 @@ class _SolicitarServicoState extends State<SolicitarServico> {
                            child: GridView.count(
                            crossAxisCount: 2,
                            children: <Widget>[
-                             CardCategoria("Construção", "https://thumbs.dreamstime.com/z/linha-civil-conceito-do-guindaste-de-constru%C3%A7%C3%A3o-%C3%ADcone-ilustra%C3%A7%C3%A3o-linear-vetor-s%C3%ADmbolo-sinal-132454234.jpg"),
-                             Card(
-                               child: Column(
-                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                 children: <Widget>[
-                                   CachedNetworkImage(
-                                     height: 100,
-                                     width: 100,
-                                     fit: BoxFit.contain,
-                                     imageUrl:"https://silasmaridodealuguel.files.wordpress.com/2015/08/1354672719_462262797_1-reformas-em-geral-andrade-de-araujo.jpg" ,
-                                     placeholder: (context,url)=>SizedBox(width: 50,height: 50,child: CircularProgressIndicator(),),
-                                     errorWidget: (context,url,error)=>Icon(Icons.error),
-                                     ),
-                                     Text("Reforma",style:titulo)
-                                     ],
-                               ),
+                             InkWell(
+                               onTap: (){Navigator.of(context).pushNamed('/Servicos',arguments: construcao);},
+                               child: CardCategoria("Construção", "https://thumbs.dreamstime.com/z/linha-civil-conceito-do-guindaste-de-constru%C3%A7%C3%A3o-%C3%ADcone-ilustra%C3%A7%C3%A3o-linear-vetor-s%C3%ADmbolo-sinal-132454234.jpg"),
                              ),
-                             CardCategoria("Reparo", "https://st.depositphotos.com/1010146/4494/v/950/depositphotos_44941501-stock-illustration-home-repair-icon.jpg"),
-                             
+                             InkWell(
+                               onTap: (){Navigator.of(context).pushNamed('/Servicos',arguments: reforma);},
+                               child: CardCategoria("Reforma", "https://silasmaridodealuguel.files.wordpress.com/2015/08/1354672719_462262797_1-reformas-em-geral-andrade-de-araujo.jpg" ),
+                             ),                             
+                             InkWell(
+                               onTap: (){Navigator.of(context).pushNamed('/Servicos',arguments: reparos);},
+                               child: CardCategoria("Reparo", "https://st.depositphotos.com/1010146/4494/v/950/depositphotos_44941501-stock-illustration-home-repair-icon.jpg"),
+                             ),                             
                            ],
                          ),
                          )
