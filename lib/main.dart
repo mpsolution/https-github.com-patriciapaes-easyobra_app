@@ -18,6 +18,7 @@ import 'package:flutter_scaffold/meusservicos/meusservicos.dart';
 import 'package:flutter_scaffold/minhascompras/minhascompras.dart';
 import 'package:flutter_scaffold/pedido.dart';
 import 'package:flutter_scaffold/pedidos.dart';
+import 'package:flutter_scaffold/pedirajuda.dart';
 import 'package:flutter_scaffold/product_detail.dart';
 import 'package:flutter_scaffold/settings.dart';
 import 'package:flutter_scaffold/shop/shop.dart';
@@ -43,7 +44,7 @@ void main() {
           primaryColor: Colors.deepOrange[500],
           accentColor: Colors.lightBlue[900],
           fontFamily: 'Lato'),
-      initialRoute: '/Login',
+      initialRoute: '/PedirAjuda',
       routes: <String, WidgetBuilder>{
         '/': (BuildContext context) => Home(),
         '/auth': (BuildContext context) => Auth(),
@@ -68,7 +69,8 @@ void main() {
         '/SolicitarServico':(BuildContext context) => SolicitarServico(),
         '/Servicos':(BuildContext context) => Servicos(),
         '/MeusGastos':(BuildContext context) => MeusGastos(),
-        '/Login':(BuildContext context) => Login()
+        '/Login':(BuildContext context) => Login(),
+        '/PedirAjuda':(BuildContext context) =>PedirAjuda()
 
       },
     ),
