@@ -8,6 +8,7 @@ import 'package:flutter_scaffold/enderecos/enderecos.dart';
 import 'package:flutter_scaffold/formapagamento/adicionarcartaocredito.dart';
 import 'package:flutter_scaffold/formapagamento/pagamentos.dart';
 import 'package:flutter_scaffold/home/home.dart';
+import 'package:flutter_scaffold/login.dart';
 import 'package:flutter_scaffold/meusgastos/meusgastos.dart';
 import 'package:flutter_scaffold/meusorcamentos/meusorcamentos.dart';
 import 'package:flutter_scaffold/meusorcamentos/orcamentos.dart';
@@ -42,7 +43,7 @@ void main() {
           primaryColor: Colors.deepOrange[500],
           accentColor: Colors.lightBlue[900],
           fontFamily: 'Lato'),
-      initialRoute: '/',
+      initialRoute: '/Login',
       routes: <String, WidgetBuilder>{
         '/': (BuildContext context) => Home(),
         '/auth': (BuildContext context) => Auth(),
@@ -66,7 +67,8 @@ void main() {
         '/Dica':(BuildContext context) =>Dica(),
         '/SolicitarServico':(BuildContext context) => SolicitarServico(),
         '/Servicos':(BuildContext context) => Servicos(),
-        '/MeusGastos':(BuildContext context) => MeusGastos()
+        '/MeusGastos':(BuildContext context) => MeusGastos(),
+        '/Login':(BuildContext context) => Login()
 
       },
     ),
