@@ -8,6 +8,7 @@ import 'package:flutter_scaffold/enderecos/enderecos.dart';
 import 'package:flutter_scaffold/formapagamento/adicionarcartaocredito.dart';
 import 'package:flutter_scaffold/formapagamento/pagamentos.dart';
 import 'package:flutter_scaffold/home/home.dart';
+import 'package:flutter_scaffold/indicacaoprofissional.dart';
 import 'package:flutter_scaffold/login.dart';
 import 'package:flutter_scaffold/meusgastos/meusgastos.dart';
 import 'package:flutter_scaffold/meusorcamentos/meusorcamentos.dart';
@@ -22,8 +23,10 @@ import 'package:flutter_scaffold/pedirajuda.dart';
 import 'package:flutter_scaffold/product_detail.dart';
 import 'package:flutter_scaffold/settings.dart';
 import 'package:flutter_scaffold/shop/shop.dart';
+import 'package:flutter_scaffold/solicitarServico/historicoservico.dart';
 import 'package:flutter_scaffold/solicitarServico/servicos.dart';
 import 'package:flutter_scaffold/solicitarServico/solicitarServico.dart';
+import 'package:flutter_scaffold/termosecondicoes/termosecondicoes.dart';
 import 'package:flutter_scaffold/wishlist.dart';
 import 'package:provider/provider.dart';
 import './provider/carrinho.dart';
@@ -44,7 +47,7 @@ void main() {
           primaryColor: Colors.deepOrange[500],
           accentColor: Colors.lightBlue[900],
           fontFamily: 'Lato'),
-      initialRoute: '/PedirAjuda',
+      initialRoute: '/TermoseCondicoes',
       routes: <String, WidgetBuilder>{
         '/': (BuildContext context) => Home(),
         '/auth': (BuildContext context) => Auth(),
@@ -70,7 +73,10 @@ void main() {
         '/Servicos':(BuildContext context) => Servicos(),
         '/MeusGastos':(BuildContext context) => MeusGastos(),
         '/Login':(BuildContext context) => Login(),
-        '/PedirAjuda':(BuildContext context) =>PedirAjuda()
+        '/PedirAjuda':(BuildContext context) =>PedirAjuda(),
+        '/IndicacaoProfissional':(BuildContext context) =>IndicacaoProfissional(),
+        '/HistoricoServico':(BuildContext context)=>HistoricoServico(),
+        '/TermoseCondicoes':(BuildContext context)=>TermoseCondicoes()
 
       },
     ),
