@@ -47,7 +47,7 @@ void main() {
           primaryColor: Colors.deepOrange[500],
           accentColor: Colors.lightBlue[900],
           fontFamily: 'Lato'),
-      initialRoute: '/TermoseCondicoes',
+      initialRoute: '/',
       routes: <String, WidgetBuilder>{
         '/': (BuildContext context) => Home(),
         '/auth': (BuildContext context) => Auth(),

@@ -34,6 +34,8 @@ dependencies:
   flutter_facebook_login: ^3.0.0
   font_awesome_flutter:
   firebase_auth: ^0.15.0+1
+  shared_preferences:
+  flutter_google_places:
   webview_flutter:
   
   

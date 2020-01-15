@@ -18,9 +18,9 @@ class _AppDrawerState extends State<AppDrawer> {
     final firebaseUser = Provider.of<FirebaseUser>(context);
     final List<Map> opcoesMinhaConta = [
       {"icone": Icons.home, "nome": "Endereços", "link": "/Enderecos"},
-      {"icone": Icons.home, "nome": "Termos e condições", "link": ""},
-      {"icone": Icons.home, "nome": "Suporte", "link": ""},
-      {"icone": Icons.home, "nome": "Indique o seu profissional", "link": ""},
+      {"icone": Icons.home, "nome": "Termos e condições", "link": "/TermoseCondicoes"},
+      {"icone": Icons.home, "nome": "Suporte", "link": "/PedirAjuda"},
+      {"icone": Icons.home, "nome": "Indique o seu profissional", "link": "/IndicacaoProfissional"},
     ];
     final List<Map> opcoesMinhaPasta = [
       {

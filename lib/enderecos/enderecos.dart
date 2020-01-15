@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'package:flutter_scaffold/componentes/botao.dart';
 import 'package:flutter_scaffold/enderecos/cardendereco.dart';
 import 'package:flutter_scaffold/formapagamento/cardcartao.dart';
@@ -12,7 +14,7 @@ class Enderecos extends StatefulWidget {
 
 class _EnderecosState extends State<Enderecos> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  
+  final kGoogleApiKey = "AIzaSyBGq9bwrWAy-MYdK2O8UDZxoIC5Nhk5Miw";
   String imagemBase = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f5Tq7UJLc10WyFDBXoJKjlgnqmd8s6mRBxMfqj_NVLH5VEny&s';
   final List<int> cartoes = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
   final Map<String,String> cartao = {"nome":"Maria Eduarda de Almeida",
@@ -73,38 +75,16 @@ class _EnderecosState extends State<Enderecos> {
                         child:SizedBox(
                           height: 50,
                           child: InkWell(
-                        onTap: (){
+                        onTap: () async {
                           print("Função de adicionar um novo botão");
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context){
-                                return AlertDialog(
-                                  title: Text("Buscar Endereço:"),
-                                  content: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      TextField(
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                hintText: 'Digite o endereço'
-                                              ),
-                                            )
-
-                                    ],
-                                  ),
-                                  actions: <Widget>[
-                                    FlatButton(
-                                      child: Text("Fechar"),
-                                      onPressed: (){
-                                        Navigator.of(context).pop();
-                                      },
-                                    )
-                                  ],
-                                );  
-                            }
-                          );
+                          Prediction p = await PlacesAutocomplete.show(
+                          hint: "Procurar",
+                          context: context,
+                          apiKey: kGoogleApiKey,
+                          mode: Mode.overlay, // Mode.fullscreen
+                          language: "pt",
+                          components: [new Component(Component.country, "br")]);
+                          
                          
                         },
                         child:Card(
