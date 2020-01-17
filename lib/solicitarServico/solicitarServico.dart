@@ -1,6 +1,10 @@
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scaffold/solicitarServico/cardCategoria.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class SolicitarServico extends StatefulWidget {
   SolicitarServico({Key key}) : super(key: key);
@@ -11,10 +15,38 @@ class SolicitarServico extends StatefulWidget {
 
 class _SolicitarServicoState extends State<SolicitarServico> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  TextStyle titulo = TextStyle(fontWeight: FontWeight.bold);
-  List<String> reparos = ["Reparo","Teste1","Teste2"];
-  List<String> construcao = ["Construção","Teste3","Teste4"];
-  List<String> reforma   = ["Reforma","Teste5","Teste6"];
+  GlobalKey<AutoCompleteTextFieldState> chaveAutoComplete = GlobalKey();
+  final Firestore db = new Firestore();
+  List<dynamic>   opcoes = [];
+  TextStyle    titulo = TextStyle(fontWeight: FontWeight.bold);
+  List<String> reparos = ["Reparo","reparo","Teste2"];
+  List<String> construcao = ["Construção","construcao","Teste4"];
+  List<String> reforma   = ["Reforma","reforma","Teste6"];
+  List<String> listagem = [
+
+  ];
+  void getOpcoesServicos() async {
+      
+      db.collection('tiposservico')
+        .getDocuments()
+        .then((QuerySnapshot snapshot){
+           snapshot.documents.forEach((servico){
+            opcoes.addAll(servico["opcoes"]);
+           });
+           print('OPCOCES A SEREM SETADAS $opcoes');
+           setState(() {
+             
+           });
+        });
+
+  }
+  @override
+  void initState() { 
+    getOpcoesServicos();
+    super.initState();
+    
+  }
+
   String _busca;
    @override
   Widget build(BuildContext context) {
@@ -51,25 +83,33 @@ class _SolicitarServicoState extends State<SolicitarServico> {
                         Text("Acesso Rápido",style: titulo,),
                         Text("Digite aqui o serviço que você procura"),
                         Card(child: ListTile(
-                              title: TextFormField(
-                              keyboardType: TextInputType.text,
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Por Favor digite algo para buscar';
-                                }
-                                print('VALOR Da Busca' + value);
-                                return null;
-                              },
-                              onSaved: (value) {
-                                setState(() {
-                                  _busca = value;
-                                });
-                              },
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'ex:Pintura,pintor,eletricista,construção,',
-                              ),
-                            ),
+                              title:AutoCompleteTextField(
+                                 key: chaveAutoComplete,
+                                 decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'ex:Pintura,pintor,eletricista,construção,',
+                                 ) ,
+                                 itemBuilder: (context,item){
+                                   return Padding(
+                                     padding: EdgeInsets.all(5),
+                                     child:Text(StringUtils.capitalize(item)) ,
+                                   )
+                                   ;
+                                 },
+                                 itemFilter: (item,query){
+                                   return item
+                                              .toLowerCase()
+                                              .startsWith(query.toLowerCase());
+                                 },
+                                 itemSorter: (a,b){
+                                   return a.compareTo(b);
+                                 },
+                                 itemSubmitted: (item){
+                                   print("ITEM ESCOLHIDO $item");
+                                 },
+                                 suggestions: opcoes,
+                              )
+                              
                           ) ,)
                        
                         ],) ,

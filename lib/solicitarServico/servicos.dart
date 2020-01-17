@@ -1,3 +1,5 @@
+import 'package:basic_utils/basic_utils.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 class Servicos extends StatefulWidget {
   Servicos({Key key}) : super(key: key);
@@ -12,7 +14,9 @@ class _ServicosState extends State<Servicos> {
   String _busca;
    @override
   Widget build(BuildContext context) {
+    
     List<String> servicos = ModalRoute.of(context).settings.arguments;
+    
     return Scaffold(
        resizeToAvoidBottomInset: false,
        key: scaffoldKey,
@@ -28,25 +32,41 @@ class _ServicosState extends State<Servicos> {
        body:Builder(
          builder: (BuildContext context){
            return Container(
-             child:ListView.builder(
-               itemCount: servicos.length,
-               itemBuilder: (context,i){
-                 if(i > 0) return Container(
-                   child: Padding(
-                     padding: EdgeInsets.all(5),
-                     child:Text(servicos[i]) ,
-                   )
-                   ,
-                   decoration: BoxDecoration(
-                     border: Border(bottom: BorderSide(
-                       color: Colors.black,
-                       width: 1
-                     ))
-                   ),
-                 );
-                 return Text("");
-                 },
+
+             child:StreamBuilder<DocumentSnapshot>(
+               stream: Firestore.instance.document('tiposservico/${servicos[1]}').snapshots(),
+               builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
+                        if(snapshot.hasError) Text("Error: ${snapshot.error}");
+                        switch (snapshot.connectionState) {
+                            case ConnectionState.waiting: return Center(child: SizedBox(height: 50,width: 50,child:CircularProgressIndicator() ,),) ;
+                            default:{
+                              print("RESULTADO " + snapshot.data["opcoes"].toString());
+                              List<dynamic> opcoes = snapshot.data["opcoes"];
+                              return new ListView.builder(
+                                          itemCount: opcoes.length,
+                                          itemBuilder: (context,i){
+                                             return Container(
+                                              child: Padding(
+                                                padding: EdgeInsets.all(5),
+                                                child:Text(StringUtils.capitalize(opcoes[i])) ,
+                                              )
+                                              ,
+                                              decoration: BoxDecoration(
+                                                border: Border(bottom: BorderSide(
+                                                  color: Colors.black,
+                                                  width: 1
+                                                ))
+                                              ),
+                                            );
+                                            
+                                            },
+                                        );
+                            }
+
+                        }
+               } ,
              )
+             
              );
          },
        ) ,

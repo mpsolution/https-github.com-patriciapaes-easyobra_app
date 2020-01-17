@@ -34,6 +34,10 @@ dependencies:
   flutter_facebook_login: ^3.0.0
   font_awesome_flutter:
   firebase_auth: ^0.15.0+1
+  geocoder: ^0.2.1
+  basic_utils: ^1.2.0
+  autocomplete_textfield: ^1.7.3
+  geolocator:
   shared_preferences:
   flutter_google_places:
   webview_flutter:
