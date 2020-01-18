@@ -42,10 +42,24 @@ class _ServicosState extends State<Servicos> {
                             default:{
                               print("RESULTADO " + snapshot.data["opcoes"].toString());
                               List<dynamic> opcoes = snapshot.data["opcoes"];
-                              return new ListView.builder(
+                              return new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.all(5),
+                                          child: Center(child: Text("Escolha o Tipo de Serviço:",style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),),
+                                        ) ,    
+                                        Flexible(
+                                          child: ListView.builder(
                                           itemCount: opcoes.length,
                                           itemBuilder: (context,i){
-                                             return Container(
+                                             return InkWell(
+                                               onTap: (){
+                                                 print("SERVICO ESCOLHIDA ${opcoes[i]}");
+                                                 Navigator.of(context).pushNamed('/CriarServico',arguments:opcoes[i]);
+                                               },
+                                               child: Container(
                                               child: Padding(
                                                 padding: EdgeInsets.all(5),
                                                 child:Text(StringUtils.capitalize(opcoes[i])) ,
@@ -57,10 +71,17 @@ class _ServicosState extends State<Servicos> {
                                                   width: 1
                                                 ))
                                               ),
-                                            );
+                                            ),
+                                             )
+                                             ;
                                             
                                             },
-                                        );
+                                        ) ,
+                                        )                                    
+                                       
+                                ],
+                              );
+                              
                             }
 
                         }

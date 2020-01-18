@@ -23,6 +23,7 @@ import 'package:flutter_scaffold/pedirajuda.dart';
 import 'package:flutter_scaffold/product_detail.dart';
 import 'package:flutter_scaffold/settings.dart';
 import 'package:flutter_scaffold/shop/shop.dart';
+import 'package:flutter_scaffold/solicitarServico/criarServico.dart';
 import 'package:flutter_scaffold/solicitarServico/historicoservico.dart';
 import 'package:flutter_scaffold/solicitarServico/servicos.dart';
 import 'package:flutter_scaffold/solicitarServico/solicitarServico.dart';
@@ -76,7 +77,8 @@ void main() {
         '/PedirAjuda':(BuildContext context) =>PedirAjuda(),
         '/IndicacaoProfissional':(BuildContext context) =>IndicacaoProfissional(),
         '/HistoricoServico':(BuildContext context)=>HistoricoServico(),
-        '/TermoseCondicoes':(BuildContext context)=>TermoseCondicoes()
+        '/TermoseCondicoes':(BuildContext context)=>TermoseCondicoes(),
+        '/CriarServico':(BuildContext context)=>CriarServico()
 
       },
     ),

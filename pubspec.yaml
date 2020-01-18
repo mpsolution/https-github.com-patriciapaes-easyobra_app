@@ -37,12 +37,17 @@ dependencies:
   geocoder: ^0.2.1
   basic_utils: ^1.2.0
   autocomplete_textfield: ^1.7.3
+  image_picker: ^0.6.3+1
+  flutter_speed_dial: ^1.2.5
+  camera:
+  path_provider:
+  path:
   geolocator:
   shared_preferences:
   flutter_google_places:
   webview_flutter:
   
-  
+  firebase_storage:
   cloud_firestore:
   
   # The following adds the Cupertino Icons font to your application.
