@@ -2,8 +2,10 @@ import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_scaffold/provider/criacaoServicoProvider.dart';
 import 'package:flutter_scaffold/solicitarServico/cardCategoria.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
 
 class SolicitarServico extends StatefulWidget {
@@ -50,6 +52,7 @@ class _SolicitarServicoState extends State<SolicitarServico> {
   String _busca;
    @override
   Widget build(BuildContext context) {
+    final criacaoServicoProvider = Provider.of<CriacaoServicoState>(context);
     return Scaffold(
        resizeToAvoidBottomInset: false,
        key: scaffoldKey,
@@ -135,15 +138,24 @@ class _SolicitarServicoState extends State<SolicitarServico> {
                            crossAxisCount: 2,
                            children: <Widget>[
                              InkWell(
-                               onTap: (){Navigator.of(context).pushNamed('/Servicos',arguments: construcao);},
+                               onTap: (){
+                                 criacaoServicoProvider.setTipoServico("construcao");
+                                 Navigator.of(context).pushNamed('/Servicos',arguments: construcao);
+                                 },
                                child: CardCategoria("Construção", "https://thumbs.dreamstime.com/z/linha-civil-conceito-do-guindaste-de-constru%C3%A7%C3%A3o-%C3%ADcone-ilustra%C3%A7%C3%A3o-linear-vetor-s%C3%ADmbolo-sinal-132454234.jpg"),
                              ),
                              InkWell(
-                               onTap: (){Navigator.of(context).pushNamed('/Servicos',arguments: reforma);},
+                               onTap: (){
+                                 criacaoServicoProvider.setTipoServico("reforma");
+                                 Navigator.of(context).pushNamed('/Servicos',arguments: reforma);
+                                 },
                                child: CardCategoria("Reforma", "https://silasmaridodealuguel.files.wordpress.com/2015/08/1354672719_462262797_1-reformas-em-geral-andrade-de-araujo.jpg" ),
                              ),                             
                              InkWell(
-                               onTap: (){Navigator.of(context).pushNamed('/Servicos',arguments: reparos);},
+                               onTap: (){
+                                          criacaoServicoProvider.setTipoServico("reparo");
+                                          Navigator.of(context).pushNamed('/Servicos',arguments: reparos);
+                                 },
                                child: CardCategoria("Reparo", "https://st.depositphotos.com/1010146/4494/v/950/depositphotos_44941501-stock-illustration-home-repair-icon.jpg"),
                              ),                             
                            ],

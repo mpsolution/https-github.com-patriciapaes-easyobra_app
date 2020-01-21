@@ -21,6 +21,7 @@ import 'package:flutter_scaffold/pedido.dart';
 import 'package:flutter_scaffold/pedidos.dart';
 import 'package:flutter_scaffold/pedirajuda.dart';
 import 'package:flutter_scaffold/product_detail.dart';
+import 'package:flutter_scaffold/provider/criacaoServicoProvider.dart';
 import 'package:flutter_scaffold/settings.dart';
 import 'package:flutter_scaffold/shop/shop.dart';
 import 'package:flutter_scaffold/solicitarServico/criarServico.dart';
@@ -34,9 +35,11 @@ import './provider/carrinho.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
+  
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiProvider(
     providers: [ChangeNotifierProvider<CarrinhoState>.value(value: CarrinhoState()),
+                ChangeNotifierProvider<CriacaoServicoState>.value(value:CriacaoServicoState()),
             ChangeNotifierProvider<AuthBlock>.value(value: AuthBlock()) ,
                 StreamProvider<FirebaseUser>.value(
                   value:FirebaseAuth.instance.onAuthStateChanged,

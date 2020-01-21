@@ -1,4 +1,7 @@
+import 'package:basic_utils/basic_utils.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:date_format/date_format.dart';
 
 class MeusOrcamentos extends StatefulWidget {
   MeusOrcamentos({Key key}) : super(key: key);
@@ -27,16 +30,25 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
        body:Builder(
          builder: (BuildContext context){
            return Container(
-             child:ListView(
+             width: MediaQuery.of(context).size.width,
+             child:StreamBuilder<QuerySnapshot>(
+               stream:Firestore.instance.collection('SolicitacoesServicos').where('idCliente',isEqualTo:"123456").snapshots(),
+               builder:(BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
+                 if(snapshot.hasError) Text("Error: ${snapshot.error}");
+                 switch(snapshot.connectionState){
+                   case ConnectionState.waiting : return new Center(child: SizedBox(height: 50,width: 50,child: CircularProgressIndicator(),));
+                   default:
+                    return new ListView(
                padding: EdgeInsets.all(4),
                children: <Widget>[
-                 ...orcamentos.map<Widget>((orcamento)=>
+                 ...snapshot.data.documents.map<Widget>((DocumentSnapshot orcamento)=>
                   SizedBox(
                width: double.infinity,
                height: 150,
                child:Card(
                
                child: Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                  children: <Widget>[
                    Center(
                      child:CircleAvatar(
@@ -49,11 +61,11 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
                      crossAxisAlignment: CrossAxisAlignment.start,
                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                      children: <Widget>[
-                       Text("Reparos / Manutenção",style:TextStyle(fontWeight: FontWeight.bold)),
-                       Text("Material de pintura"),
-                       Text("26 de Novembro de 2019"),
-                       Text("9 Respostas  18hrs restantes"),
-                       Text("Menor valor R\$340,00",style:TextStyle(fontWeight: FontWeight.bold,fontSize:12))
+                       Text(StringUtils.capitalize(orcamento["categoria"]),style:TextStyle(fontWeight: FontWeight.bold)),
+                       Text(orcamento["tituloServico"]),
+                       Text(formatDate(DateTime.parse(orcamento["dataCriado"].toDate().toString()),[dd,'/',MM ,'/', yy])),
+                        (orcamento["qtdRespostas"] == null)?Text("0 Respostas Obtidas") : Text("${orcamento['qtdRespostas']} Respostas  "),
+                        (orcamento["menorValor"] == null) ? Text("----")  :  Text("Menor valor R\$ ${orcamento['menorValor']}",style:TextStyle(fontWeight: FontWeight.bold,fontSize:12))
                      ],
                    ),
                    //Botoes
@@ -63,7 +75,8 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
                      children: <Widget>[
                        InkWell(
                          onTap: (){
-                           Navigator.pushNamed(context,'/Orcamentos');
+                           print("FORMATO DOS ORÇAMENTOS ${orcamento.documentID}");
+                           Navigator.pushNamed(context,'/Orcamentos',arguments: orcamento.documentID);
                          },
                          child:Container(
                          width: 120,
@@ -132,7 +145,11 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
                  
                  ).toList()
                ],
+             );
+                 }
+               }
              )
+             
              
              
              

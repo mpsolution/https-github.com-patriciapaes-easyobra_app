@@ -3,9 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_scaffold/provider/criacaoServicoProvider.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as Path;  
+import 'package:path/path.dart' as Path;
+import 'package:provider/provider.dart';  
 class CriarServico extends StatefulWidget {
   CriarServico({Key key}) : super(key: key);
 
@@ -67,7 +69,7 @@ class _CriarServicoState extends State<CriarServico> {
          return  fileURL; 
        });    
      }  
-  Future<void> criarServico(String tipoServico) async {
+  Future<void> criarServico(String tipoServico,String categoria) async {
               FirebaseUser cliente                  = await FirebaseAuth.instance.currentUser();
              // String       idCliente                = cliente.providerId;
               String       idCliente                = "123456";
@@ -86,7 +88,11 @@ class _CriarServicoState extends State<CriarServico> {
                     "tipoServico":tipoServico,
                     "tituloServico":tituloServico,
                     "descricaoServico":descricaoServico,
-                    "fotos":fotosParaServico
+                    "fotos":fotosParaServico,
+                    "categoria":categoria,
+                    "dataCriado":DateTime.now(),
+                    
+
                 });   
                });
                print("SERVICO SALVO $servico");
@@ -131,6 +137,7 @@ class _CriarServicoState extends State<CriarServico> {
   }
    @override
   Widget build(BuildContext context) {
+    final criacaoServicoProvider = Provider.of<CriacaoServicoState>(context);
     String       tipoServico  = ModalRoute.of(context).settings.arguments;    
     
    
@@ -196,7 +203,7 @@ class _CriarServicoState extends State<CriarServico> {
                setState(() {
                  criandoServico = true;
                });     
-               await criarServico(tipoServico);         
+               await criarServico(tipoServico,criacaoServicoProvider.getTipoServico);         
              } : null,
              color: Theme.of(context).primaryColor,
              textColor: Colors.white,
@@ -227,7 +234,12 @@ class _CriarServicoState extends State<CriarServico> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: 5),
-                          child: Text("Tipo :$tipoServico",style: styleTitulo,),
+                          child: Text("Categoria : ${criacaoServicoProvider.tipoServico}",style: styleTitulo,),
+                        )
+                        , 
+                        Padding(
+                          padding: EdgeInsets.only(top: 5),
+                          child: Text("Tipo : $tipoServico",style: styleTitulo,),
                         )
                         , 
                        
@@ -268,6 +280,7 @@ class _CriarServicoState extends State<CriarServico> {
                                                 padding: EdgeInsets.all(2),
                                                 child:Image.file(
                                                     foto,
+                                                    fit: BoxFit.contain,
                                                     ),
                                               ),
                                               ) ,
