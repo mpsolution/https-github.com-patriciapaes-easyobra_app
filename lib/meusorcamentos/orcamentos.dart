@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_scaffold/provider/criacaoServicoProvider.dart';
+import 'package:provider/provider.dart';
 
 class Orcamentos extends StatefulWidget {
   Orcamentos({Key key}) : super(key: key);
@@ -17,6 +19,8 @@ class _OrcamentosState extends State<Orcamentos> {
  
   @override
   Widget build(BuildContext context) {
+    final criacaoServicoProvider = Provider.of<CriacaoServicoState>(context);
+
   final String idServico     = ModalRoute.of(context).settings.arguments;
         String servico       ="SolicitacoesServicos/" + idServico+ '/orcamentos';
 
@@ -57,21 +61,32 @@ class _OrcamentosState extends State<Orcamentos> {
                                                         rows:snapshot.data.documents.map<DataRow>((DocumentSnapshot itemrow) => DataRow(
                                                             selected: ( rowSelecionada == itemrow.documentID ),                
                                                             cells: [
-                                                            DataCell(Text(itemrow["data"]),onTap: (){print("Linha selecionada"+ itemrow.toString() + " Row Selecionada" + this.rowSelecionada.toString());
+                                                            DataCell(Text(itemrow["data"]),onTap: (){
+                                                                                                    print("Linha selecionada"+ itemrow.toString() + " Row Selecionada" + this.rowSelecionada.toString());
+                                                                                                    
                                                                                                     this.setState((){
                                                                                                       rowSelecionada = itemrow.documentID;                                                           
                                                                                                     });
                                                                                                     Navigator.pushNamed(context, '/PortifolioDoProfissional');
+                                                                                                    criacaoServicoProvider.setIdPrestadorServicoValorServico(itemrow['idPrestador'],double.parse(itemrow['valor']) );
                                                                                                     }),
-                                                            DataCell(Text(itemrow["nomePrestador"]),onTap: (){print("Linha selecionada"+ itemrow.toString());this.setState((){
+                                                            DataCell(Text(itemrow["nomePrestador"]),onTap: (){
+                                                                                                      print("Linha selecionada"+ itemrow.toString());
+                                                                                                                                                                                                          
+                                                                                                      this.setState((){
                                                                                                       rowSelecionada = itemrow.documentID;
                                                                                                     });
                                                                                                     Navigator.pushNamed(context, '/PortifolioDoProfissional');
+                                                                                                    criacaoServicoProvider.setIdPrestadorServicoValorServico(itemrow['idPrestador'],double.parse(itemrow['valor']) );
                                                                                                     }),
-                                                            DataCell(Text("R\$${itemrow["valor"]}"),onTap: (){print("Linha selecionada"+ itemrow.toString());this.setState((){
+                                                            DataCell(Text("R\$${itemrow["valor"]}"),onTap: (){print("Linha selecionada"+ itemrow.toString());
+                                                                                                    
+                                                                                                    this.setState((){
                                                                                                       rowSelecionada = itemrow.documentID;
                                                                                                     });
+                                                                                                   
                                                                                                     Navigator.pushNamed(context, '/PortifolioDoProfissional');
+                                                                                                    criacaoServicoProvider.setIdPrestadorServicoValorServico(itemrow['idPrestador'],double.parse(itemrow['valor']) );
                                                                                                     })
                                                           ])).toList(),
                                                       ) ;

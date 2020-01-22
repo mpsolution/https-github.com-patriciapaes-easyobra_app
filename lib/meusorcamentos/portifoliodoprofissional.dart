@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_scaffold/provider/criacaoServicoProvider.dart';
+import 'package:provider/provider.dart';
 
 class PortifolioDoProfissional extends StatefulWidget {
   PortifolioDoProfissional({Key key}) : super(key: key);
@@ -12,10 +14,14 @@ class _PortifolioDoProfissionalState extends State<PortifolioDoProfissional> {
   String imagemBase = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f5Tq7UJLc10WyFDBXoJKjlgnqmd8s6mRBxMfqj_NVLH5VEny&s';
   final List<int> PortifolioDoProfissional = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
   int   rowSelecionada = 0;
+  bool criandoServico = false;
+
  
  
   @override
   Widget build(BuildContext context) {
+    final criacaoServicoProvider = Provider.of<CriacaoServicoState>(context);
+
     
     return Scaffold(
        resizeToAvoidBottomInset: false,
@@ -34,6 +40,7 @@ class _PortifolioDoProfissionalState extends State<PortifolioDoProfissional> {
              child:Column(
                mainAxisSize: MainAxisSize.max,
                children: <Widget>[
+              if(criandoServico) LinearProgressIndicator(backgroundColor: Colors.white,valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor ),),
                Padding(padding: EdgeInsets.all(4),),
                Align(
                alignment: Alignment.topCenter,
@@ -206,13 +213,65 @@ class _PortifolioDoProfissionalState extends State<PortifolioDoProfissional> {
              Expanded(
                child:Align(
                alignment: Alignment.bottomCenter,
-               child: RaisedButton(
-                           onPressed: () {},
+               child:ButtonTheme(
+                 minWidth: MediaQuery.of(context).size.width * 0.9,
+                 child:RaisedButton(
+                           color: Theme.of(context).primaryColor,
+                           onPressed: () async {
+                             //funcao de salvamento
+                             setState(() {
+                               criandoServico  = true;
+                             });
+                             bool criouServico = await criacaoServicoProvider.aceitarOrcamento();
+                             showDialog(
+                               context: context,
+                               builder: (BuildContext context){
+                                 return (criouServico) ? AlertDialog(
+                                   title: Text("Serviço"),
+                                   content: Text("Orçamento aceito,faça o acompanhanto pelo menu Meus Serviços."),
+                                   actions: <Widget>[
+                                     FlatButton(
+                                       child: Text("Ir Para Meus Servicos"),
+                                       onPressed: (){
+                                         Navigator.of(context).pop();
+                                         Navigator.of(context).pushNamedAndRemoveUntil('/MeusServicos',ModalRoute.withName('/'));
+                                       },
+                                     ),
+                                     FlatButton(
+                                       child: Text("Ir Home"),
+                                       onPressed: (){
+                                         Navigator.of(context).pop();
+                                         Navigator.of(context).pushNamed('/');
+                                       },
+                                     )
+                                   ],
+                                 ) :  AlertDialog(
+                                   title: Text("Serviço"),
+                                   content: Text("Houve um erro na criação do serviço,Tente novamente mais tarde"),
+                                   actions: <Widget>[
+                                     FlatButton(
+                                       child: Text("Ok"),
+                                       onPressed: (){
+                                         Navigator.of(context).pop();
+                                       },
+                                     ),
+                                     
+                                   ],
+                                 );
+                               }
+                             );
+                              setState(() {
+                                criandoServico = false;
+                              });
+                             
+                           },
                            child: const Text(
                              'Aceitar',
                              style: TextStyle(fontSize: 20,color: Colors.white)
                            ),
                          ),
+               ),
+                
              ) ,
              )
                

@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:date_format/date_format.dart';
+
 
 class MeusServicos extends StatefulWidget {
   MeusServicos({Key key}) : super(key: key);
@@ -27,10 +30,18 @@ class _MeusServicosState extends State<MeusServicos> {
        body:Builder(
          builder: (BuildContext context){
            return Container(
-             child:ListView(
+             child:StreamBuilder(
+               stream: Firestore.instance.collection('servicos').where('idCliente',isEqualTo:"123456").snapshots(),
+               builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
+                 if(snapshot.hasError) Text("Error : ${snapshot.error}");
+                 switch(snapshot.connectionState){
+                   case ConnectionState.waiting : return Center(child: SizedBox(height: 50,width: 50,child: CircularProgressIndicator(),),);
+                   default:
+                   return(snapshot.data.documents.length == 0) ? Center(child: Text("Sem Serviços Criados!"),) :
+                    ListView(
                padding: EdgeInsets.all(4),
                children: <Widget>[
-                 ...orcamentos.map<Widget>((orcamento)=>
+                 ...snapshot.data.documents.map<Widget>((DocumentSnapshot servico)=>
                   SizedBox(
                width: double.infinity,
                height: 150,
@@ -56,7 +67,7 @@ class _MeusServicosState extends State<MeusServicos> {
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.center,
                            children: <Widget>[
-                              Text("Bombeiro hidraulico",style:TextStyle(fontWeight: FontWeight.bold)),
+                              Text("Nome Projeto",style:TextStyle(fontWeight: FontWeight.bold)),
                               Padding(padding: EdgeInsets.all(8)),
                               Column(
                                 children: <Widget>[
@@ -69,15 +80,15 @@ class _MeusServicosState extends State<MeusServicos> {
                          ],
                        ),
                       
-                       Text("Substituição de Vaso Sanitario"),
+                       Text(servico["descricaoServico"]),
                        Row(
                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                          crossAxisAlignment: CrossAxisAlignment.center,
                          mainAxisSize: MainAxisSize.max,
                          children: <Widget>[
-                                    Text("26 de Novembro de 2019"),
+                                    Text(formatDate(DateTime.parse(servico["dataCriado"].toDate().toString()),[dd,'/',MM ,'/', yy])),
                                     Padding(padding: EdgeInsets.all(8),),
-                                    Text("R\$140",style:TextStyle(fontWeight: FontWeight.bold))
+                                    Text("R\$${servico['valorServico']}",style:TextStyle(fontWeight: FontWeight.bold))
                          ],
                        ),                       
                        Row(
@@ -127,7 +138,12 @@ class _MeusServicosState extends State<MeusServicos> {
                  
                  ).toList()
                ],
+             );
+
+                 }
+               },
              )
+            
              
              
              

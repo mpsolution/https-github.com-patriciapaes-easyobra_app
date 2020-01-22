@@ -2,6 +2,8 @@ import 'package:basic_utils/basic_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:date_format/date_format.dart';
+import 'package:flutter_scaffold/provider/criacaoServicoProvider.dart';
+import 'package:provider/provider.dart';
 
 class MeusOrcamentos extends StatefulWidget {
   MeusOrcamentos({Key key}) : super(key: key);
@@ -16,6 +18,8 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
   final List<int> orcamentos = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
   @override
   Widget build(BuildContext context) {
+    final criacaoServicoProvider = Provider.of<CriacaoServicoState>(context);
+
     return Scaffold(
        resizeToAvoidBottomInset: false,
        key: scaffoldKey,
@@ -38,7 +42,7 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
                  switch(snapshot.connectionState){
                    case ConnectionState.waiting : return new Center(child: SizedBox(height: 50,width: 50,child: CircularProgressIndicator(),));
                    default:
-                    return new ListView(
+                    return (snapshot.data.documents.length == 0) ? Center(child: Text("Crie Um Serviço Para Receber Orçamentos."),) :  new  ListView( 
                padding: EdgeInsets.all(4),
                children: <Widget>[
                  ...snapshot.data.documents.map<Widget>((DocumentSnapshot orcamento)=>
@@ -76,7 +80,11 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
                        InkWell(
                          onTap: (){
                            print("FORMATO DOS ORÇAMENTOS ${orcamento.documentID}");
+                           print("ORCAMENTOS DO SERVICO ${orcamento.data} ");
+                           
                            Navigator.pushNamed(context,'/Orcamentos',arguments: orcamento.documentID);
+                           criacaoServicoProvider.setServico(orcamento.data);
+                           criacaoServicoProvider.setIdSolicitacaoServico(orcamento.documentID);
                          },
                          child:Container(
                          width: 120,

@@ -216,7 +216,7 @@ class _CriarServicoState extends State<CriarServico> {
          builder: (BuildContext context){
            return Container(
              child:Padding(
-               padding: EdgeInsets.all(5),
+               padding: EdgeInsets.only(top: 5,left: 15,right: 15,bottom: 5),
                child: CustomScrollView(
                  slivers:<Widget>[
                    SliverList(delegate: SliverChildListDelegate(
