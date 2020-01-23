@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_scaffold/ajuda.dart';
 import 'package:flutter_scaffold/dicas/dicas.dart';
+import 'package:flutter_scaffold/pedirajuda.dart';
 import 'package:flutter_scaffold/provider/carrinho.dart';
 import 'package:provider/provider.dart';
 
@@ -276,7 +278,7 @@ class _HomeState extends State<Home> {
                           }).toList(),
                         ),
                       )
-                    ] : (_selectedIndex == 1) ? [Dicas()] : null,
+                    ] : (_selectedIndex == 1) ? [Dicas()] : (_selectedIndex == 2) ? [Ajuda()] : null ,
                     
                   ),
                   // Builds 1000 ListTiles

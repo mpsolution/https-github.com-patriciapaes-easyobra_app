@@ -30,22 +30,21 @@ class _PedirAjudaState extends State<PedirAjuda> {
        ),
        body:Builder(
          builder: (BuildContext context){
-           return Padding(
-             padding: EdgeInsets.all(15),
-             child:Align(
-             alignment: Alignment.topCenter,
-             child: Column(
+            return Column(
                mainAxisAlignment: MainAxisAlignment.spaceAround,
                crossAxisAlignment: CrossAxisAlignment.center,
                children: <Widget>[
                  Text("Como podemos te ajudar?",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 20),),
+                 
                  Container(
                    width: MediaQuery.of(context).size.width * 0.8,
-                   height: MediaQuery.of(context).size.height * 0.4,
+                   height: MediaQuery.of(context).size.height * 0.2,
                    decoration: BoxDecoration(
                      border: Border.all(width: 1,color: Colors.black)
                    ),
-                   child: ListView.builder(
+                   child:Expanded(
+                     child:ListView.builder(
+                     scrollDirection: Axis.horizontal,
                      itemCount:opcoesAjuda.length,
                      itemBuilder: (context,i){
                        String opcao = opcoesAjuda[i];
@@ -70,7 +69,9 @@ class _PedirAjudaState extends State<PedirAjuda> {
                           ,
                        );
                      },
-                   ),
+                   ) ,
+                   )
+                    ,
                  ),
                  Padding(padding: EdgeInsets.only(top: 10),),
                  Text("Nos Informe mais detalhes",style:TextStyle(fontWeight: FontWeight.bold,color:Colors.black,fontSize:18)),
@@ -107,11 +108,8 @@ class _PedirAjudaState extends State<PedirAjuda> {
                  )
                  
                ],
-             ),
-           ) ,
-           )
-           ;
-         },
+             );
+         }
        ) ,
     );
   }
