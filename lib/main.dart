@@ -15,6 +15,7 @@ import 'package:flutter_scaffold/meusorcamentos/meusorcamentos.dart';
 import 'package:flutter_scaffold/meusorcamentos/orcamentos.dart';
 import 'package:flutter_scaffold/meusorcamentos/portifoliodoprofissional.dart';
 import 'package:flutter_scaffold/meusprojetos/meusprojetos.dart';
+import 'package:flutter_scaffold/meusprojetos/projeto.dart';
 import 'package:flutter_scaffold/meusservicos/meusservicos.dart';
 import 'package:flutter_scaffold/minhascompras/minhascompras.dart';
 import 'package:flutter_scaffold/pedido.dart';
@@ -23,6 +24,7 @@ import 'package:flutter_scaffold/pedirajuda.dart';
 import 'package:flutter_scaffold/product_detail.dart';
 import 'package:flutter_scaffold/provider/ajudaProvider.dart';
 import 'package:flutter_scaffold/provider/criacaoServicoProvider.dart';
+import 'package:flutter_scaffold/provider/projetoProvider.dart';
 import 'package:flutter_scaffold/settings.dart';
 import 'package:flutter_scaffold/shop/shop.dart';
 import 'package:flutter_scaffold/solicitarServico/criarServico.dart';
@@ -40,6 +42,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiProvider(
     providers: [ChangeNotifierProvider<CarrinhoState>.value(value: CarrinhoState()),
+                ChangeNotifierProvider<ProjetoProviderState>.value(value: ProjetoProviderState(),),
                 ChangeNotifierProvider<AjudaProviderState>.value(value:AjudaProviderState()),
                 ChangeNotifierProvider<CriacaoServicoState>.value(value:CriacaoServicoState()),
             ChangeNotifierProvider<AuthBlock>.value(value: AuthBlock()) ,
@@ -74,6 +77,7 @@ void main() {
         '/AdicionarCartao':(BuildContext context) => AdicionarCartao(),
         '/Enderecos':(BuildContext context) => Enderecos(),
         '/MeusProjetos':(BuildContext context) => MeusProjetos(),
+        '/Projeto': (BuildContext context) => Projeto(),
         '/Dica':(BuildContext context) =>Dica(),
         '/SolicitarServico':(BuildContext context) => SolicitarServico(),
         '/Servicos':(BuildContext context) => Servicos(),

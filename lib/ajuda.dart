@@ -26,16 +26,20 @@ Widget build(BuildContext context) {
 
     return Builder(
          builder: (BuildContext context){
-           return Column(
-               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-               crossAxisAlignment: CrossAxisAlignment.center,
+           return Padding(padding: EdgeInsets.all(15),
+            child: Column(
+               mainAxisAlignment: MainAxisAlignment.start,
+               crossAxisAlignment: CrossAxisAlignment.start,
                children: <Widget>[
                    if(salvandoAjuda) LinearProgressIndicator(backgroundColor: Colors.white,valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor ),),
-                 Text("Como podemos te ajudar?",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 20),),
-                 
+                 Padding(
+                   padding: EdgeInsets.only(bottom:5,top: 5),
+                   child:Text("Vamos Tratar Sobre",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 20),) ,
+                 )  ,
+               
                  Container(
-                   width: MediaQuery.of(context).size.width * 0.8,
-                   height: MediaQuery.of(context).size.height * 0.4,
+                   width: MediaQuery.of(context).size.width * 0.6,
+                   height: MediaQuery.of(context).size.height * 0.3,
                    decoration: BoxDecoration(
                      border: Border.all(width: 1,color: Colors.black)
                    ),
@@ -83,10 +87,13 @@ Widget build(BuildContext context) {
                     ,
                  ),
                  Padding(padding: EdgeInsets.only(top: 10),),
-                 Text("Nos Informe mais detalhes",style:TextStyle(fontWeight: FontWeight.bold,color:Colors.black,fontSize:18)),
-                 Container(
-                   width: MediaQuery.of(context).size.width * 0.8,
-                   height: MediaQuery.of(context).size.height * 0.2,
+                 Align(alignment: Alignment.center,child:Text("Nos Informe mais detalhes",style:TextStyle(fontWeight: FontWeight.bold,color:Colors.black,fontSize:18)) ,)
+                 ,
+                 Align(
+                   alignment: Alignment.center,
+                   child: Container(
+                   width: MediaQuery.of(context).size.width * 0.92,
+                   height: MediaQuery.of(context).size.height * 0.3,
                    decoration: BoxDecoration(
                      border: Border.all(width: 1,color: Colors.black)
                    ),
@@ -103,11 +110,13 @@ Widget build(BuildContext context) {
 
                    ),
                  ),
+                 )
+                 ,
                  Padding(padding: EdgeInsets.only(top: 10),),
                  Align(
                    alignment: Alignment.bottomCenter,
                    child:SizedBox(
-                   width: MediaQuery.of(context).size.width *0.8,
+                   width: MediaQuery.of(context).size.width *0.92,
                    child: RaisedButton(
                      onPressed: () async {
                        bool salvo = false;
@@ -141,7 +150,9 @@ Widget build(BuildContext context) {
                  
                  
                ],
-             );
+             ) ,
+           )
+              ;
              
              
              

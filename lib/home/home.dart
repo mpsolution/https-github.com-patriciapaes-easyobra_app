@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_scaffold/ajuda.dart';
 import 'package:flutter_scaffold/dicas/dicas.dart';
+import 'package:flutter_scaffold/digitalizacao/iniciarDigitalizacao.dart';
 import 'package:flutter_scaffold/pedirajuda.dart';
 import 'package:flutter_scaffold/provider/carrinho.dart';
 import 'package:provider/provider.dart';
@@ -104,7 +105,7 @@ class _HomeState extends State<Home> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat_bubble),
-            title: Text("Fale coonesco")
+            title: Text("Fale Conosco")
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.camera_alt),
@@ -278,7 +279,7 @@ class _HomeState extends State<Home> {
                           }).toList(),
                         ),
                       )
-                    ] : (_selectedIndex == 1) ? [Dicas()] : (_selectedIndex == 2) ? [Ajuda()] : null ,
+                    ] : (_selectedIndex == 1) ? [Dicas()] : (_selectedIndex == 2) ? [Ajuda()] : [IniciarDigitalizacao()] ,
                     
                   ),
                   // Builds 1000 ListTiles

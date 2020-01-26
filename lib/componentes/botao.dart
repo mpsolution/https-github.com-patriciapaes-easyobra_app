@@ -12,7 +12,8 @@ class Botao extends StatelessWidget {
     return Align(
                alignment: Alignment.bottomCenter,
                child: RaisedButton(    
-                           onPressed: (){},                            
+                           onPressed: (){},
+                           color: cor,                            
                            child: Text(nome,style:TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold)
                            ),
                          ),

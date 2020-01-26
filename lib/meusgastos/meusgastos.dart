@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-class Projeto{
+class ClasseProjeto{
   String nome;
   String id;
   List<Map<String,String>> gastos;
-  Projeto(this.nome,this.id,this.gastos);
+  ClasseProjeto(this.nome,this.id,this.gastos);
   void editarNome(String n){this.nome = n;}
   void adicionarGasto(Map<String,String> gasto){this.gastos.add(gasto);}
   void removerGasto(String id){
     this.gastos.removeWhere((gasto)=>gasto["id"] == id);
   }
-  String getTotalProjeto(){
+  String getTotalClasseProjeto(){
     print("FUNÇÃO GET TOTAL ATIVADA");
     int total = 0;
     gastos.forEach((gasto){
@@ -39,7 +39,7 @@ class _MeusGastosState extends State<MeusGastos> {
   static List<Map<String,String>> gastos = [
     {"id":"idaleatorio","nome":"Nome do gasto","tipo":"Tipo do gasto","data":"Data do gasto","valor":"1"}
   ]; 
-  final Projeto projeto = new Projeto("nome do projeto","id",gastos); 
+  final ClasseProjeto classeProjeto = new ClasseProjeto("nome do ClasseProjeto","id",gastos); 
    @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,8 +69,8 @@ class _MeusGastosState extends State<MeusGastos> {
                  Row(
                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                    children: <Widget>[
-                     Text("Projeto: ",style: TextStyle(fontWeight: FontWeight.bold),),
-                     Text(projeto.nome),
+                     Text("ClasseProjeto: ",style: TextStyle(fontWeight: FontWeight.bold),),
+                     Text(classeProjeto.nome),
                      Icon(FontAwesomeIcons.pen,color: Colors.black,size: 12,),
                      Icon(FontAwesomeIcons.trash,color:Colors.black,size:12)],
                  ),
@@ -82,7 +82,7 @@ class _MeusGastosState extends State<MeusGastos> {
                      DataColumn(label: Text("Data")),
                      DataColumn(label: Text("Valor"))
                    ],
-                   rows: projeto.gastos.map<DataRow>((gasto)=>DataRow(
+                   rows: classeProjeto.gastos.map<DataRow>((gasto)=>DataRow(
                      cells: [
                               DataCell(Text(gasto["tipo"])),
                               DataCell(Text(gasto["nome"])),
@@ -96,7 +96,7 @@ class _MeusGastosState extends State<MeusGastos> {
                                   ],
                                 ),
                                 onTap: (){
-                                  projeto.removerGasto(gasto["id"]);
+                                  classeProjeto.removerGasto(gasto["id"]);
                                   setState(() {});
                                 }
                                 
@@ -109,7 +109,7 @@ class _MeusGastosState extends State<MeusGastos> {
                    padding: EdgeInsets.all(5),
                    child:Align(
                    alignment: Alignment.topRight,
-                   child: Text("Total  R\$" + projeto.getTotalProjeto(),style: titulo,),
+                   child: Text("Total  R\$" + classeProjeto.getTotalClasseProjeto(),style: titulo,),
                  ) ,
                  )
                  ],
