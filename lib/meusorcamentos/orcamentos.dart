@@ -50,7 +50,9 @@ class _OrcamentosState extends State<Orcamentos> {
                  builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
                                     if(snapshot.hasError) Text("Error: ${snapshot.error}");
                                     switch(snapshot.connectionState){
-                                      case ConnectionState.waiting : return new Center(child: SizedBox(height: 50,width: 50,child: CircularProgressIndicator(),));
+                                      case ConnectionState.waiting : return new Padding(padding: EdgeInsets.only(top: 10),
+                                          child: Center(child: SizedBox(height: 50,width: 50,child: CircularProgressIndicator(),)),
+                                      ) ;
                                       default: return DataTable(    
                                                         columnSpacing: MediaQuery.of(context).size.width / 4,                                                
                                                         columns: [

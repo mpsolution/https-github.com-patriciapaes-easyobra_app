@@ -80,6 +80,7 @@ class _MeusProjetosState extends State<MeusProjetos> {
                               onTap: (){
                                 print("PROJETO SELECIONADO ${snapshot.data.documents[i]["nome"]}");
                                 projetoProvider.setNomeProjetoSelecionado(snapshot.data.documents[i]["nome"]);
+                                projetoProvider.setProjetoSelecionado(snapshot.data.documents[i]);
                                 Navigator.of(context).pushNamed('/Projeto');
                               },
                               child: CardDocumento(snapshot.data.documents[i]["nome"],i),

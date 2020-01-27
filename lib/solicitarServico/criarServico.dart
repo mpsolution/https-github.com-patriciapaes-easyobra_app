@@ -93,6 +93,10 @@ class _CriarServicoState extends State<CriarServico> {
                     "dataCriado":DateTime.now(),
                     
 
+                }).then((salvo){
+                  dbSolicitacoesServicos.add({
+                    "idServico":salvo.documentID
+                  });
                 });   
                });
                print("SERVICO SALVO $servico");

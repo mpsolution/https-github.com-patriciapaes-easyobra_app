@@ -64,10 +64,10 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
                    Column(
                      crossAxisAlignment: CrossAxisAlignment.start,
                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                     children: <Widget>[
-                       Text(StringUtils.capitalize(orcamento["categoria"]),style:TextStyle(fontWeight: FontWeight.bold)),
-                       Text(orcamento["tituloServico"]),
-                       Text(formatDate(DateTime.parse(orcamento["dataCriado"].toDate().toString()),[dd,'/',MM ,'/', yy])),
+                     children: <Widget>[                       
+                       Text(StringUtils.capitalize(orcamento["tituloServico"]) ,style:TextStyle(fontWeight: FontWeight.bold)),
+                       Text(StringUtils.capitalize(orcamento["categoria"])),
+                       Text(formatDate(DateTime.parse(orcamento["dataCriado"].toDate().toString()),[dd,'/',mm ,'/', yy])),
                         (orcamento["qtdRespostas"] == null)?Text("0 Respostas Obtidas") : Text("${orcamento['qtdRespostas']} Respostas  "),
                         (orcamento["menorValor"] == null) ? Text("----")  :  Text("Menor valor R\$ ${orcamento['menorValor']}",style:TextStyle(fontWeight: FontWeight.bold,fontSize:12))
                      ],

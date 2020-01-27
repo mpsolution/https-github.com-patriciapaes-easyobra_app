@@ -28,8 +28,18 @@ class CriacaoServicoState with ChangeNotifier {
    DocumentReference salvo = await  Firestore.instance.collection('servicos').add(
         {
           ...servico,
-          "idPrestados":idPrestador,
-          "valorServico":valorServico
+          "idPrestador":idPrestador,
+          "valorServico":valorServico,
+          "historico":[
+            {
+              "data":servico['dataCriado'],
+              "status":"Foi solicitado o orçamento do serviço"
+            },
+            {
+              "data":DateTime.now(),
+              "status":"Foi aceito o orçamento do profissional"
+            }
+          ]
         }
     );
     if( (salvo != null) && (salvo.documentID != null) ){

@@ -28,6 +28,7 @@ class _PortifolioDoProfissionalState extends State<PortifolioDoProfissional> {
        key: scaffoldKey,
        appBar: AppBar(
          backgroundColor: Colors.white,
+         centerTitle: true,
          leading:  new IconButton(
            icon: new Icon(Icons.arrow_back,color:Colors.black),
            onPressed: () => Navigator.of(context).maybePop(),

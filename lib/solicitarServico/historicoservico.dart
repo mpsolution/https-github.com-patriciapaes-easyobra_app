@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_scaffold/provider/historicoProvider.dart';
+import 'package:provider/provider.dart';
 class Historico{
   List<Map<String,String>> estatos = [];
   String profissional;
@@ -31,12 +33,15 @@ class _HistoricoServicoState extends State<HistoricoServico> {
 
    @override
   Widget build(BuildContext context) {
+    final historicoProvider = Provider.of<HistoricoProvider>(context);
+
     h.addStatus(status);
     return Scaffold(
        resizeToAvoidBottomInset: false,
        key: scaffoldKey,
        appBar: AppBar(
          backgroundColor: Colors.white,
+         centerTitle: true,
          leading:  new IconButton(
            icon: new Icon(Icons.arrow_back,color:Colors.black),
            onPressed: () => Navigator.of(context).maybePop(),
@@ -67,10 +72,10 @@ class _HistoricoServicoState extends State<HistoricoServico> {
                        mainAxisAlignment: MainAxisAlignment.start,
                        crossAxisAlignment: CrossAxisAlignment.start,
                        children: <Widget>[
-                         Text("Profissional: "+h.profissional),
-                         Text("Especialidade: "+h.especialidade),
-                         Text("Serviço: "+h.nomeServico),
-                         ...h.getEstatos().map<Widget>((status){
+                         Text("Profissional: "+historicoProvider.getHistorico['nomePrestador']),
+                         Text("Especialidade: "+historicoProvider.getHistorico['especialidade']),
+                         Text("Serviço: "+historicoProvider.getHistorico['servico']),
+                         ...historicoProvider.getHistorico['historico'].map<Widget>((status){
                            return 
                              Padding(
                                padding: EdgeInsets.only(top:10),

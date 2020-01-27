@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_scaffold/componentes/cardServico.dart';
 import 'package:path/path.dart' as Path;
 
 
@@ -12,6 +13,8 @@ class ProjetoProviderState with ChangeNotifier{
     final _formKey = GlobalKey<FormState>();
     String idProjetoSelecionado;
     String nomeProjetoSelecionado = "";
+    DocumentSnapshot projetoSelecionado;
+    List<DocumentSnapshot> servicosDoProjeto = [];
 
     Future<bool> criarProjeto(Map<String,dynamic> projeto,FirebaseUser usuario) async {
       bool projetoSalvo = false;
@@ -29,12 +32,69 @@ class ProjetoProviderState with ChangeNotifier{
                         .where("idCliente",isEqualTo: (usuario != null) ? usuario.providerId : "123456")
                         .snapshots();
     }
-    void setIdProjetoSelecionado(String id){
-         idProjetoSelecionado = id; 
+    Future<void>  setServicosDoProjeto(List<dynamic> listaServicos) async {
+      print("LISTA DE SERVICOS $listaServicos");
+      servicosDoProjeto = [];
+      if(listaServicos == null) listaServicos = [];
+      listaServicos.forEach((f)async{
+          DocumentSnapshot servico = await  Firestore.instance.collection('servicos').document(f).get();
+          servicosDoProjeto.add(servico);
+      });
+      notifyListeners();
+      print("OUVINTES NOTIFICADOS");
+     
     }
-    void setNomeProjetoSelecionado(String nome){
-         nomeProjetoSelecionado = nome;
-         notifyListeners();
+
+    Future<bool> adicionarServicoProjeto(BuildContext context,FirebaseUser usuario) async {
+            bool adicionado = false;
+      QuerySnapshot servicos =  await Firestore.instance.collection('servicos').where('idCliente',isEqualTo:(usuario != null)? usuario.providerId : "123456").getDocuments();
+     await showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return  AlertDialog(
+            title:  Text("Escolha o Serviço Para Adicionar ao Projeto",style: TextStyle(fontSize: 15),) ,
+            content:Container(
+              height: MediaQuery.of(context).size.height ,
+              width: MediaQuery.of(context).size.width ,
+              child:ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: servicos.documents.length,
+                  itemBuilder: (BuildContext context,int index){
+                    return InkWell(
+                      onTap: () async {
+                        Navigator.of(context).maybePop();
+                        if(projetoSelecionado["servicos"] != null){
+                          await Firestore.instance.collection('projetos').document(projetoSelecionado.documentID).updateData({
+                          "servicos":FieldValue.arrayUnion([servicos.documents[index].documentID]),
+                          "gastosServicos":FieldValue.increment(servicos.documents[index]['valorServico']),
+                          "gastosTotais":FieldValue.increment(servicos.documents[index]['valorServico'])
+                        });
+                        }else{
+                           await Firestore.instance.collection('projetos').document(projetoSelecionado.documentID).updateData({
+                          "servicos":[servicos.documents[index].documentID],
+                          "gastosServicos":FieldValue.increment(servicos.documents[index]['valorServico']),
+                          "gastosTotais":FieldValue.increment(servicos.documents[index]['valorServico'])
+                        });
+                        }
+                        
+                       DocumentSnapshot p = await  Firestore.instance.collection('projetos')
+                                          .document(projetoSelecionado.documentID)
+                                          .get();
+                        projetoSelecionado = p;
+                       await  setServicosDoProjeto(projetoSelecionado.data['servicos']);
+                       notifyListeners();
+                      },
+                      child: CardServico(servicos.documents[index],false) ,
+                    )
+                   ;
+                  },
+                )  ,
+            )
+            ,
+          );
+        }
+      );
+      return adicionado = true;
     }
     Future<String> uploadFile(file) async {    
        StorageReference storageReference = FirebaseStorage.instance    
@@ -158,7 +218,21 @@ class ProjetoProviderState with ChangeNotifier{
       );
      
   }
+    void setProjetoSelecionado(DocumentSnapshot projeto) async {
+      projetoSelecionado = projeto;
+      await  setServicosDoProjeto(projetoSelecionado.data['servicos']);
+      notifyListeners();
 
+    }
+    void setIdProjetoSelecionado(String id){
+         idProjetoSelecionado = id; 
+    }
+    void setNomeProjetoSelecionado(String nome){
+         nomeProjetoSelecionado = nome;
+         notifyListeners();
+    }
  String get getIdProjetoSelecionado   => idProjetoSelecionado;
  String get getNomeProjetoSelecionado => nomeProjetoSelecionado;
+ List<DocumentSnapshot> get getListaServicosDoProjeto =>servicosDoProjeto;
+ DocumentSnapshot get getProjetoSelecionado => projetoSelecionado;
 }

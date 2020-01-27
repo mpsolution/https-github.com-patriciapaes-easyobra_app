@@ -24,6 +24,7 @@ import 'package:flutter_scaffold/pedirajuda.dart';
 import 'package:flutter_scaffold/product_detail.dart';
 import 'package:flutter_scaffold/provider/ajudaProvider.dart';
 import 'package:flutter_scaffold/provider/criacaoServicoProvider.dart';
+import 'package:flutter_scaffold/provider/historicoProvider.dart';
 import 'package:flutter_scaffold/provider/projetoProvider.dart';
 import 'package:flutter_scaffold/settings.dart';
 import 'package:flutter_scaffold/shop/shop.dart';
@@ -42,6 +43,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiProvider(
     providers: [ChangeNotifierProvider<CarrinhoState>.value(value: CarrinhoState()),
+                ChangeNotifierProvider<HistoricoProvider>.value(value:HistoricoProvider()),
                 ChangeNotifierProvider<ProjetoProviderState>.value(value: ProjetoProviderState(),),
                 ChangeNotifierProvider<AjudaProviderState>.value(value:AjudaProviderState()),
                 ChangeNotifierProvider<CriacaoServicoState>.value(value:CriacaoServicoState()),
@@ -55,6 +57,8 @@ void main() {
       theme: ThemeData(
           primaryColor: Colors.deepOrange[500],
           accentColor: Colors.lightBlue[900],
+          buttonColor: Colors.green,
+          textSelectionColor: Colors.white,
           fontFamily: 'Lato'),
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
