@@ -60,7 +60,7 @@ void main() {
           buttonColor: Colors.green,
           textSelectionColor: Colors.white,
           fontFamily: 'Lato'),
-      initialRoute: '/',
+      initialRoute: '/Login',
       routes: <String, WidgetBuilder>{
         '/': (BuildContext context) => Home(),
         '/auth': (BuildContext context) => Auth(),

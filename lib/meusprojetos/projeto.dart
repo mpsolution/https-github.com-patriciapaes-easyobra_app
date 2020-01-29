@@ -77,12 +77,42 @@ class _ProjetoState extends State<Projeto> {
                  crossAxisAlignment: CrossAxisAlignment.center,
                  children: <Widget>[
                    Expanded(
-                     child:  ListView.builder(
-                                      itemCount: projetoProvider.getListaServicosDoProjeto.length,
-                                      itemBuilder: (BuildContext context,int index){
-                                        return CardServico(projetoProvider.getListaServicosDoProjeto[index],true);
+                     child:  StreamBuilder(
+                       stream:projetoProvider.getServicosDoProjeto(),
+                       builder: (context,AsyncSnapshot<QuerySnapshot> snapshot){
+                         if(snapshot.hasError) Text("Error: ${snapshot.error}");
+                         switch(snapshot.connectionState){
+                           case ConnectionState.waiting : return new Center(child: SizedBox(height: 50,width: 50,child: CircularProgressIndicator(),));
+                           default:return ListView.builder(
+                                      itemCount: snapshot.data.documents.length,
+                                      itemBuilder: (context,int index){
+                                        return Stack(
+                                          children: <Widget>[
+                                              CardServico(snapshot.data.documents[index],true),
+                                              Positioned(
+                                                  top: 0,
+                                                  right: 0,
+                                                  child:FloatingActionButton(
+                                                  elevation: 5,
+                                                  mini: true,
+                                                  onPressed: (){
+                                                    print("Remover servico do projeto");
+                                                    projetoProvider.removerServicoProjeto(context, snapshot.data.documents[index]);
+                                                  },
+                                                  child: Icon(Icons.close,color: Colors.white,),
+                                                  backgroundColor: Colors.red,
+                                                ) ,
+                                                )
+                                          ],
+                                        );
                                       },
-                                    )
+                                    );
+
+                         }
+                         
+                       },
+                     )
+                     
                     ,
                    )
                  ],

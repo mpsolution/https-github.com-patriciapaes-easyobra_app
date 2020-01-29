@@ -32,6 +32,11 @@ class ProjetoProviderState with ChangeNotifier{
                         .where("idCliente",isEqualTo: (usuario != null) ? usuario.providerId : "123456")
                         .snapshots();
     }
+    Stream<QuerySnapshot> getServicosDoProjeto(){
+      return Firestore.instance.collection('servicos')
+                               .where("estaNoProjeto",arrayContains: projetoSelecionado.documentID)
+                               .snapshots();
+    }
     Future<void>  setServicosDoProjeto(List<dynamic> listaServicos) async {
       print("LISTA DE SERVICOS $listaServicos");
       servicosDoProjeto = [];
@@ -43,6 +48,33 @@ class ProjetoProviderState with ChangeNotifier{
       notifyListeners();
       print("OUVINTES NOTIFICADOS");
      
+    }
+    Future<void> removerServicoProjeto(BuildContext context,DocumentSnapshot servico) async {
+      await showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: Text("Remover Serviço do Projeto?"),
+            content: Text((servico['tituloServico'] != null)? servico['tituloServico'] : 'Sem titulo'  ),
+            actions: <Widget>[              
+              FlatButton(
+                onPressed: (){
+                  print("cancelar");
+                  Navigator.of(context).maybePop();
+                },
+                child: Text("Não"),
+              ),
+              FlatButton(
+                onPressed: (){
+                  print("FUNÇÃO REMOVER SERVICO DO PROJETO");
+                  Navigator.of(context).maybePop();
+                },
+                child: Text("Sim"),
+              ),
+            ],
+          );
+        }
+      );
     }
 
     Future<bool> adicionarServicoProjeto(BuildContext context,FirebaseUser usuario) async {
@@ -75,14 +107,26 @@ class ProjetoProviderState with ChangeNotifier{
                           "gastosServicos":FieldValue.increment(servicos.documents[index]['valorServico']),
                           "gastosTotais":FieldValue.increment(servicos.documents[index]['valorServico'])
                         });
+                       
+                        }
+                         if(servicos.documents[index]['estaNoProjeto'] != null){
+                          await Firestore.instance.collection('servicos').document(servicos.documents[index].documentID)
+                                                                         .updateData({
+                                                                           "estaNoProjeto":FieldValue.arrayUnion([projetoSelecionado.documentID])
+                                                                         });
+                        }else{
+                          await Firestore.instance.collection('servicos').document(servicos.documents[index].documentID)
+                                                                         .updateData({
+                                                                           "estaNoProjeto":[projetoSelecionado.documentID]
+                                                                         });
                         }
                         
                        DocumentSnapshot p = await  Firestore.instance.collection('projetos')
                                           .document(projetoSelecionado.documentID)
                                           .get();
                         projetoSelecionado = p;
-                       await  setServicosDoProjeto(projetoSelecionado.data['servicos']);
-                       notifyListeners();
+             //          await  setServicosDoProjeto(projetoSelecionado.data['servicos']);
+               //        notifyListeners();
                       },
                       child: CardServico(servicos.documents[index],false) ,
                     )
@@ -220,7 +264,7 @@ class ProjetoProviderState with ChangeNotifier{
   }
     void setProjetoSelecionado(DocumentSnapshot projeto) async {
       projetoSelecionado = projeto;
-      await  setServicosDoProjeto(projetoSelecionado.data['servicos']);
+      //await  setServicosDoProjeto(projetoSelecionado.data['servicos']);
       notifyListeners();
 
     }
