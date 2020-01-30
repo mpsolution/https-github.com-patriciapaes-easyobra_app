@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_scaffold/authservice/baseauth.dart';
+import 'package:flutter_scaffold/provider/usuarioProvider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:string_validator/string_validator.dart';
@@ -24,9 +25,11 @@ class _LoginState extends State<Login> {
   bool   logando       = false;
   final _form          = GlobalKey<FormState>();
   final _formCadastro  = GlobalKey<FormState>();
+  Autorizacao auth   = new Autorizacao();
   @override
   Widget build(BuildContext context) {
      final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+      final usuarioProvider = Provider.of<UsuarioProvider>(context);
 
     return Scaffold(
       key: _scaffoldKey,      
@@ -180,7 +183,7 @@ class _LoginState extends State<Login> {
                               });
                               print("FAZER FUNÇÃO LOGAR COM EMAIL");
                               if(_form.currentState.validate()) {
-                                  Autorizacao auth   = new Autorizacao();
+                                  
                                   String userUid     = await auth.logar(email, password).catchError((onError){
                                     print("ERRO NO CATCH $onError");
                                   });
@@ -190,8 +193,20 @@ class _LoginState extends State<Login> {
                                       mensagem = "Usuario não Encontrado";
                                       logando  = false;
                                     });
+                                  }else{
+                                      setState(() {
+                                      mensagem = "";
+                                      logando  = false;
+                                    });
+                                     DocumentSnapshot usuario = await Firestore.instance.collection('usuarios').document(userUid).get();
+                                     usuarioProvider.setUsuario(usuario);
+                                      Navigator.of(context).pushNamedAndRemoveUntil('/', ModalRoute.withName('/'));
+
+
+
                                   }
                               }else{
+                               
                                 setState(() {
                                   logando = false;
                                 });
@@ -222,88 +237,7 @@ class _LoginState extends State<Login> {
                   color:Colors.grey[600],
                   onPressed: (){
                     print("Cadastrar-se");
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context){
-                        return StatefulBuilder(
-                          builder: (context,setState){
-                            return AlertDialog(
-                              title: Center(child: Text("Cadastrar"),),
-                              content: Expanded(
-                                child: Form(
-                                          key: _formCadastro,
-                                          child: ListView(
-                                            children: <Widget>[
-                                              TextFormField(
-                                                decoration: InputDecoration(
-                                                  hintText: "Nome de Usuario"
-                                                ),
-                                                onChanged: (s){
-                                                  setState(() {
-                                                    nomeUsuario = s;
-                                                  });
-                                                },
-                                                onSaved: (s){
-                                                  nomeUsuario = s;
-                                                },
-                                                validator: (s)=>(s.isEmpty) ? 'Digite um nome de Usuario' : null,
-                                              ),
-                                              TextFormField(
-                                                decoration: InputDecoration(
-                                                  hintText: 'Email'
-                                                ),
-                                                onChanged: (s){
-                                                  setState(() {
-                                                    email = s;
-                                                  });
-                                                },
-                                                onSaved: (s){
-                                                  email = s;
-                                                },
-                                                validator: (s)=>(s.isEmpty || (!isEmail(s.trim()))) ? 'Email Invalido' : null,
-                                              ),
-                                              TextFormField(
-                                                decoration: InputDecoration(
-                                                  hintText: 'Senha'
-                                                ),
-                                                onChanged: (s){
-                                                  setState(() {
-                                                    password = s;
-                                                  });
-                                                },
-                                                onSaved: (s){
-                                                  setState(() {
-                                                    password = s;
-                                                  });
-                                                },
-                                                validator: (s)=>s.isEmpty ? 'Senha Invalida' : null
-                                              ),
-                                              TextFormField(
-                                                decoration: InputDecoration(
-                                                  hintText: 'Confirmar Senha'
-                                                ),
-                                                onChanged: (s){
-                                                  setState(() {
-                                                    password = s;
-                                                  });
-                                                },
-                                                onSaved: (s){
-                                                  setState(() {
-                                                    password = s;
-                                                  });
-                                                },
-                                                validator: (s)=> (s.isEmpty  || !(s == password))? 'Senha Invalida' : null
-                                              )
-
-                                            ],
-                                          ),
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      }
-                    );
+                    Navigator.of(context).pushNamed('/Cadastrar');
 
                   },
                   child: Text("Cadastrar-Se",style:TextStyle(color: Colors.white)),

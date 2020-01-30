@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_scaffold/auth/auth.dart';
 import 'package:flutter_scaffold/blocks/auth_block.dart';
+import 'package:flutter_scaffold/cadastro.dart';
 import 'package:flutter_scaffold/cart.dart';
 import 'package:flutter_scaffold/categorise.dart';
 import 'package:flutter_scaffold/dicas/dica.dart';
@@ -26,6 +27,7 @@ import 'package:flutter_scaffold/provider/ajudaProvider.dart';
 import 'package:flutter_scaffold/provider/criacaoServicoProvider.dart';
 import 'package:flutter_scaffold/provider/historicoProvider.dart';
 import 'package:flutter_scaffold/provider/projetoProvider.dart';
+import 'package:flutter_scaffold/provider/usuarioProvider.dart';
 import 'package:flutter_scaffold/settings.dart';
 import 'package:flutter_scaffold/shop/shop.dart';
 import 'package:flutter_scaffold/solicitarServico/criarServico.dart';
@@ -43,6 +45,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiProvider(
     providers: [ChangeNotifierProvider<CarrinhoState>.value(value: CarrinhoState()),
+                ChangeNotifierProvider<UsuarioProvider>.value(value: UsuarioProvider(),),
                 ChangeNotifierProvider<HistoricoProvider>.value(value:HistoricoProvider()),
                 ChangeNotifierProvider<ProjetoProviderState>.value(value: ProjetoProviderState(),),
                 ChangeNotifierProvider<AjudaProviderState>.value(value:AjudaProviderState()),
@@ -63,6 +66,7 @@ void main() {
       initialRoute: '/Login',
       routes: <String, WidgetBuilder>{
         '/': (BuildContext context) => Home(),
+        '/Cadastrar':(BuildContext context) => Cadastro(),
         '/auth': (BuildContext context) => Auth(),
         '/shop': (BuildContext context) => Shop(),
         '/categorise': (BuildContext context) => Categorise(),

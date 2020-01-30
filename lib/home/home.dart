@@ -7,6 +7,7 @@ import 'package:flutter_scaffold/dicas/dicas.dart';
 import 'package:flutter_scaffold/digitalizacao/iniciarDigitalizacao.dart';
 import 'package:flutter_scaffold/pedirajuda.dart';
 import 'package:flutter_scaffold/provider/carrinho.dart';
+import 'package:flutter_scaffold/provider/usuarioProvider.dart';
 import 'package:provider/provider.dart';
 
 import 'drawer.dart';
@@ -76,6 +77,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final carrinho = Provider.of<CarrinhoState>(context);
     final firebaseUser = Provider.of<FirebaseUser>(context);
+    final usuarioProvider = Provider.of<UsuarioProvider>(context);
     String imagemBase =
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f5Tq7UJLc10WyFDBXoJKjlgnqmd8s6mRBxMfqj_NVLH5VEny&s';
     final GlobalKey<ScaffoldState> _scaffoldKey =
@@ -133,9 +135,7 @@ class _HomeState extends State<Home> {
                       child: CircleAvatar(
                         radius: 50,
                         backgroundColor: Colors.transparent,
-                        backgroundImage: NetworkImage((firebaseUser != null)
-                            ? firebaseUser.photoUrl.toString()
-                            : imagemBase),
+                        backgroundImage: NetworkImage(usuarioProvider.getUsuarioLogado['photoUrl'] ),
                       ),
                     )),
 

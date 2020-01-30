@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scaffold/blocks/auth_block.dart';
 import 'package:flutter_scaffold/provider/carrinho.dart';
+import 'package:flutter_scaffold/provider/usuarioProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -16,6 +17,7 @@ class _AppDrawerState extends State<AppDrawer> {
     AuthBlock auth = Provider.of<AuthBlock>(context);
     final Carrinho = Provider.of<CarrinhoState>(context);
     final firebaseUser = Provider.of<FirebaseUser>(context);
+    final usuarioProvider = Provider.of<UsuarioProvider>(context);
     final List<Map> opcoesMinhaConta = [
       {"icone": Icons.home, "nome": "Endereços", "link": "/Enderecos"},
       {"icone": Icons.home, "nome": "Termos e condições", "link": "/TermoseCondicoes"},
@@ -70,7 +72,7 @@ class _AppDrawerState extends State<AppDrawer> {
               image: AssetImage('assets/images/drawer-header.jpg'),
             )),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: NetworkImage(firebaseUser.photoUrl.toString()),
+              backgroundImage: NetworkImage(usuarioProvider.getUsuarioLogado['photoUrl']),
             ),
             accountEmail: (firebaseUser.email != null)
                 ? Text(firebaseUser.email.toString())
@@ -99,7 +101,7 @@ class _AppDrawerState extends State<AppDrawer> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('Maria Eduarda'),
+                          Text(usuarioProvider.getUsuarioLogado['displayName']),
                           Row(
                             children: <Widget>[
                               Text("4.92"),
