@@ -20,7 +20,7 @@ class ProjetoProviderState with ChangeNotifier{
       bool projetoSalvo = false;
       DocumentReference projetoDb =  await Firestore.instance.collection('projetos').add({
         ...projeto,
-        "idCliente": (usuario != null) ? usuario.providerId : "123456"
+        "idCliente": (usuario != null) ? usuario.uid : "123456"
       });
       if(projetoDb.documentID != null){
         projetoSalvo = true;
@@ -29,7 +29,7 @@ class ProjetoProviderState with ChangeNotifier{
     }
     Stream<QuerySnapshot> getProjetosStream(FirebaseUser usuario){
       return Firestore.instance.collection('projetos')
-                        .where("idCliente",isEqualTo: (usuario != null) ? usuario.providerId : "123456")
+                        .where("idCliente",isEqualTo: (usuario != null) ? usuario.uid : "123456")
                         .snapshots();
     }
     Stream<QuerySnapshot> getServicosDoProjeto(){
@@ -79,7 +79,7 @@ class ProjetoProviderState with ChangeNotifier{
 
     Future<bool> adicionarServicoProjeto(BuildContext context,FirebaseUser usuario) async {
             bool adicionado = false;
-      QuerySnapshot servicos =  await Firestore.instance.collection('servicos').where('idCliente',isEqualTo:(usuario != null)? usuario.providerId : "123456").getDocuments();
+      QuerySnapshot servicos =  await Firestore.instance.collection('servicos').where('idCliente',isEqualTo:(usuario != null)? usuario.uid : "123456").getDocuments();
      await showDialog(
         context: context,
         builder: (BuildContext context){

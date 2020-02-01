@@ -72,7 +72,7 @@ class _CriarServicoState extends State<CriarServico> {
   Future<void> criarServico(String tipoServico,String categoria) async {
               FirebaseUser cliente                  = await FirebaseAuth.instance.currentUser();
              // String       idCliente                = cliente.providerId;
-              String       idCliente                = "123456";
+              String       idCliente                = (cliente.providerData != null)? cliente.uid : '123456';
               String       tituloServico            = titulo;
               String       descricaoServico         = descricao;
               List<String> fotosParaServico         = [];
@@ -146,6 +146,7 @@ class _CriarServicoState extends State<CriarServico> {
     
    
     TextStyle    styleTitulo  = TextStyle(fontSize: 18);
+    final firebaseUser = Provider.of<FirebaseUser>(context);
     
     
     return Scaffold(

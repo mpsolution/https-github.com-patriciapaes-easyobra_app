@@ -89,6 +89,14 @@ flutter:
     - assets/images/banner-2.png
     - assets/images/bannerobra.jpg
     - assets/images/login/logo.png
+    - assets/home/assets/botao-profissional.png
+    - assets/home/assets/botao-ferramentas-de-calculo2.png
+    - assets/home/assets/easypay.png
+    - assets/home/assets/botao-material-de-construcao.png
+    - assets/home/assets/qrcode-amarelo.png
+
+    
+
 
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware.

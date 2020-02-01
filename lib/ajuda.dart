@@ -129,7 +129,7 @@ Widget build(BuildContext context) {
                        salvo = await   ajudaProvider.criarAjuda({
                          "detalhes":detalhes,
                           "tipo":(op == null) ?{"erro":"erro"} : {...op.data,"id":op.documentID},
-                          "idCliente":(firebaseUser != null)? firebaseUser.providerId : "123456"
+                          "idCliente":(firebaseUser != null)? firebaseUser.uid : "123456"
                         });}
                         setState(() {
                           salvandoAjuda = false;

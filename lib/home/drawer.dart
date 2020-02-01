@@ -39,7 +39,7 @@ class _AppDrawerState extends State<AppDrawer> {
       },
       {"icone": Icons.home, "nome": "Meus Projetos", "link": "/MeusProjetos"},
     ];
-
+    String imagemBase ='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f5Tq7UJLc10WyFDBXoJKjlgnqmd8s6mRBxMfqj_NVLH5VEny&s';
     List<Widget> criarMenu(List<Map> opcoes) {
       return opcoes.map<Widget>((opcao) {
         return Container(
@@ -72,7 +72,7 @@ class _AppDrawerState extends State<AppDrawer> {
               image: AssetImage('assets/images/drawer-header.jpg'),
             )),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: NetworkImage(usuarioProvider.getUsuarioLogado['photoUrl']),
+              backgroundImage: NetworkImage((usuarioProvider.getUsuarioLogado == null) ? imagemBase : usuarioProvider.getUsuarioLogado['photoUrl']),
             ),
             accountEmail: (firebaseUser.email != null)
                 ? Text(firebaseUser.email.toString())
@@ -92,8 +92,7 @@ class _AppDrawerState extends State<AppDrawer> {
                   Padding(
                       padding: EdgeInsets.all(8.0),
                       child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f5Tq7UJLc10WyFDBXoJKjlgnqmd8s6mRBxMfqj_NVLH5VEny&s'),
+                        backgroundImage: NetworkImage((usuarioProvider.getUsuarioLogado == null) ? imagemBase : usuarioProvider.getUsuarioLogado['photoUrl']),
                         maxRadius: 40,
                       )),
                   Expanded(

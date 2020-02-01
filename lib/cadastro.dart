@@ -59,11 +59,11 @@ class _CadastroState extends State<Cadastro> {
                                                 ),
                                                 onChanged: (s){
                                                   setState(() {
-                                                    email = s;
+                                                    email = s.trim();
                                                   });
                                                 },
                                                 onSaved: (s){
-                                                  email = s;
+                                                  email = s.trim();
                                                 },
                                                 validator: (s)=>(s.isEmpty || (!isEmail(s.trim()))) ? 'Email Invalido' : null,
                                               ),

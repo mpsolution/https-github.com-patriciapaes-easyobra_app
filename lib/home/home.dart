@@ -42,24 +42,22 @@ class _HomeState extends State<Home> {
   final List<Map> opcoesMenu = [
     {
       "nome": 'Comprar Material',
-      "imagem":
-          "https://img.bgxcdn.com/images/oaupload/ser1/banggood/images/57/93/9823beb3-f850-4f8f-9843-d717c6c8f4c8.jpg"
+      "imagem":"assets/home/assets/botao-material-de-construcao.png"
     },
     {
       "nome": 'Solicitar Profissional',
       "Link":"/SolicitarServico",
-      "imagem":
-          "https://img.bgxcdn.com/images/oaupload/ser1/banggood/images/57/93/9823beb3-f850-4f8f-9843-d717c6c8f4c8.jpg"
+      "imagem":"assets/home/assets/botao-profissional.png"
     },
     {
       "nome": 'Calcular Material',
-      "imagem":
-          "https://img.bgxcdn.com/images/oaupload/ser1/banggood/images/57/93/9823beb3-f850-4f8f-9843-d717c6c8f4c8.jpg"
+      "imagem":"assets/home/assets/botao-ferramentas-de-calculo2.png"
     },
     {
       "nome": '',
-      "imagem":"https://img.bgxcdn.com/images/oaupload/ser1/banggood/images/57/93/9823beb3-f850-4f8f-9843-d717c6c8f4c8.jpg",
-      "Link":"/MeusGastos"
+      "imagem":"assets/home/assets/easypay.png",
+      "Link":"/MeusGastos",
+      "code":"assets/home/assets/qrcode-amarelo.png"
     },
   ];
   String _busca = "";
@@ -78,8 +76,7 @@ class _HomeState extends State<Home> {
     final carrinho = Provider.of<CarrinhoState>(context);
     final firebaseUser = Provider.of<FirebaseUser>(context);
     final usuarioProvider = Provider.of<UsuarioProvider>(context);
-    String imagemBase =
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f5Tq7UJLc10WyFDBXoJKjlgnqmd8s6mRBxMfqj_NVLH5VEny&s';
+    String imagemBase ='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f5Tq7UJLc10WyFDBXoJKjlgnqmd8s6mRBxMfqj_NVLH5VEny&s';
     final GlobalKey<ScaffoldState> _scaffoldKey =
         new GlobalKey<ScaffoldState>();
 
@@ -135,7 +132,7 @@ class _HomeState extends State<Home> {
                       child: CircleAvatar(
                         radius: 50,
                         backgroundColor: Colors.transparent,
-                        backgroundImage: NetworkImage(usuarioProvider.getUsuarioLogado['photoUrl'] ),
+                        backgroundImage: NetworkImage((usuarioProvider.getUsuarioLogado  == null) ? imagemBase  : usuarioProvider.getUsuarioLogado['photoUrl']  ),
                       ),
                     )),
 
@@ -231,9 +228,7 @@ class _HomeState extends State<Home> {
                               top: 8, left: 6, right: 6, bottom: 12),
                           children: opcoesMenu.map((Map opcao) {
                             return Container(
-                              child: Card(
-                                clipBehavior: Clip.antiAlias,
-                                child: InkWell(
+                              child: InkWell(
                                   onTap: () {
                                     print('OPCAO CLICADA ' + opcao['nome']);
                                     if(opcao["Link"] != null){
@@ -243,24 +238,43 @@ class _HomeState extends State<Home> {
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      SizedBox(
-                                        height:
-                                            (MediaQuery.of(context).size.width /
-                                                    2) -
-                                                70,
-                                        width: double.infinity,
-                                        child: CachedNetworkImage(
-                                          fit: BoxFit.contain,
-                                          imageUrl: opcao['imagem'],
-                                          placeholder: (context, url) => Center(
-                                              child:
-                                                  CircularProgressIndicator()),
-                                          errorWidget: (context, url, error) =>
-                                              new Icon(Icons.error),
-                                        ),
-                                      ),
-                                      ListTile(
+                                      Stack(
+                                        overflow: Overflow.visible,
+                                        children: <Widget>[
+                                          Card(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(10)
+                                                ),
+                                                elevation: 5,
+                                                child: SizedBox(
+                                                height:
+                                                    (MediaQuery.of(context).size.width / 2) - 70,
+                                                width: double.infinity,
+                                                child: Image.asset(opcao['imagem']),
+                                              ) ,
+                                              ),
+                                          (opcao['imagem'] == 'assets/home/assets/easypay.png')? Positioned(
+                                                                                                      bottom: -20,
+                                                                                                      left: 70,
+                                                                                                        child: Container(height: 60,
+                                                                                                          width: 60,
+                                                                                                          decoration:BoxDecoration(
+                                                                                                            border: Border.all(color: Colors.white,width: 1)
+                                                                                                          )
+                                                                                                          ,
+                                                                                                          child: Image.asset(opcao['code']),
+                                                                                                          ),
+                                                                                                   )
+                                                                                                   : 
+                                                                                                          Padding(padding: EdgeInsets.all(0),)
+
+
+                                        ],
+                                      )
+                                      ,
+                                     ListTile(
                                           title: Center(
                                               child: (opcao['nome'] != '')
                                                   ? Text(
@@ -274,7 +288,6 @@ class _HomeState extends State<Home> {
                                     ],
                                   ),
                                 ),
-                              ),
                             );
                           }).toList(),
                         ),

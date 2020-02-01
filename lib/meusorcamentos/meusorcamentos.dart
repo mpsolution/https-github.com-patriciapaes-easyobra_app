@@ -1,5 +1,6 @@
 import 'package:basic_utils/basic_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter_scaffold/provider/criacaoServicoProvider.dart';
@@ -16,9 +17,12 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   String imagemBase = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f5Tq7UJLc10WyFDBXoJKjlgnqmd8s6mRBxMfqj_NVLH5VEny&s';
   final List<int> orcamentos = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+
   @override
   Widget build(BuildContext context) {
     final criacaoServicoProvider = Provider.of<CriacaoServicoState>(context);
+    final firebaseUser = Provider.of<FirebaseUser>(context);
+
 
     return Scaffold(
        resizeToAvoidBottomInset: false,
@@ -36,7 +40,7 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
            return Container(
              width: MediaQuery.of(context).size.width,
              child:StreamBuilder<QuerySnapshot>(
-               stream:Firestore.instance.collection('SolicitacoesServicos').where('idCliente',isEqualTo:"123456").snapshots(),
+               stream:Firestore.instance.collection('SolicitacoesServicos').where('idCliente',isEqualTo:(firebaseUser.providerData != null)? firebaseUser.uid : "123456").snapshots(),
                builder:(BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
                  if(snapshot.hasError) Text("Error: ${snapshot.error}");
                  switch(snapshot.connectionState){

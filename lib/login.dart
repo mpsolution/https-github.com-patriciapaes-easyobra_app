@@ -57,8 +57,21 @@ class _LoginState extends State<Login> {
                 child:RaisedButton(
                 color: Colors.blueAccent,
                 elevation: 0,                
-                onPressed: (){
+                onPressed: ()async{
+                  setState(() {
+                    logando = true;
+                  });
                   print("Fazer login facebook");
+                bool logou = await  auth.loginFacebook(context);
+                print("resultado login facebook $logou");
+                setState(() {
+                  logando = false;
+                });
+                if(logou){
+                  Navigator.of(context).maybePop();
+                  Navigator.of(context).pushNamedAndRemoveUntil('/', ModalRoute.withName('/'));
+                }
+
                 },
                 child: Center(
                     child: Row(
@@ -66,7 +79,8 @@ class _LoginState extends State<Login> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                           Icon(FontAwesomeIcons.facebook,color:Colors.white),
-                          Text("Logar Com o Facebook",style:TextStyle(color: Colors.white))
+                          Text("Logar Com o Facebook",style:TextStyle(color: Colors.white)),
+                          (logando)? SizedBox(height: 20,width: 20, child:CircularProgressIndicator( valueColor: new AlwaysStoppedAnimation<Color>(Colors.white))): Padding(padding: EdgeInsets.all(0),)
                       ],
                     ),
                   ),
@@ -199,6 +213,7 @@ class _LoginState extends State<Login> {
                                       logando  = false;
                                     });
                                      DocumentSnapshot usuario = await Firestore.instance.collection('usuarios').document(userUid).get();
+                                     print("USUARIO QUE FOI LOGADO ${usuario.data}");
                                      usuarioProvider.setUsuario(usuario);
                                       Navigator.of(context).pushNamedAndRemoveUntil('/', ModalRoute.withName('/'));
 
