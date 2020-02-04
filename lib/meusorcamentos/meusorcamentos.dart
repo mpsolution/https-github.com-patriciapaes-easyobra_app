@@ -52,7 +52,7 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
                  ...snapshot.data.documents.map<Widget>((DocumentSnapshot orcamento)=>
                   SizedBox(
                width: double.infinity,
-               height: 150,
+               height: 160,
                child:Card(
                
                child: Row(
@@ -81,71 +81,66 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
                      crossAxisAlignment: CrossAxisAlignment.center,
                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                      children: <Widget>[
-                       InkWell(
-                         onTap: (){
-                           print("FORMATO DOS ORÇAMENTOS ${orcamento.documentID}");
-                           print("ORCAMENTOS DO SERVICO ${orcamento.data} ");
-                           
-                           Navigator.pushNamed(context,'/Orcamentos',arguments: orcamento.documentID);
-                           criacaoServicoProvider.setServico(orcamento.data);
-                           criacaoServicoProvider.setIdSolicitacaoServico(orcamento.documentID);
-                         },
-                         child:Container(
-                         width: 120,
-                         height: 30,
-                         child:Card(
+                       ButtonTheme(
+                         minWidth: MediaQuery.of(context).size.width * 0.27,
+                         height: 25,
+                         child: RaisedButton(                           
+                           color: Colors.green,
+                           shape: RoundedRectangleBorder(
+                             borderRadius:BorderRadius.circular(5),
                             
-                            color: Colors.green,
-                            shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5.0)
-                            ),
-                            child:Center(
-                              
-                              child:Text("Ver Orçamentos",style: TextStyle(color: Colors.white),)                             
-                            ) 
-                          ),
+                           ),
+                           onPressed: (){
+                              print("FORMATO DOS ORÇAMENTOS ${orcamento.documentID}");
+                              print("ORCAMENTOS DO SERVICO ${orcamento.data} ");
+                              Navigator.pushNamed(context,'/Orcamentos',arguments: orcamento.documentID);
+                              criacaoServicoProvider.setServico(orcamento.data);
+                              criacaoServicoProvider.setIdSolicitacaoServico(orcamento.documentID);
+                           },
+                           child:Text("Ver Orçamentos",style: TextStyle(color: Colors.white,fontSize: 11),) ,
+                         ),
                        ),
-                       )
-                       ,
-                       Container(
-                         width: 120,
-                         height: 30,
-                         child:Card(                            
-                            shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  side: BorderSide(color: Colors.black,width: 1.0),
-                            ),
-                            child:Center(
-                              child:Text("Pedir Ajuda",style: TextStyle(color: Colors.green),)                             
-                            ) 
-                          ),
+                      
+                       ButtonTheme(
+                         minWidth: MediaQuery.of(context).size.width * 0.27,
+                         height: 25,
+                         child: RaisedButton(                           
+                           color: Colors.white,
+                           shape: RoundedRectangleBorder(
+                             borderRadius:BorderRadius.circular(5),
+                             side:BorderSide(color: Colors.black)
+                           ),
+                           onPressed: (){
+                             print("IR PARA A AJUDA");
+                             Navigator.of(context).pushNamed('/PedirAjuda');
+                           },
+                           child:Text("Pedir Ajuda",style: TextStyle(color: Colors.green , fontSize: 11),) ,
+                         ),
                        ),
-                       Container(
-                         width: 120,
-                         height: 30,
-                         child:Card(                            
-                            color: Colors.red,
-                            shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                            ),
-                            child:
-                              InkWell(
-                                onTap: (){
-                                  print("Cancelar");
-                                },
-                                child:  Row(
+                       ButtonTheme(
+                         minWidth: MediaQuery.of(context).size.width * 0.27,
+                         height: 25,
+                         child: RaisedButton(                           
+                           color: Colors.red,
+                           shape: RoundedRectangleBorder(
+                             borderRadius:BorderRadius.circular(5),
+                           ),
+                           onPressed: (){
+                               print("Cancelar");
+                           },
+                           child: Row(
                                     mainAxisSize: MainAxisSize.max,
                                     crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children:<Widget>[
-                                        Icon(Icons.close,color: Colors.white,),
-                                        Text("Cancelar",style: TextStyle(color: Colors.white),) 
+                                        Icon(Icons.close,color: Colors.white,size: 15,),
+                                        Padding(padding: EdgeInsets.only(left:5)),
+                                        Text("Cancelar",style: TextStyle(color: Colors.white,fontSize: 11),) 
                                     ],                           
-                                  ) ,
-                              )
-                              
-                          ) ,
+                                  )  ,
+                         ),
                        ),
+                       
 
                      ],
                    )

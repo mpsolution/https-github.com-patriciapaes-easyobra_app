@@ -51,7 +51,7 @@ class _ServicosState extends State<Servicos> {
                                           child: Center(child: Text("Escolha o Tipo de Serviço:",style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),),
                                         ) ,    
                                         Flexible(
-                                          child: ListView.builder(
+                                        child: ListView.builder(
                                           itemCount: opcoes.length,
                                           itemBuilder: (context,i){
                                              return InkWell(

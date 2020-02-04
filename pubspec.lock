@@ -113,6 +113,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.2"
+  dash_chat:
+    dependency: "direct main"
+    description:
+      name: dash_chat
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.15"
   date_format:
     dependency: "direct main"
     description:
@@ -181,6 +188,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.7.4"
+  flutter_parsed_text:
+    dependency: transitive
+    description:
+      name: flutter_parsed_text
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.3"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -282,6 +296,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3+1"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.16.1"
   json_annotation:
     dependency: transitive
     description:

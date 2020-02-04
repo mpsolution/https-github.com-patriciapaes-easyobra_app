@@ -141,11 +141,14 @@ class _HomeState extends State<Home> {
                     Padding(
                       padding:
                           EdgeInsets.only(top: 14.0, left: 8.0, right: 8.0),
-                      child: IconButton(
-                        icon: Icon(Icons.work),
-                        onPressed: () {
-                         // Navigator.pushNamed(context, '/cart');
+                      child: InkWell(
+                        onTap: (){
+                          print("ICONE");
                         },
+                        child: SizedBox(height: 50,
+                                        width: 50,
+                                        child: Image.asset('assets/digitalizacao/assets/capacete.png'),
+                                        ),
                       ),
                     ),
                     (carrinho.getQtdProdutosCarrinho > 0)
