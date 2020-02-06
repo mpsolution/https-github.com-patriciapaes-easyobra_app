@@ -36,6 +36,9 @@ import 'package:flutter_scaffold/solicitarServico/servicos.dart';
 import 'package:flutter_scaffold/solicitarServico/solicitarServico.dart';
 import 'package:flutter_scaffold/termosecondicoes/termosecondicoes.dart';
 import 'package:flutter_scaffold/wishlist.dart';
+import 'package:flutter_scaffold/chat/chat.dart';
+import 'package:flutter_scaffold/chat/contatos.dart';
+
 import 'package:provider/provider.dart';
 import './provider/carrinho.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -95,7 +98,9 @@ void main() {
         '/IndicacaoProfissional':(BuildContext context) =>IndicacaoProfissional(),
         '/HistoricoServico':(BuildContext context)=>HistoricoServico(),
         '/TermoseCondicoes':(BuildContext context)=>TermoseCondicoes(),
-        '/CriarServico':(BuildContext context)=>CriarServico()
+        '/CriarServico':(BuildContext context)=>CriarServico(),
+        '/Chat':(BuildContext context)=>Chat(),
+        '/Contatos':(BuildContext context)=>Contatos()
 
       },
     ),
