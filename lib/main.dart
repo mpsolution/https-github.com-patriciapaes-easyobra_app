@@ -38,6 +38,8 @@ import 'package:flutter_scaffold/termosecondicoes/termosecondicoes.dart';
 import 'package:flutter_scaffold/wishlist.dart';
 import 'package:flutter_scaffold/chat/chat.dart';
 import 'package:flutter_scaffold/chat/contatos.dart';
+import 'package:flutter_scaffold/perfil/editarPerfil.dart';
+
 
 import 'package:provider/provider.dart';
 import './provider/carrinho.dart';
@@ -75,7 +77,7 @@ void main() {
         '/categorise': (BuildContext context) => Categorise(),
         '/wishlist': (BuildContext context) => WishList(),
         '/cart': (BuildContext context) => CartList(),
-        '/settings': (BuildContext context) => Settings(),
+        '/editarPerfil': (BuildContext context) => EditarPerfil(),
         '/products': (BuildContext context) => Products(),
         '/ListaPedidos' : (BuildContext context) => ListaPedidos(),
         '/Pedido':(BuildContext context) =>Pedido(),

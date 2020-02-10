@@ -82,7 +82,13 @@ class _AppDrawerState extends State<AppDrawer> {
                 ? Text('Olá  ' + firebaseUser.displayName.toString())
                 : Text(''),
           ),
-        Container(
+        InkWell(
+          onTap: (){
+              Navigator.pop(context);
+
+            Navigator.of(context).pushNamed('/editarPerfil');
+          },
+          child: Container(
           margin: EdgeInsets.only(top: 20.0, left: 5.0, right: 5.0),
           child: Column(
             children: <Widget>[
@@ -133,6 +139,8 @@ class _AppDrawerState extends State<AppDrawer> {
             ],
           ),
         ),
+        )
+        ,
         Expanded(
           child: ListView(
             shrinkWrap: true,
