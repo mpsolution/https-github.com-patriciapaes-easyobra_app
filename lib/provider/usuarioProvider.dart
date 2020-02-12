@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dash_chat/dash_chat.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -28,6 +30,33 @@ class UsuarioProvider with ChangeNotifier{
    idChatEmUso = id;
    notifyListeners();
  }
+ Future<bool> atualizarPortifolio(dynamic portifolio,List<File> nvFotos) async{
+   bool atualizou = false;
+   try {
+     List<dynamic> nvsFotosUrl = [];
+     for (var i = 0; i < nvFotos.length; i++) {
+       String nvFoto = await uploadFile(nvFotos[i]);
+       nvsFotosUrl.add(nvFoto);
+     }    
+     List<dynamic> fotos = portifolio['fotos'];
+     portifolio['fotos'] = List.from(fotos)..addAll(nvsFotosUrl);
+     print("PORTIFOLIO A SER SALVO $portifolio , fotos $fotos uploads $nvsFotosUrl");
+     await Firestore.instance.collection('usuarios')
+                             .document(usuario.documentID)
+                             .updateData({
+                               "portifolio":portifolio
+                             });
+     DocumentSnapshot us = await Firestore.instance.collection('usuarios')
+                                                        .document(usuario.documentID)
+                                                        .get();
+     setUsuario(us);
+     return atualizou = true;
+     
+   } catch (e) {
+     print("ATUALIZAÇÃO DE PORTIFOLIO FALHO $e");
+   }
+   return atualizou;
+ }
  
     Future<String> uploadFile(file) async {    
        StorageReference storageReference = FirebaseStorage.instance    
@@ -35,7 +64,7 @@ class UsuarioProvider with ChangeNotifier{
            .child('fotosUsuarios/${Path.basename(file.path)}}');    
        StorageUploadTask uploadTask = storageReference.putFile(file);    
        await uploadTask.onComplete;    
-       print('Foto de usuario atualizada');    
+       print('Foto SALVA NO BD');    
        return storageReference.getDownloadURL().then((fileURL) {    
          return  fileURL; 
        });    

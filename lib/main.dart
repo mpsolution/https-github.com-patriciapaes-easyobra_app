@@ -23,6 +23,8 @@ import 'package:flutter_scaffold/pedido.dart';
 import 'package:flutter_scaffold/pedidos.dart';
 import 'package:flutter_scaffold/pedirajuda.dart';
 import 'package:flutter_scaffold/product_detail.dart';
+import 'package:flutter_scaffold/profissional/editarPortifolio.dart';
+import 'package:flutter_scaffold/profissional/formPortifolio.dart';
 import 'package:flutter_scaffold/provider/ajudaProvider.dart';
 import 'package:flutter_scaffold/provider/criacaoServicoProvider.dart';
 import 'package:flutter_scaffold/provider/historicoProvider.dart';
@@ -102,7 +104,9 @@ void main() {
         '/TermoseCondicoes':(BuildContext context)=>TermoseCondicoes(),
         '/CriarServico':(BuildContext context)=>CriarServico(),
         '/Chat':(BuildContext context)=>Chat(),
-        '/Contatos':(BuildContext context)=>Contatos()
+        '/Contatos':(BuildContext context)=>Contatos(),
+        '/Portifolio':(BuildContext context)=> EditarPortifolio(),
+        '/FormPortifolio':(BuildContext context) => FormPortifolio()
 
       },
     ),

@@ -39,6 +39,10 @@ class _AppDrawerState extends State<AppDrawer> {
       },
       {"icone": Icons.home, "nome": "Meus Projetos", "link": "/MeusProjetos"},
       {"icone": Icons.home, "nome": "Contatos", "link": "/Contatos"},
+      {"icone": Icons.home, "nome": "Portifolio", "link": "/Portifolio"},
+      {"icone": Icons.home, "nome": "EditarPortifolio", "link": "/FormPortifolio"},
+
+
     ];
     String imagemBase ='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f5Tq7UJLc10WyFDBXoJKjlgnqmd8s6mRBxMfqj_NVLH5VEny&s';
     List<Widget> criarMenu(List<Map> opcoes) {
