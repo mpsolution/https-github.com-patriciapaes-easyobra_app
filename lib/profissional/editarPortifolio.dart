@@ -44,7 +44,7 @@ class _EditarPortifolioState extends State<EditarPortifolio> {
        ),
        body:Builder(
          builder: (BuildContext context){
-           return Stack(
+           return (usuarioProvider.usuario['portifolio'] != null) ? Stack(
              children: <Widget>[
                ListView(
                scrollDirection: Axis.vertical,  
@@ -82,7 +82,7 @@ class _EditarPortifolioState extends State<EditarPortifolio> {
                         children: <Widget>[
                           Icon(Icons.content_paste,color:Colors.black),
                           Padding(padding: EdgeInsets.all(8),),
-                          Text("Gosto do que faço e faço o melhor para os clientes")
+                          Text(usuarioProvider.usuario['portifolio']['descricao'])
                         ],
                       ),
                     ),
@@ -94,7 +94,7 @@ class _EditarPortifolioState extends State<EditarPortifolio> {
                         children: <Widget>[
                           Icon(Icons.home,color:Colors.black),
                           Padding(padding: EdgeInsets.all(8),),
-                          Text("Moro no Rio de Janeiro,Baixada Fluminense."),
+                          Text(usuarioProvider.usuario['portifolio']['endereco']),
                           Padding(padding: EdgeInsets.all(8),),
                          
 
@@ -130,6 +130,7 @@ class _EditarPortifolioState extends State<EditarPortifolio> {
                       backgroundColor: Theme.of(context).primaryColor,                      
                       onPressed: (){
                         print("EDITAR PRINCIPAL");
+                        Navigator.of(context).pushNamed('/FormPortifolio');
                       },
                       child: Icon(Icons.edit , color:Colors.white , size: 20,),
                     ) ,
@@ -160,7 +161,7 @@ class _EditarPortifolioState extends State<EditarPortifolio> {
                                                             ),
                                                             Padding(
                                                               padding: EdgeInsets.only(top:5),
-                                                              child: Text("Toco Guitarra na mairoia das vezes como hobby"),
+                                                              child: Text(usuarioProvider.usuario['portifolio']['curiosidades']),
                                                               )
                                                             
                                                           ],
@@ -195,7 +196,7 @@ class _EditarPortifolioState extends State<EditarPortifolio> {
                                     alignment: Alignment.centerLeft,
                                     child:Text("Outras Experiências" ,style:tituloEstilo) ,
                                   ),
-                                  Text("Estou estudando Designer de Interiores.")
+                                  Text(usuarioProvider.usuario['portifolio']['experiencias'])
                                 ],
                               ) ,
                               )
@@ -270,16 +271,17 @@ class _EditarPortifolioState extends State<EditarPortifolio> {
                                 shrinkWrap: true,
                                 crossAxisCount: 2,
                                 physics: NeverScrollableScrollPhysics(),
-                                children:List.generate(30, (index){
-                                  return CachedNetworkImage(
-                                    imageUrl: imagemBase,
+                                children:[
+                                  for (var i = 0; i < usuarioProvider.usuario['portifolio']['fotos'].length; i++) CachedNetworkImage(
+                                    imageUrl: usuarioProvider.usuario['portifolio']['fotos'][i],
                                     fit: BoxFit.cover,
                                     placeholder: (context,url) => Center( 
                                       child: CircularProgressIndicator(),
                                     ),
                                     errorWidget: (context,url,error) => Icon(Icons.error),
-                                  );
-                                }),
+                                  )
+                                ]
+                              ,
                                 )
 
                              ],
@@ -301,6 +303,18 @@ class _EditarPortifolioState extends State<EditarPortifolio> {
           
 
              ],
+           ) : Center(
+             child: ButtonTheme(
+               minWidth: MediaQuery.of(context).size.width * 0.8,
+               child: RaisedButton(
+                 color: Theme.of(context).primaryColor,
+                 onPressed: (){
+                   Navigator.of(context).pushNamed('/FormPortifolio');
+                 },
+                 child: Text("Criar Portifolio",style: TextStyle(color:Colors.white),),
+                 ),
+                 
+             ),
            );
          },
              

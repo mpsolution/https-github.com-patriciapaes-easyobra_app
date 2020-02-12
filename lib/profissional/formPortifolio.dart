@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -28,17 +27,7 @@ class _FormPortifolioState extends State<FormPortifolio> {
   List<dynamic> fotos = [];
   List<File> nvsFotos = [];
 
-   String _randomString(int length) {
-   var rand = new Random();
-   var codeUnits = new List.generate(
-      length, 
-      (index){
-         return rand.nextInt(33)+89;
-      }
-   );
    
-   return new String.fromCharCodes(codeUnits);
-}
  @override
   void initState() {
     // TODO: implement initState
