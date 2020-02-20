@@ -25,6 +25,8 @@ import 'package:flutter_scaffold/pedirajuda.dart';
 import 'package:flutter_scaffold/product_detail.dart';
 import 'package:flutter_scaffold/profissional/editarPortifolio.dart';
 import 'package:flutter_scaffold/profissional/formPortifolio.dart';
+import 'package:flutter_scaffold/profissional/verorcamentos.dart';
+import 'package:flutter_scaffold/profissional/versolicitacaoservico.dart';
 import 'package:flutter_scaffold/provider/ajudaProvider.dart';
 import 'package:flutter_scaffold/provider/criacaoServicoProvider.dart';
 import 'package:flutter_scaffold/provider/historicoProvider.dart';
@@ -106,7 +108,9 @@ void main() {
         '/Chat':(BuildContext context)=>Chat(),
         '/Contatos':(BuildContext context)=>Contatos(),
         '/Portifolio':(BuildContext context)=> EditarPortifolio(),
-        '/FormPortifolio':(BuildContext context) => FormPortifolio()
+        '/FormPortifolio':(BuildContext context) => FormPortifolio(),
+        '/VerOrcamentos':(BuildContext context) => VerOrcamentos(),
+        '/VerSolicitacaoServico':(BuildContext context) => VerSolicitacaoServico()
 
       },
     ),

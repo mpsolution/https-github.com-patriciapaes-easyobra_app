@@ -59,6 +59,16 @@ class _HomeState extends State<Home> {
       "Link":"/MeusGastos",
       "code":"assets/home/assets/qrcode-amarelo.png"
     },
+    {
+      "nome":"Orçamentos",
+      "imagem":"assets/profissional/orcamentos.png",
+      "Link":"/VerOrcamentos"      
+    },
+    {
+      "nome":"Serviços",
+      "imagem":"assets/profissional/servicos.png",
+      "Link":"/VerServicos"
+    }
   ];
   String _busca = "";
   int _selectedIndex = 0;

@@ -30,6 +30,53 @@ class UsuarioProvider with ChangeNotifier{
    idChatEmUso = id;
    notifyListeners();
  }
+ Future<bool> procurarCriarChat(String idServico , String idCliente) async {
+   print("ESTA NNA PARTE DE CIRAR CHAT OU ACHAR CHAT");
+   try {
+      QuerySnapshot chat = await Firestore.instance.collection('chats').where('idServico',isEqualTo: idServico).getDocuments();
+   if(chat.documents.length == 0){
+     //criar chat
+    DocumentSnapshot criadorServico = await Firestore.instance.document('usuarios/'+idCliente).get();
+   
+    DocumentReference chatCriado = await Firestore.instance.collection('chats').add({
+       'usuarios':[usuario.documentID,idCliente],
+       'idServico':idServico,
+       'dadoUsuarios':[
+         { 'displayName':usuario['displayName'],
+          'photoUrl':usuario['photoUrl'],
+          'uid':usuario.documentID           
+           },
+       (criadorServico == null) ?  { 'displayName':criadorServico['displayName'],
+          'photoUrl':criadorServico['photoUrl'],
+          'uid':criadorServico.documentID           
+           } : {
+             'displayName':'Sem nome',
+             'photoUrl':'',
+             'uid':idCliente
+           }
+       ],
+     });
+     idChatEmUso = chatCriado.documentID;
+     notifyListeners();
+     return true;
+
+   }else{
+     //procurar chat com o iddousuario
+     chat.documents.forEach((element) { 
+       if(element['usuarios'].includes(usuario.documentID)){
+
+         idChatEmUso = element.documentID;
+       }
+     });
+     notifyListeners();
+     return true;
+   }
+     
+   } catch (e) {
+     return false;
+   }
+  
+ }
  Future<bool> atualizarPortifolio(dynamic portifolio,List<File> nvFotos) async{
    bool atualizou = false;
    try {
