@@ -149,9 +149,9 @@ class _ContatosState extends State<Contatos> {
                       child:Card(
                       child: ListTile(
                                 leading: CircleAvatar(
-                                  backgroundImage: NetworkImage(user['photoUrl']),
+                                  backgroundImage:(user != null) ? NetworkImage((user['photoUrl'] != null) ? user['photoUrl'] :  usuarioProvider.getImagemBase)  : NetworkImage( usuarioProvider.getImagemBase) ,
                                 ),
-                                title: Text(user['displayName']),
+                                title: (contatos[i]['titulo'] != null) ? Text(contatos[i]['titulo']) : (user != null) ?  Text(user['displayName']) : Text("Sem nome"),
                               ),
                     )
                     );

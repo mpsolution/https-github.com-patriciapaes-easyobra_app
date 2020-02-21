@@ -106,7 +106,6 @@ class _CriarServicoState extends State<CriarServico> {
                servicoCriadoDialog();
   }
  
-  String _busca;
   void removerFoto(File foto) {
 
     showDialog(
@@ -146,7 +145,6 @@ class _CriarServicoState extends State<CriarServico> {
     
    
     TextStyle    styleTitulo  = TextStyle(fontSize: 18);
-    final firebaseUser = Provider.of<FirebaseUser>(context);
     
     
     return Scaffold(

@@ -11,7 +11,6 @@ class Servicos extends StatefulWidget {
 class _ServicosState extends State<Servicos> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   TextStyle titulo = TextStyle(fontWeight: FontWeight.bold);  
-  String _busca;
    @override
   Widget build(BuildContext context) {
     

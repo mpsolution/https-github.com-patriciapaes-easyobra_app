@@ -1,6 +1,5 @@
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:basic_utils/basic_utils.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scaffold/provider/criacaoServicoProvider.dart';
 import 'package:flutter_scaffold/solicitarServico/cardCategoria.dart';
@@ -49,7 +48,6 @@ class _SolicitarServicoState extends State<SolicitarServico> {
     
   }
 
-  String _busca;
    @override
   Widget build(BuildContext context) {
     final criacaoServicoProvider = Provider.of<CriacaoServicoState>(context);

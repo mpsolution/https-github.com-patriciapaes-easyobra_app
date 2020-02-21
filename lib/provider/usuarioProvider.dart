@@ -13,6 +13,50 @@ class UsuarioProvider with ChangeNotifier{
   DocumentSnapshot usuario;
   ChatUser chatUser;
   String idChatEmUso = '';
+  String imagemBase = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f5Tq7UJLc10WyFDBXoJKjlgnqmd8s6mRBxMfqj_NVLH5VEny&s';
+
+  Future<bool> enviarProposta(DocumentSnapshot servico,String valorProposta) async {
+  bool salvou = false;
+  try {
+  
+    DocumentReference propostaBd;
+    String nome  = 'sem nome';
+    if(usuario['displayName'] != null){
+      nome = usuario['displayName'];
+    }
+    if(servico['orcamentos'] != null){
+      var orcamentos = new List.from(servico['orcamentos']) ;
+      orcamentos.add(
+        {
+          'idServico':servico.documentID,
+          'idPrestador':servico['idCliente'],
+          'valor':valorProposta,
+          'nome':nome
+        }
+      );
+       await Firestore.instance.collection('SolicitacoesServicos').document(servico.documentID).updateData({
+         "orcamentos":orcamentos
+       });
+    }else{
+     await  Firestore.instance.collection('SolicitacoesServicos').document(servico.documentID).updateData(
+        { "orcamentos" :[{
+          'idServico':servico.documentID,
+          'idPrestador':servico['idCliente'],
+          'valor':valorProposta,
+          'nome':nome
+        }]}).catchError((onError){
+          print("ERRO NA FUNÇÃO DO FIRESTONE EM orcamentos $onError");
+
+        });
+    }
+    salvou = true;
+    
+  } catch (e) {
+    print("ERRO NA FUNÇÃO $e");
+  }
+   
+    return salvou;
+  }
 
   void setUsuario(DocumentSnapshot u){
     usuario = u;
@@ -30,10 +74,12 @@ class UsuarioProvider with ChangeNotifier{
    idChatEmUso = id;
    notifyListeners();
  }
- Future<bool> procurarCriarChat(String idServico , String idCliente) async {
+ Future<bool> procurarCriarChat(String idServico , String idCliente, DocumentSnapshot servico ) async {
    print("ESTA NNA PARTE DE CIRAR CHAT OU ACHAR CHAT");
    try {
-      QuerySnapshot chat = await Firestore.instance.collection('chats').where('idServico',isEqualTo: idServico).getDocuments();
+      QuerySnapshot chat = await Firestore.instance.collection('chats').where('idServico',isEqualTo: idServico)
+                                                                       .where('usuarios',arrayContains: usuario.documentID)
+                                                                       .getDocuments();
    if(chat.documents.length == 0){
      //criar chat
     DocumentSnapshot criadorServico = await Firestore.instance.document('usuarios/'+idCliente).get();
@@ -41,6 +87,7 @@ class UsuarioProvider with ChangeNotifier{
     DocumentReference chatCriado = await Firestore.instance.collection('chats').add({
        'usuarios':[usuario.documentID,idCliente],
        'idServico':idServico,
+       'titulo':servico['tituloServico'],
        'dadoUsuarios':[
          { 'displayName':usuario['displayName'],
           'photoUrl':usuario['photoUrl'],
@@ -63,7 +110,7 @@ class UsuarioProvider with ChangeNotifier{
    }else{
      //procurar chat com o iddousuario
      chat.documents.forEach((element) { 
-       if(element['usuarios'].includes(usuario.documentID)){
+       if(element['usuarios'].contains(usuario.documentID)){
 
          idChatEmUso = element.documentID;
        }
@@ -140,5 +187,6 @@ class UsuarioProvider with ChangeNotifier{
   DocumentSnapshot get getUsuarioLogado => usuario;
   ChatUser get getChatUser => chatUser;
   String   get getIdChatEmUso => idChatEmUso;
+  String   get getImagemBase => imagemBase;
 
 }
