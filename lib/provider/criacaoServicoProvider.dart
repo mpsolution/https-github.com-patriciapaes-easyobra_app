@@ -11,6 +11,7 @@ class CriacaoServicoState with ChangeNotifier {
   String       idSolicitacaoServico= "";
   String       idPrestador          = "";
   double       valorServico         = 0;
+  DocumentSnapshot prestadorServico;
   Map<String,dynamic>     servico         = {};
 
   List<String> tiposServicos       = [];
@@ -73,10 +74,11 @@ class CriacaoServicoState with ChangeNotifier {
     idSolicitacaoServico = id;
   //  notifyListeners();
   }
-  void setIdPrestadorServicoValorServico(String id,double v){
+  void setIdPrestadorServicoValorServico(String id,double v)async{
     idPrestador = id;
     valorServico = v;
-   // notifyListeners();
+    prestadorServico = await Firestore.instance.collection('usuarios').document(id).get();
+    notifyListeners();
   }
   String        get getTipoServico        => tipoServico;
   String        get getServicoSelecionado => servicoSelecionado;
@@ -84,6 +86,7 @@ class CriacaoServicoState with ChangeNotifier {
   String        get getIconeConstrucao    => iconeConstrucao;
   String        get getIconeReforma       => iconeReforma;
   List<String>  get getTiposServicos      => getTiposServicos;
+  DocumentSnapshot get getPrestadorServico => prestadorServico;
 
 
 

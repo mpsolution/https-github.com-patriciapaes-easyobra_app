@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scaffold/provider/criacaoServicoProvider.dart';
 import 'package:provider/provider.dart';
@@ -50,118 +51,9 @@ class _PortifolioDoProfissionalState extends State<PortifolioDoProfissional> {
                child:Column(                 
                  children: <Widget>[
                     //Card Dados profissional
-                    Card(
-                      child: Padding(
-                        padding: EdgeInsets.all(5),
-                        child:Column(
-                        children: <Widget>[
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      child: Align(
-                      alignment: Alignment.centerLeft,
-                      child:Row(
-                        children: <Widget>[
-                            CircleAvatar(
-                              backgroundImage: NetworkImage(imagemBase),
-                            ),
-                            Padding(padding: EdgeInsets.all(5),),
-                            Text("Alfredo Campos",style:TextStyle(fontWeight: FontWeight.bold)) ,
-                        ],
-                      )
-                      
-                    ),
-                    ),
+                    buildInformacoesPessoaisPortifolio(criacaoServicoProvider),                    
                     Padding(padding: EdgeInsets.all(4),),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width *0.9,
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.content_paste,color:Colors.black),
-                          Padding(padding: EdgeInsets.all(5),),
-                          Text("Gosto do que faço e faço o melhor para os clientes")
-                        ],
-                      ),
-                    ),
-                    Padding(padding: EdgeInsets.all(4),),
-                    //Localização
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width *0.9,
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.home,color:Colors.black),
-                          Padding(padding: EdgeInsets.all(5),),
-                          Text("Moro no Rio de Janeiro,Baixada Fluminense."),
-                          Padding(padding: EdgeInsets.all(5),),
-                         
-
-                        ],
-                      ),
-                    ),
-                    Padding(padding: EdgeInsets.all(4),),
-                    SizedBox(
-                        width: MediaQuery.of(context).size.width *0.9,
-                        child:  //tempo no app , qualificação no app , nivel no app
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              Text("3.5 meses"),
-                              Text("4.98"),
-                              Icon(Icons.star,color:Colors.black),
-                              Text("Profissional Nivel:"),
-                              Text("Gold"),
-                              Icon(Icons.memory)
-                            ],
-                          ),
-                    ),
-                        ],
-                      ),
-                      )
-                      
-                      
-                    ),
-                    
-                    Padding(padding: EdgeInsets.all(4),),
-                    Card(
-                      child: Padding(padding: EdgeInsets.all(5),
-                          child: Column(
-                            children: <Widget>[
-                      SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.9,                    
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child:Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child:Text("Curiosidades") ,
-                          ),
-                          Text("Toco Guitarra na mairoia das vezes como hobby")
-                        ],
-                      ) ,
-                      )
-                      ),  
-                      SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.9,                    
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child:Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child:Text("Outras Experiências") ,
-                          ),
-                          Text("Estou estudando Designer de Interiores.")
-                        ],
-                      ) ,
-                      )
-                      ),
-                            ],
-                          ),
-                      ),
-                    ),
-                    //Card elogios
+                    buildCardCuriosidadesExperiencias(criacaoServicoProvider),                    //Card elogios
                     Card(
                       child: Padding(padding: EdgeInsets.all(5),
                         child: Column(
@@ -290,5 +182,141 @@ class _PortifolioDoProfissionalState extends State<PortifolioDoProfissional> {
          
        
     );
+  }
+  Widget buildCardCuriosidadesExperiencias(CriacaoServicoState criacaoServicoProvider){
+    String curiosidades = 'Sem curiosidades';
+    String experiencias = 'Sem experiencias';
+    DocumentSnapshot prestador = criacaoServicoProvider.getPrestadorServico;
+    if(prestador != null){
+      curiosidades = (prestador['portifolio'] != null) ? prestador['portifolio']['curiosidades']:curiosidades;
+      experiencias = (prestador['portifolio'] != null) ? prestador['portifolio']['experiencias']:experiencias;
+    }
+    return Card(
+                      child: Padding(padding: EdgeInsets.all(5),
+                          child: Column(
+                            children: <Widget>[
+                      SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.9,                    
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child:Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child:Text("Curiosidades") ,
+                          ),
+                          Text(curiosidades)
+                        ],
+                      ) ,
+                      )
+                      ),  
+                      SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.9,                    
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child:Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child:Text("Outras Experiências") ,
+                          ),
+                          Text(experiencias)
+                        ],
+                      ) ,
+                      )
+                      ),
+                            ],
+                          ),
+                      ),
+                    );
+  }
+  Widget buildInformacoesPessoaisPortifolio(CriacaoServicoState criacaoServicoProvider){
+    DocumentSnapshot prestador = criacaoServicoProvider.getPrestadorServico;
+    String nome = ' Sem Nome';
+    String fotoUrl = imagemBase;
+    String localidade = 'Sem localidade';
+    String tempoNaPlataforma = '3.5 meses';
+    String avaliacao = '4.90';
+    String nivel = 'gold';
+    String descricao = 'Sem descrição';
+    if(prestador != null){
+      nome = prestador['displayName'];
+      fotoUrl = prestador['photoUrl'];
+      localidade = (prestador['portifolio'] != null) ? prestador['portifolio']['endereco'] : localidade;
+      descricao = (prestador['portifolio'] != null) ? prestador['portifolio']['descricao'] : descricao;
+
+    }
+    return Card(
+                      child: Padding(
+                        padding: EdgeInsets.all(5),
+                        child:Column(
+                        children: <Widget>[
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: Align(
+                      alignment: Alignment.centerLeft,
+                      child:Row(
+                        children: <Widget>[
+                            CircleAvatar(
+                              backgroundImage: NetworkImage(fotoUrl),
+                            ),
+                            Padding(padding: EdgeInsets.all(5),),
+                            Text(nome,style:TextStyle(fontWeight: FontWeight.bold)) ,
+                        ],
+                      )
+                      
+                    ),
+                    ),
+                    Padding(padding: EdgeInsets.all(4),),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width *0.9,
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.content_paste,color:Colors.black),
+                          Padding(padding: EdgeInsets.all(5),),
+                          Text(descricao)
+                        ],
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.all(4),),
+                    //Localização
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width *0.9,
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.home,color:Colors.black),
+                          Padding(padding: EdgeInsets.all(5),),
+                          Text(localidade),
+                          Padding(padding: EdgeInsets.all(5),),
+                         
+
+                        ],
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.all(4),),
+                    SizedBox(
+                        width: MediaQuery.of(context).size.width *0.9,
+                        child:  //tempo no app , qualificação no app , nivel no app
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              Text(tempoNaPlataforma),
+                              Text(avaliacao),
+                              Icon(Icons.star,color:Colors.black),
+                              Text("Profissional Nivel:"),
+                              Text(nivel),
+                              Icon(Icons.memory)
+                            ],
+                          ),
+                    ),
+                        ],
+                      ),
+                      )
+                      
+                      
+                    );
+
   }
 }

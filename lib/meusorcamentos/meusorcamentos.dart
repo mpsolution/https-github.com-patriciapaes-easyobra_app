@@ -65,17 +65,8 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
                      backgroundImage: NetworkImage(imagemBase),
                    ),
                    ),
-                   Column(
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                     children: <Widget>[                       
-                       Text(StringUtils.capitalize(orcamento["tituloServico"]) ,style:TextStyle(fontWeight: FontWeight.bold)),
-                       Text(StringUtils.capitalize(orcamento["categoria"])),
-                       Text(formatDate(DateTime.parse(orcamento["dataCriado"].toDate().toString()),[dd,'/',mm ,'/', yy])),
-                        (orcamento["qtdRespostas"] == null)?Text("0 Respostas Obtidas") : Text("${orcamento['qtdRespostas']} Respostas  "),
-                        (orcamento["menorValor"] == null) ? Text("----")  :  Text("Menor valor R\$ ${orcamento['menorValor']}",style:TextStyle(fontWeight: FontWeight.bold,fontSize:12))
-                     ],
-                   ),
+                   buildInfoCard(orcamento)
+                   ,
                    //Botoes
                    Column(
                      crossAxisAlignment: CrossAxisAlignment.center,
@@ -164,5 +155,31 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
          },
        ) ,
     );
+  
   }
+    Widget buildInfoCard( DocumentSnapshot orcamento){
+      String qtdRespostas = 'Sem Respostas';
+      String menorValor   = '-----';
+      if(orcamento['orcamentos'] != null){
+        qtdRespostas = (orcamento['orcamentos'].length == 1 ) ? '1 Resposta' : "${orcamento['orcamentos'].length} Respostas";
+        double menorValorDouble = double.parse(orcamento['orcamentos'][0]['valor'].replaceAll('R\$','').replaceAll(',','.'))  ;
+        menorValor = orcamento['orcamentos'][0]['valor'];
+        orcamento['orcamentos'].forEach((orcamentoValor){
+          menorValor = (menorValorDouble > double.parse(orcamentoValor['valor'].replaceAll('R\$','').replaceAll(',','.')) ) ? orcamentoValor['valor'] : menorValor;
+        });
+      }
+      return Column(
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                     children: <Widget>[                       
+                       Text(StringUtils.capitalize(orcamento["tituloServico"]) ,style:TextStyle(fontWeight: FontWeight.bold)),
+                       Text(StringUtils.capitalize(orcamento["categoria"])),
+                       Text(formatDate(DateTime.parse(orcamento["dataCriado"].toDate().toString()),[dd,'/',mm ,'/', yy])),
+                       Text(qtdRespostas),
+                       Text(menorValor),                       
+                        
+                     ],
+                   );
+
+    }
 }

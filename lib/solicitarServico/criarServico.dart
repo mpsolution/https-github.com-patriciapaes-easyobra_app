@@ -48,7 +48,7 @@ class _CriarServicoState extends State<CriarServico> {
               child: new Text("Ok"),
               onPressed: () {
                 
-                Navigator.of(context).pushNamed('/');
+                Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
               },
               )
           ],
@@ -248,6 +248,7 @@ class _CriarServicoState extends State<CriarServico> {
                        
                         TextField(
                           maxLines: null,
+                          
                           keyboardType:TextInputType.multiline,
                           onChanged: (s){
                             setState(() {

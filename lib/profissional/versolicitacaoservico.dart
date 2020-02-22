@@ -31,7 +31,7 @@ class VerSolicitacaoServico extends StatefulWidget {
 
 class _VerSolicitacaoServicoState extends State<VerSolicitacaoServico> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  var custoServico = new MoneyMaskedTextController(leftSymbol: 'R\$');
+  var custoServico = new MoneyMaskedTextController(leftSymbol: 'R\$' , thousandSeparator: '');
   Currency brl = Currency.create('BRL', 2, symbol: 'R\$');
   bool entrandoEmChat = false;
   bool enviandoProposta = false;
@@ -60,7 +60,8 @@ class _VerSolicitacaoServicoState extends State<VerSolicitacaoServico> {
             new FlatButton(
               child: new Text("OK"),
               onPressed: () {
-                Navigator.of(context).pop();
+                 Navigator.of(context).pushNamedAndRemoveUntil('/VerOrcamentos', ModalRoute.withName('/'));
+                
               },
             ),
           ],
@@ -78,7 +79,7 @@ class _VerSolicitacaoServicoState extends State<VerSolicitacaoServico> {
 
     h.addStatus(status);
     return Scaffold(
-       resizeToAvoidBottomInset: false,
+       resizeToAvoidBottomInset: true,
        key: scaffoldKey,
        appBar: AppBar(
          backgroundColor: Colors.white,
@@ -90,7 +91,8 @@ class _VerSolicitacaoServicoState extends State<VerSolicitacaoServico> {
          title: Text("Mais Detalhes",style: TextStyle(color: Colors.black),),),
        body:Builder(
          builder: (BuildContext context){
-           return Padding(
+           return  SingleChildScrollView(            
+             child: Padding(
              padding: EdgeInsets.all(0),
              child:Align(
              alignment: Alignment.topCenter,
@@ -109,10 +111,8 @@ class _VerSolicitacaoServicoState extends State<VerSolicitacaoServico> {
                    ),
                    child:Padding(
                      padding: EdgeInsets.all(10),
-                     child: Column(
-                       mainAxisAlignment: MainAxisAlignment.start,
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       mainAxisSize: MainAxisSize.max,
+                     child: Column(   
+                         crossAxisAlignment: CrossAxisAlignment.start,
                        children: <Widget>[
                          Row(children: <Widget>[
                            Text("Cliente: ",style: TextStyle( fontWeight: FontWeight.bold),),
@@ -159,33 +159,46 @@ class _VerSolicitacaoServicoState extends State<VerSolicitacaoServico> {
                              ],
                            ) ,
                              ),  
-                             Padding(
-                               padding: EdgeInsets.only(top:10),
-                               child:(servico['fotos'].length > 0) ? SizedBox(
-                                height: 150.0,
-                                width: MediaQuery.of(context).size.width,                               
-                                child: Carousel(
-                                  autoplay: false,
-                                  dotBgColor: Colors.transparent,
-                                  images: [...servico['fotos'].map((foto){
-                                    return   CachedNetworkImage(
-                                            fit: BoxFit.cover,
-                                            imageUrl: foto,
-                                            placeholder: (context, url) => Center(
-                                                child: CircularProgressIndicator()
-                                            ),
-                                            errorWidget: (context, url, error) => new Icon(Icons.error),
-                                          );
-                                  })                                  ,
-                                   
-                                  ],
-                                )
-                              ) : Padding(padding: EdgeInsets.all(0)) ,
-                               )
+                             buildFotos(servico)
                           ,
-                          Text("Descrição: ", style: TextStyle( fontWeight: FontWeight.bold),),
+                          Text("Descrição: ", style: TextStyle( fontWeight: FontWeight.bold ,),),
                           Text((servico['descricaoServico'] != null)  ? servico['descricaoServico'] : 'Sem Descrição' , overflow: TextOverflow.ellipsis,),
-                          Expanded(
+                          buildBottom(servico, usuarioProvider)
+                          ,
+                            
+                           
+                        
+                       ],
+                     ),
+                   )
+                   
+                    ,
+                 ),
+                 
+                 
+               ],
+             ),
+           ) ,
+           ),
+           );
+           
+         },
+       ) ,
+    );
+   
+  }
+   Widget buildBottom(DocumentSnapshot servico ,UsuarioProvider usuarioProvider){
+      var orcamentoUsuario;
+      if(servico['orcamentos'] != null){
+        for (var orcamento in servico['orcamentos']) {
+          if(orcamento['idPrestador'] == usuarioProvider.usuario.documentID){
+             orcamentoUsuario = orcamento;
+            break;
+          }          
+        }        
+      }
+
+      return Expanded(
                             child: Align(
                             alignment: Alignment.bottomCenter,
                             child:Column(
@@ -194,7 +207,7 @@ class _VerSolicitacaoServicoState extends State<VerSolicitacaoServico> {
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Padding(padding: EdgeInsets.only(top:30) ),
-                                Row(
+                               (orcamentoUsuario == null) ? Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.max,
@@ -267,7 +280,9 @@ class _VerSolicitacaoServicoState extends State<VerSolicitacaoServico> {
                                     ,
                                     )
                                   ],
-                                )
+                                ) : Center(
+                                  child: Text("Orçamento já enviado ,no valor ${orcamentoUsuario['valor']}" , style: TextStyle( fontWeight: FontWeight.bold ),)
+                                ,)
                                
                                 ,
                                 Align(
@@ -319,26 +334,33 @@ class _VerSolicitacaoServicoState extends State<VerSolicitacaoServico> {
                               ],
                             ),
                           )
-                            )
-                          ,
-                            
-                           
-                        
-                       ],
-                     ),
-                   )
-                   
-                    ,
-                 ),
-                 
-                 
-               ],
-             ),
-           ) ,
-           )
-           ;
-         },
-       ) ,
-    );
-  }
+                            );
+
+   }
+   Widget buildFotos(DocumentSnapshot servico){
+             return Padding(
+                               padding: EdgeInsets.only(top:10),
+                               child:(servico['fotos'].length > 0) ? SizedBox(
+                                height: 150.0,
+                                width: MediaQuery.of(context).size.width,                               
+                                child: Carousel(
+                                  autoplay: false,
+                                  dotBgColor: Colors.transparent,
+                                  images: [...servico['fotos'].map((foto){
+                                    return   CachedNetworkImage(
+                                            fit: BoxFit.cover,
+                                            imageUrl: foto,
+                                            placeholder: (context, url) => Center(
+                                                child: CircularProgressIndicator()
+                                            ),
+                                            errorWidget: (context, url, error) => new Icon(Icons.error),
+                                          );
+                                  })                                  ,
+                                   
+                                  ],
+                                )
+                              ) : Padding(padding: EdgeInsets.all(0)) ,
+                               );
+
+           }
 }

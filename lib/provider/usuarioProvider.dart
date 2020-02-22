@@ -19,7 +19,6 @@ class UsuarioProvider with ChangeNotifier{
   bool salvou = false;
   try {
   
-    DocumentReference propostaBd;
     String nome  = 'sem nome';
     if(usuario['displayName'] != null){
       nome = usuario['displayName'];
@@ -31,7 +30,8 @@ class UsuarioProvider with ChangeNotifier{
           'idServico':servico.documentID,
           'idPrestador':servico['idCliente'],
           'valor':valorProposta,
-          'nome':nome
+          'nome':nome,
+          
         }
       );
        await Firestore.instance.collection('SolicitacoesServicos').document(servico.documentID).updateData({
@@ -43,7 +43,8 @@ class UsuarioProvider with ChangeNotifier{
           'idServico':servico.documentID,
           'idPrestador':servico['idCliente'],
           'valor':valorProposta,
-          'nome':nome
+          'nome':nome,
+          'data':DateTime.now()
         }]}).catchError((onError){
           print("ERRO NA FUNÇÃO DO FIRESTONE EM orcamentos $onError");
 
