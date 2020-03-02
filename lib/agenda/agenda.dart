@@ -24,14 +24,7 @@ CalendarController _calendarController = CalendarController();
  DateTime diaSelecionado;
   Map<DateTime, List> _events;
 final Map<DateTime, List> _holidays = {
-  DateTime(2019, 1, 1): ['New Year\'s Day'],
-  DateTime(2019, 1, 6): ['Epiphany'],
-  DateTime(2019, 2, 14): ['Valentine\'s Day'],
-  DateTime(2019, 4, 21): ['Easter Sunday'],
-  DateTime(2020, 3, 1): ['Easter Monday'],
-  DateTime(2020, 3, 1): ['holiday 2'],
-
-  DateTime(2020, 3, 1): ['holyday 3 no mesmo dia'],
+  
 
 };
  void _onDaySelected(DateTime day, List events) {
@@ -110,32 +103,7 @@ iniciarAgenda(){
      final _selectedDay = DateTime.now();
      final doisSelectedDay = DateTime.now();
     _calendarController = CalendarController();
-    /**
-     * _events = {
-      _selectedDay.subtract(Duration(days: 30)): ['Evento A0', 'Evento B0', 'Evento C0'],
-      _selectedDay.subtract(Duration(days: 30)): ['Evento A02', 'Evento B02', 'Evento C02'],
-      _selectedDay.subtract(Duration(days: 27)): ['Evento A1'],
-      _selectedDay.subtract(Duration(days: 20)): ['Evento A2', 'Evento B2', 'Evento C2', 'Evento D2'],
-      _selectedDay.subtract(Duration(days: 16)): ['Evento A3', 'Evento B3'],
-      _selectedDay.subtract(Duration(days: 10)): ['Evento A4', 'Evento B4', 'Evento C4'],
-      _selectedDay.subtract(Duration(days: 4)): ['Evento A5', 'Evento B5', 'Evento C5'],
-      _selectedDay.subtract(Duration(days: 2)): ['Evento A6', 'Evento B6'],
-      _selectedDay.subtract(Duration(days: 2 ,seconds: 10)): ['Evento A65', 'Evento B655'],
-       doisSelectedDay:['evento no mesmo dia','array adicionado deposi'] ,
-      _selectedDay: ['Evento A7', 'Evento B7', 'Evento C7', 'Evento D7'],
-        DateTime(2020, 3, 1): ['holyday 3 no mesmo dia'],
-          DateTime(2020, 3, 1): ['holyday 3 no mesmo dia'],
-            DateTime(2020, 3, 1): ['holyday 3 no mesmo dia'],
-      _selectedDay.add(Duration(days: 1)): ['Evento A8', 'Evento B8', 'Evento C8', 'Evento D8'],
-      _selectedDay.add(Duration(days: 3)): Set.from(['Evento A9', 'Evento A9', 'Evento B9']).toList(),
-      _selectedDay.add(Duration(days: 7)): ['Evento A10', 'Evento B10', 'Evento C10'],
-      _selectedDay.add(Duration(days: 11)): ['Evento A11', 'Evento B11'],
-      _selectedDay.add(Duration(days: 17)): ['Evento A12', 'Evento B12', 'Evento C12', 'Evento D12'],
-      _selectedDay.add(Duration(days: 22)): ['Evento A13', 'Evento B13'],
-      _selectedDay.add(Duration(days: 26)): ['Evento A14', 'Evento B14', 'Evento C14'],
-    };
-    _selectedEvents = _events[_selectedDay] ?? [];
-     */
+   
       
   }
 @override
@@ -184,22 +152,7 @@ iniciarAgenda(){
                     ],
                   ),
                   ),
-                  /**
-                   * RaisedButton(
-                  onPressed: (){
-                    print("FUNÇÃO Filtrar");
-                  },
-                  color: Colors.white,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Icon(Icons.filter_list,color:Colors.black),
-                      Text("Filtrar")
-                    ],
-                  ),
-                  )
-                   */
+                 
                   
               ],
             )
