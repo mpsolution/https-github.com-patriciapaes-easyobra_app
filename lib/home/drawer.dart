@@ -38,9 +38,11 @@ class _AppDrawerState extends State<AppDrawer> {
         "link": "/Pagamentos"
       },
       {"icone": Icons.home, "nome": "Meus Projetos", "link": "/MeusProjetos"},
-      {"icone": Icons.home, "nome": "Contatos", "link": "/Contatos"},
-      {"icone": Icons.home, "nome": "Portifolio", "link": "/Portifolio"},
-      {"icone": Icons.home, "nome": "EditarPortifolio", "link": "/FormPortifolio"},
+      {"icone": Icons.chat_bubble, "nome": "Contatos", "link": "/Contatos"},
+      {"icone": Icons.format_align_justify, "nome": "Portifolio", "link": "/Portifolio"},
+      {"icone": Icons.format_indent_increase, "nome": "EditarPortifolio", "link": "/FormPortifolio"},
+      {"icone": Icons.calendar_today, "nome": "Agenda", "link": "/Agenda"},
+
 
 
     ];

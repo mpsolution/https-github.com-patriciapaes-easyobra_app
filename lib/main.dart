@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_scaffold/agenda/agenda.dart';
+import 'package:flutter_scaffold/agenda/agenda2.dart';
 import 'package:flutter_scaffold/auth/auth.dart';
 import 'package:flutter_scaffold/blocks/auth_block.dart';
 import 'package:flutter_scaffold/cadastro.dart';
@@ -27,6 +29,7 @@ import 'package:flutter_scaffold/profissional/editarPortifolio.dart';
 import 'package:flutter_scaffold/profissional/formPortifolio.dart';
 import 'package:flutter_scaffold/profissional/verorcamentos.dart';
 import 'package:flutter_scaffold/profissional/versolicitacaoservico.dart';
+import 'package:flutter_scaffold/provider/agendaProvider.dart';
 import 'package:flutter_scaffold/provider/ajudaProvider.dart';
 import 'package:flutter_scaffold/provider/criacaoServicoProvider.dart';
 import 'package:flutter_scaffold/provider/historicoProvider.dart';
@@ -48,12 +51,14 @@ import 'package:flutter_scaffold/perfil/editarPerfil.dart';
 import 'package:provider/provider.dart';
 import './provider/carrinho.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
   
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MultiProvider(
+initializeDateFormatting().then((_) => runApp(MultiProvider(
     providers: [ChangeNotifierProvider<CarrinhoState>.value(value: CarrinhoState()),
+                 ChangeNotifierProvider<AgendaProviderState>.value(value: AgendaProviderState()),
                 ChangeNotifierProvider<UsuarioProvider>.value(value: UsuarioProvider(),),
                 ChangeNotifierProvider<HistoricoProvider>.value(value:HistoricoProvider()),
                 ChangeNotifierProvider<ProjetoProviderState>.value(value: ProjetoProviderState(),),
@@ -110,9 +115,10 @@ void main() {
         '/Portifolio':(BuildContext context)=> EditarPortifolio(),
         '/FormPortifolio':(BuildContext context) => FormPortifolio(),
         '/VerOrcamentos':(BuildContext context) => VerOrcamentos(),
-        '/VerSolicitacaoServico':(BuildContext context) => VerSolicitacaoServico()
+        '/VerSolicitacaoServico':(BuildContext context) => VerSolicitacaoServico(),
+        '/Agenda':(BuildContext context) => Agenda()
 
       },
     ),
-  ));
+  )));
 }

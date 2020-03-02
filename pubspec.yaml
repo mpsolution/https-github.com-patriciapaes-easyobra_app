@@ -46,6 +46,8 @@ dependencies:
   carousel_pro: ^1.0.0
   flutter_masked_text: ^0.8.0
   money2: ^1.3.0
+  table_calendar: ^2.2.2
+  flutter_calendar_carousel: ^1.4.11
   camera:
   path_provider:
   path:
