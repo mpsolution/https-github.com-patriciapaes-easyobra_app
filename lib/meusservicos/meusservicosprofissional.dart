@@ -54,10 +54,10 @@ class _MeusServicosProfissionalState extends State<MeusServicosProfissional> {
                height: 150,
                child:Card(               
                child:Padding(
-                 padding: EdgeInsets.all(8),
+                 padding: EdgeInsets.all(15),
                  child: Column(
                      crossAxisAlignment: CrossAxisAlignment.start,
-                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                     mainAxisAlignment: MainAxisAlignment.center,
                      mainAxisSize: MainAxisSize.max,
                      children: <Widget>[
                        Row(
@@ -93,10 +93,11 @@ class _MeusServicosProfissionalState extends State<MeusServicosProfissional> {
                        )
                        ,                       
                        Row(
-                         mainAxisAlignment: MainAxisAlignment.spaceAround,
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                          mainAxisSize: MainAxisSize.max,
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: <Widget>[
+                           
                               ButtonTheme(
                                 minWidth: 120,
                                 height: 30,
@@ -118,7 +119,22 @@ class _MeusServicosProfissionalState extends State<MeusServicosProfissional> {
                                   child: Text("Ver Mais",style:TextStyle(color: Theme.of(context).textSelectionColor)),
                                 ),
                               ),
-                              Padding(padding: EdgeInsets.only(left: 5),),
+                              ButtonTheme(
+                                minWidth: 120,
+                                height: 30,
+                                shape:RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5.0)
+                                  ) ,
+                                
+                                child: RaisedButton(
+                                  color:Colors.blue ,
+                                  onPressed: (){
+                                    print("FUNÇÃO VER MAIS FOTOS");
+                                    Navigator.of(context).pushNamed("/Galeria");
+                                  },
+                                  child: Text("Fotos",style:TextStyle(color: Theme.of(context).textSelectionColor)),
+                                ),
+                              ),
                               ButtonTheme(
                                 minWidth: 120,
                                 height: 30,                                

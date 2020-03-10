@@ -10,6 +10,7 @@ import 'package:flutter_scaffold/dicas/dica.dart';
 import 'package:flutter_scaffold/enderecos/enderecos.dart';
 import 'package:flutter_scaffold/formapagamento/adicionarcartaocredito.dart';
 import 'package:flutter_scaffold/formapagamento/pagamentos.dart';
+import 'package:flutter_scaffold/galeria.dart';
 import 'package:flutter_scaffold/home/home.dart';
 import 'package:flutter_scaffold/indicacaoprofissional.dart';
 import 'package:flutter_scaffold/login.dart';
@@ -118,7 +119,8 @@ initializeDateFormatting().then((_) => runApp(MultiProvider(
         '/FormPortifolio':(BuildContext context) => FormPortifolio(),
         '/VerOrcamentos':(BuildContext context) => VerOrcamentos(),
         '/VerSolicitacaoServico':(BuildContext context) => VerSolicitacaoServico(),
-        '/Agenda':(BuildContext context) => Agenda()
+        '/Agenda':(BuildContext context) => Agenda(),
+        '/Galeria':(BuildContext  context) => Galeria()
 
       },
     ),
