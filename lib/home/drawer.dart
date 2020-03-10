@@ -31,6 +31,7 @@ class _AppDrawerState extends State<AppDrawer> {
         "link": "/MeusOrcamentos"
       },
       {"icone": Icons.home, "nome": "Meus Serviços", "link": "/MeusServicos"},
+      {"icone": Icons.home, "nome": "Meus Serviços PRO", "link": "/MeusServicosProfissional"},
       {"icone": Icons.home, "nome": "Minhas Compras", "link": "/MinhasCompras"},
       {
         "icone": Icons.home,

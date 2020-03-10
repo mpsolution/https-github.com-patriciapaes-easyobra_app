@@ -141,8 +141,17 @@ class _HomeState extends State<Home> {
                       },
                       child: CircleAvatar(
                         radius: 50,
+                        child: ClipOval(
+                          
+                          child: CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          placeholder: (context,url)=>Center(child: CircularProgressIndicator(),),
+                          errorWidget: (context, url, error) => new Icon(Icons.error),
+                          imageUrl: (usuarioProvider.getUsuarioLogado  == null) ? imagemBase  : usuarioProvider.getUsuarioLogado['photoUrl']),
+                        )
+                        ,
                         backgroundColor: Colors.transparent,
-                        backgroundImage: NetworkImage((usuarioProvider.getUsuarioLogado  == null) ? imagemBase  : usuarioProvider.getUsuarioLogado['photoUrl']  ),
+                       // backgroundImage: NetworkImage((usuarioProvider.getUsuarioLogado  == null) ? imagemBase  : usuarioProvider.getUsuarioLogado['photoUrl']  ),
                       ),
                     )),
 

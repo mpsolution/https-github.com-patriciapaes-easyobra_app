@@ -20,6 +20,7 @@ import 'package:flutter_scaffold/meusorcamentos/portifoliodoprofissional.dart';
 import 'package:flutter_scaffold/meusprojetos/meusprojetos.dart';
 import 'package:flutter_scaffold/meusprojetos/projeto.dart';
 import 'package:flutter_scaffold/meusservicos/meusservicos.dart';
+import 'package:flutter_scaffold/meusservicos/meusservicosprofissional.dart';
 import 'package:flutter_scaffold/minhascompras/minhascompras.dart';
 import 'package:flutter_scaffold/pedido.dart';
 import 'package:flutter_scaffold/pedidos.dart';
@@ -92,6 +93,7 @@ initializeDateFormatting().then((_) => runApp(MultiProvider(
         '/Pedido':(BuildContext context) =>Pedido(),
         '/MeusOrcamentos':(BuildContext context) => MeusOrcamentos(),
         '/MeusServicos':(BuildContext context) => MeusServicos(),
+        '/MeusServicosProfissional':(BuildContext context) => MeusServicosProfissional(),
         '/MinhasCompras':(BuildContext context) => MinhasCompras(),
         '/Orcamentos':(BuildContext context) => Orcamentos(),
         '/PortifolioDoProfissional':(BuildContext context) => PortifolioDoProfissional(),

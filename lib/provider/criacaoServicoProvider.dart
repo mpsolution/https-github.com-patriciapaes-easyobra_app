@@ -34,6 +34,7 @@ class CriacaoServicoState with ChangeNotifier {
           "historico":[
             {
               "data":servico['dataCriado'],
+              
               "status":"Foi solicitado o orçamento do serviço"
             },
             {

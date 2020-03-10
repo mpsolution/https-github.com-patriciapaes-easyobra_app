@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_scaffold/provider/historicoProvider.dart';
+import 'package:flutter_scaffold/provider/usuarioProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 class Historico{
   List<Map<String,String>> estatos = [];
   String profissional;
@@ -28,12 +30,36 @@ class _HistoricoServicoState extends State<HistoricoServico> {
         "status":"Foi realizado o pagamento do serviço"
   };
   Historico h = new Historico("Pedro de Jesus", "Bombeiro Hidráulico", "Substituição de vaso Sanitário");
-  
+  bool ativandoChat = false;
 
-
+ Widget topoHistorico(Map<String,dynamic> h){
+   if(h['cliente'] == null){
+     return Column(
+       mainAxisAlignment: MainAxisAlignment.start,
+       crossAxisAlignment: CrossAxisAlignment.start,
+       children: <Widget>[
+         Text("Profissional: "+h['nomePrestador']),
+         Text("Especialidade: "+h['especialidade']),
+         Text("Serviço: "+h['servico']),         
+       ],
+     );
+   }else{
+      return Column(        
+       mainAxisAlignment: MainAxisAlignment.start,
+       crossAxisAlignment: CrossAxisAlignment.start,
+       children: <Widget>[
+         Text("Cliente: "+h['cliente']),
+         Text("Endereço: "+h['endereco']),
+         Text("Telefone: "+h['telefone']),
+         Text("Serviço: "+h['servico']),         
+       ],
+     );
+   }
+ }
    @override
   Widget build(BuildContext context) {
     final historicoProvider = Provider.of<HistoricoProvider>(context);
+    final usuarioProvider   = Provider.of<UsuarioProvider>(context);
 
     h.addStatus(status);
     return Scaffold(
@@ -49,8 +75,7 @@ class _HistoricoServicoState extends State<HistoricoServico> {
          title: Text("Mais Detalhes",style: TextStyle(color: Colors.black),),),
        body:Builder(
          builder: (BuildContext context){
-           return Padding(
-             padding: EdgeInsets.all(15),
+           return Padding(             padding: EdgeInsets.all(15),
              child:Align(
              alignment: Alignment.topCenter,
              child: Column(
@@ -72,9 +97,54 @@ class _HistoricoServicoState extends State<HistoricoServico> {
                        mainAxisAlignment: MainAxisAlignment.start,
                        crossAxisAlignment: CrossAxisAlignment.start,
                        children: <Widget>[
-                         Text("Profissional: "+historicoProvider.getHistorico['nomePrestador']),
-                         Text("Especialidade: "+historicoProvider.getHistorico['especialidade']),
-                         Text("Serviço: "+historicoProvider.getHistorico['servico']),
+                         topoHistorico(historicoProvider.historico),
+                         if(historicoProvider.historico['cliente'] != null) Row(
+                           crossAxisAlignment: CrossAxisAlignment.center,
+                           mainAxisAlignment: MainAxisAlignment.spaceAround,
+                           children: <Widget>[
+                             RaisedButton( color: Theme.of(context).primaryColor, 
+                                          onPressed: (historicoProvider.historico['telefone'] == 'Sem Telefone') ? null : (){
+                                            print("FUNÇÃO LIGAR");
+                                            String telefone = historicoProvider.historico['telefone'];
+                                            launch("tel://" + telefone);
+                                            }  ,  
+                                          child: Text("Ligar",style:TextStyle(color:Colors.white),),
+                                          ),
+                             RaisedButton(  color: Theme.of(context).primaryColor, 
+                                            onPressed: ()async {
+                                              setState(() {
+                                                ativandoChat = true;
+                                              });
+                                              print("FUNÇÃO MENSAGEM");
+                                             bool criou = await usuarioProvider.procurarCriarChat(historicoProvider.servico.documentID, historicoProvider.servico['idCliente'], historicoProvider.servico);
+                                             if(criou){
+                                               Navigator.of(context).pushNamed('/Chat');
+                                             }
+                                             setState(() {
+                                                ativandoChat = false;
+                                              });
+                                            } , 
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: <Widget>[
+                                                  Text("Mensagem",style:TextStyle(color:Colors.white) ),
+                                                  if(ativandoChat == true) Padding(
+                                                    padding: EdgeInsets.only(left:5),
+                                                    child: SizedBox(
+                                                    height: 20,
+                                                    width: 20,
+                                                    child: CircularProgressIndicator(valueColor:AlwaysStoppedAnimation<Color>(Colors.white)),
+                                                  ),
+                                                  )
+                                                   
+                                                  
+                                              ],
+                                            )
+                                            
+                                             ),
+
+                           ],
+                         ),
                          ...historicoProvider.getHistorico['historico'].map<Widget>((status){
                            return 
                              Padding(

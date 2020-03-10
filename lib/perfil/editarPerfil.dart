@@ -100,7 +100,8 @@ class MapScreenState extends State<EditarPerfil>
                                   shape: BoxShape.circle,
                                   
                                 ),
-                                child: (imagem == null) ?  CachedNetworkImage(
+                                child: (imagem == null) ? ClipOval(
+                                  child: CachedNetworkImage(
                                   fit:BoxFit.cover,
                                   imageUrl: usuarioProvider.usuario['photoUrl'],
                                   placeholder: (context,url)=>Center(
@@ -109,7 +110,9 @@ class MapScreenState extends State<EditarPerfil>
                                     ,) ,
                                     ),
                                   errorWidget: (context,url,error) => Icon(Icons.error),
-                                  ) : Image.file(imagem),
+                                  ),
+                                )
+                                  : Image.file(imagem),
                                 ),
                           ],
                         ),

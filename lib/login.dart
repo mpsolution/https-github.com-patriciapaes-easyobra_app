@@ -111,6 +111,7 @@ class _LoginState extends State<Login> {
                             key: _form,
                             child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             TextFormField(
                           maxLines: 1,
