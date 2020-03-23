@@ -52,7 +52,6 @@ class _SolicitarServicoState extends State<SolicitarServico> {
   Widget build(BuildContext context) {
     final criacaoServicoProvider = Provider.of<CriacaoServicoState>(context);
     return Scaffold(
-       resizeToAvoidBottomInset: false,
        key: scaffoldKey,
        appBar: AppBar(
          backgroundColor: Colors.white,
@@ -65,7 +64,8 @@ class _SolicitarServicoState extends State<SolicitarServico> {
        ),
        body:Builder(
          builder: (BuildContext context){
-           return Container(
+           return SingleChildScrollView(
+             child: Container(
              child:Column(
                crossAxisAlignment: CrossAxisAlignment.center,
                mainAxisAlignment: MainAxisAlignment.start,
@@ -73,7 +73,6 @@ class _SolicitarServicoState extends State<SolicitarServico> {
                children: <Widget>[
                  SizedBox(
                    width: MediaQuery.of(context).size.width,
-                   height: MediaQuery.of(context).size.height * 0.25,
                    child:Card(
                    child:Padding(
                      padding: EdgeInsets.all(20),
@@ -171,7 +170,9 @@ class _SolicitarServicoState extends State<SolicitarServico> {
 
                ],
              )
-             );
+             ),
+           )
+            ;
          },
        ) ,
     );

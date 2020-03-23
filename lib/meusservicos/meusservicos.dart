@@ -57,7 +57,7 @@ class _MeusServicosState extends State<MeusServicos> {
                  children: <Widget>[
                    Center(
                      child:CircleAvatar(
-                     radius: 50,
+                     radius: 40,
                      backgroundColor: Colors.transparent,
                      backgroundImage: NetworkImage(imagemBase),
                    ),
@@ -85,8 +85,9 @@ class _MeusServicosState extends State<MeusServicos> {
 
                          ],
                        ),
-                      
-                       Text(servico["descricaoServico"]),
+                       Flexible(
+                         child: Text(servico["descricaoServico"] , overflow: TextOverflow.fade,)
+                         ),                       
                        Expanded(
                          child: Row(
                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,12 +107,10 @@ class _MeusServicosState extends State<MeusServicos> {
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: <Widget>[
                               ButtonTheme(
-                                minWidth: 120,
                                 height: 30,
                                 shape:RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5.0)
-                                  ) ,
-                                
+                                  ) ,                                
                                 child: RaisedButton(
                                   color:Theme.of(context).buttonColor ,
                                   onPressed: (){
@@ -129,7 +128,6 @@ class _MeusServicosState extends State<MeusServicos> {
                               ),
                               Padding(padding: EdgeInsets.only(left: 5),),
                               ButtonTheme(
-                                minWidth: 120,
                                 height: 30,                                
                                 shape:RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5.0),

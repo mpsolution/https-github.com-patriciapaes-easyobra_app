@@ -18,26 +18,75 @@ class Projeto extends StatefulWidget {
 
 class _ProjetoState extends State<Projeto> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();  
+  final _formNome = GlobalKey<FormState>();
+  TextEditingController nomeControler = TextEditingController();
+  String nome = '';
   List<Widget> tabs = [
           Tab(
                icon: Icon(Ionicons.md_people),
                text: "Serviços",
                
              ),
-             Tab(
-               icon: Icon(Ionicons.md_cart),
-               text: "Materiais",
-             ),
-             Tab(
-               icon: Icon(Ionicons.md_document),
-               text: "Documentos",
-             ),
+            
+             
              Tab(
                icon: Icon(Ionicons.ios_images),
                text: "Fotos",
              ),
   ];
 
+  void alterarNomeDialog(BuildContext context){
+      final projetoProvider = Provider.of<ProjetoProviderState>(context);
+      nomeControler.text = projetoProvider.getNomeProjetoSelecionado;
+     showDialog(
+      context: context,
+      builder: (BuildContext context){
+        return AlertDialog(
+          title: Text('Editar nome'),
+          content: Form(
+            key: _formNome,
+            child: TextFormField(
+              controller: nomeControler,
+              onChanged: (s){
+                setState(() {
+                  nome = s;
+                });
+              },
+              decoration: InputDecoration(
+                labelText: 'Escolha um novo Nome'
+              ),
+              validator: (s){
+                if(s.isEmpty){
+                  return 'Novo nome não pode ser vazio';
+                }
+                return null;
+              },
+
+            )
+            ),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+                child: Text("Cancelar"),
+              ),
+              FlatButton(
+                onPressed: (){
+                  print("FUNÇÃO DE MUDAR NOME");
+                  if(_formNome.currentState.validate()){                    
+                     projetoProvider.alterarNome(nome);
+                     Navigator.of(context).pop();
+                  }
+                }, 
+                child: Text('Salvar')
+                )
+
+            ],
+        );
+      }
+      );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +104,16 @@ class _ProjetoState extends State<Projeto> {
          leading: IconButton(
            icon: Icon(Icons.arrow_back,color:Colors.black),
            onPressed: ()=>Navigator.of(context).maybePop(),
-         ),
+         ),  
+         actions: <Widget>[
+           IconButton(
+           icon: Icon(Icons.border_color,color:Colors.black),
+           onPressed: (){
+             print("FUNÇÃO DE EDITAR NOME");
+             alterarNomeDialog(context);
+           },
+         )
+         ],       
          title:Text("Projeto: ${projetoProvider.getNomeProjetoSelecionado}",style: TextStyle(color: Colors.black),),
          backgroundColor: Colors.white,
          bottom: TabBar(
@@ -119,8 +177,6 @@ class _ProjetoState extends State<Projeto> {
                ),
              ),
            ),
-           Text("Materias"),
-           Text("Documentos"),
            GridView.builder(
              itemCount: (projetoProvider.projetoSelecionado['fotos'] != null) ? projetoProvider.projetoSelecionado['fotos'].length : 0,
              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),

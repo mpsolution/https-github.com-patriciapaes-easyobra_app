@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_scaffold/models/dicaModel.dart';
+import 'package:flutter_scaffold/provider/dicasProvider.dart';
+import 'package:provider/provider.dart';
 
 class HomeSlider extends StatefulWidget {
   @override
@@ -28,6 +31,24 @@ class _HomeSliderState extends State<HomeSlider> {
     index = index + 1;
   }
 }
+List<String> imagens = [];
+carregarDicas()async{
+  List<DicaModel> dicas = await Provider.of<DicasProvider>(context,listen:false).getDicas();
+  dicas.forEach((dica) {
+    if(dica.capa != ''){
+      imagens.add(dica.capa);
+    }
+  });
+  setState(() {
+    
+  });
+}
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    carregarDicas();
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -35,13 +56,7 @@ class _HomeSliderState extends State<HomeSlider> {
     return SizedBox(
       width: double.infinity,
       height: double.infinity,
-      child: StreamBuilder(
-                stream: Firestore.instance.collection('banners').snapshots(),
-                builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
-                      if(snapshot.hasError) return new Text('Houve algum erro');
-                      if(snapshot.hasData) return new Stack(
-                                children: <Widget>[
-                            Center(
+      child: (imagens.length > 0) ?  Center(
                               child:Stack(
                                 children: <Widget>[
                                   CarouselSlider(
@@ -54,14 +69,14 @@ class _HomeSliderState extends State<HomeSlider> {
                                     _current = index;
                                   });
                                 },
-                                items:snapshot.data.documents.map((DocumentSnapshot banner){
+                                items:imagens.map((String imagem){
                                     return Builder(
                                     builder: (BuildContext context) {
                                       return Container(
                                           width: MediaQuery.of(context).size.width,
                                           child: CachedNetworkImage(
                                             fit: BoxFit.cover,
-                                            imageUrl: banner['imagem'],
+                                            imageUrl: imagem,
                                             placeholder: (context, url) => Center(
                                                 child: CircularProgressIndicator()
                                             ),
@@ -72,13 +87,13 @@ class _HomeSliderState extends State<HomeSlider> {
                                   );
                                   }).toList()
                               ),
-                                  Positioned(
+                                (imagens.length > 0) ?  Positioned(
                                     bottom: 0.0,
                                     left:0.0,
                                     right:0.0,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
-                                      children:mapIndexed(snapshot.data.documents,(index,DocumentSnapshot banner) =>  Container(
+                                      children:mapIndexed(imagens,(index,String imagem) =>  Container(
                                           width: 8.0,
                                           height: 8.0,
                                           margin: EdgeInsets.symmetric(vertical: 10.0,horizontal: 2.0),
@@ -87,17 +102,12 @@ class _HomeSliderState extends State<HomeSlider> {
                                             color: _current == index ? Color.fromRGBO(0, 0, 0, 0.9) : Color.fromRGBO(0, 0, 0, 0.4)
                                           ),
                                         )).toList() ,
-                                    ),)
+                                    ),) : Padding(padding: EdgeInsets.all(0))
                                 ],
                               )
                               
                                 
-              )
-          ],
-          );
-          return CircularProgressIndicator();
-        },
-      ),
+              ) :Padding(padding: EdgeInsets.only(top:10), child:SizedBox(height:50,width:50 ,child: CircularProgressIndicator()) , )  ,
     );
   }
 }

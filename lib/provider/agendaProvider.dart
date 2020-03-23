@@ -1,10 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_scaffold/provider/usuarioProvider.dart';
+import 'package:provider/provider.dart';
 class AgendaProviderState with ChangeNotifier {
+  var horarioController = new MaskedTextController(mask: '00:00',text: '00:00');
+  final _formAgendaKey = GlobalKey<FormState>();
   AgendaProviderState();
   String idAgenda = "";
+  String horario  = '';
   DateTime hoje  = DateTime.now();
   List<Map<DateTime,List>> eventosUsuario = [];
   Map<DateTime,List> eventosUsuarioMap = {};
@@ -12,8 +17,12 @@ class AgendaProviderState with ChangeNotifier {
     print("EESTA NA FUNCAO DE ATUALZIAR BD");
     print("EVENTOS A SEREM SALVOS $eventos");
     List<Map<String,List>> eventosDb = [];
-    for (var i = 0; i < eventos.length; i++) {
+    int tamanhoEventos = eventos.length;
+    
+    for (var i = 0; i < tamanhoEventos; i++) {
+      
       eventos[i].keys.forEach((dia) {
+        print('ESTA NO DIA ${dia.toIso8601String()} ADICONANDO OS EVENTOS ${eventos[i][dia]}');
         eventosDb.add({
           dia.toIso8601String():eventos[i][dia]
         });
@@ -31,18 +40,19 @@ class AgendaProviderState with ChangeNotifier {
     print("EVENTOS DO USUARIO NO MOMENTO $eventosUsuario");
       if(eventosUsuario.length > 0){
         print("ESTA INDO NO FOR");
-        for (var i = 0; i < eventosUsuario.length; i++) {
+        int tamanhoUsuarios = eventosUsuario.length;
+        for (var i = 0; i < tamanhoUsuarios; i++) {
               print("EXECUTANDO O FOT $i");
               eventosUsuario[i].keys.forEach((diaEventoUsuario) { 
                 
                 int diffDias = diaEventoUsuario.difference(data).inDays;
+                print("DIFERENCA EM DIAS DO EVENDO $diffDias");
                 if(diffDias == 0){
                   existeEventoNoDia = true;
-                  eventosAtualizados = eventosUsuario[i][diaEventoUsuario];
+                  eventosAtualizados = List.from(eventosUsuario[i][diaEventoUsuario]) ;
                   eventosAtualizados.add(evento);
                   eventosUsuario[i][diaEventoUsuario] = eventosAtualizados;
-                  atualizarEventosUsuario(eventosUsuario);
-                  
+                  atualizarEventosUsuario(eventosUsuario);                  
                 }
                 
               });      
@@ -71,11 +81,14 @@ class AgendaProviderState with ChangeNotifier {
     
     try {
       
+      eventosUsuario = [];
+      eventosUsuarioMap = {};
       
       final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
       final FirebaseUser usuario = await firebaseAuth.currentUser();
+      print("USUARIO NO GET AGENDA $usuario");
       QuerySnapshot agendas = await Firestore.instance.collection('agendas')
-                        .where('idUsuario',isEqualTo: usuario.providerId)
+                        .where('idUsuario',isEqualTo: usuario.uid)
                         .getDocuments();
       if(agendas.documents.length > 0){
           agendas.documents.forEach((agenda) { 
@@ -104,7 +117,7 @@ class AgendaProviderState with ChangeNotifier {
 
       }else{
        DocumentReference agendaRef =  await Firestore.instance.collection('agendas').add({
-          "idUsuario":usuario.providerId,
+          "idUsuario":usuario.uid,
           "eventos":[]
         });
         if(agendaRef.documentID != null){
@@ -154,32 +167,62 @@ class AgendaProviderState with ChangeNotifier {
         // retorna um objeto do tipo Dialog
         String titulo = '';
         String descricao = '';
-        return AlertDialog(
+        return SingleChildScrollView(
+          child:  AlertDialog(
           title: new Text("Adicionar Tarefa ${dia.day}/${dia.month}/${dia.year}"),
-          content: 
-             Column(
+          content:  Form(
+              key:_formAgendaKey,
+              child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                TextField(
+              children: <Widget>[                
+                TextFormField(
                   decoration: InputDecoration(
                     hintText: 'Titulo'
                   ),
+                  validator: (s){
+                    if(s.isEmpty){
+                      return 'Digite um titulo';
+                    }
+                    return null;
+                  },
                   onChanged: (s){
                     titulo = s;
                   },
                 ),
-                TextField(
+                TextFormField(
                   decoration: InputDecoration(
                     hintText: 'Descricao'
                   ),
+                  validator: (s){
+                    if(s.isEmpty){
+                      return 'Coloque uma descrição';
+                    }
+                    return null;
+                  },
                   onChanged: (s){
                     descricao = s;
                   },
                 ),
+                TextFormField(
+                  controller: horarioController,
+                  decoration: InputDecoration(
+                    hintText:'Horario'
+                  ),
+                  validator: (s){
+                    if(s.isEmpty){
+                      return 'Coloque um horario';
+                      }                  
+                      return null;
+                      },
+
+                  onChanged: (s){
+                    horario = s;
+                  },
+                )
 
               ],
             )
-            ,
+              ),
           actions: <Widget>[
             // define os botões na base do dialogo
             new FlatButton(
@@ -194,12 +237,17 @@ class AgendaProviderState with ChangeNotifier {
               onPressed: () async {
                 print("BOTAO SALVAR APERTADO COM VARIAVEIS $titulo $descricao");
                 bool resul = true;
-            adicionarEventoUsuario(dia, {
+                if(_formAgendaKey.currentState.validate()){
+                    adicionarEventoUsuario(dia, {
                  'titulo':titulo,
-                 'descricao':descricao
+                 'descricao':descricao,
+                 'horario':horario
                });
+                Navigator.of(context).pop();
+                }
+          
                
-               Navigator.of(context).pop();
+              
              //  if(resul == true){
                  /**
                   * showDialog(context: context ,builder:(BuildContext context){
@@ -238,7 +286,9 @@ class AgendaProviderState with ChangeNotifier {
               },
               )
           ],
-        );
+        ),
+        )
+        ;
       },
     );
 

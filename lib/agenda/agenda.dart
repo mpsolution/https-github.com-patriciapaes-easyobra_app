@@ -56,7 +56,8 @@ final Map<DateTime, List> _holidays = {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(event['titulo']),
-                      Text(event['descricao'])
+                      Text(event['descricao']),
+                      (event['horario'] != null) ? Text(event['horario']) : Padding(padding: EdgeInsets.all(0))
                     ],
                   ),
                    
@@ -71,8 +72,7 @@ Widget _buildTableCalendar(Map<DateTime,List> novosEventos) {
       locale:'pt_Br',
       calendarController: _calendarController,
       events: novosEventos,
-      holidays: _holidays,
-      
+      holidays: _holidays,      
       startingDayOfWeek: StartingDayOfWeek.monday,
       calendarStyle: CalendarStyle(
         selectedColor: Colors.deepOrange[400],
@@ -126,9 +126,8 @@ iniciarAgenda(){
         padding: EdgeInsets.all(10),
         
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          Wrap(
+            direction: Axis.horizontal,
             children: <Widget>[
               (diaSelecionado == null) ? Text("Dia Selecionado") : Text("Tarefa Para ${diaSelecionado.day}/${diaSelecionado.month}/${diaSelecionado.year}",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
               Row(              

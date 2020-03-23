@@ -7,6 +7,7 @@ import 'package:flutter_scaffold/dicas/dicas.dart';
 import 'package:flutter_scaffold/digitalizacao/iniciarDigitalizacao.dart';
 import 'package:flutter_scaffold/pedirajuda.dart';
 import 'package:flutter_scaffold/provider/carrinho.dart';
+import 'package:flutter_scaffold/provider/dicasProvider.dart';
 import 'package:flutter_scaffold/provider/usuarioProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -40,25 +41,32 @@ class _HomeState extends State<Home> {
     'Flamengo'
   ];
   final List<Map> opcoesMenu = [
-    {
+    /**
+     * {
       "nome": 'Comprar Material',
       "imagem":"assets/home/assets/botao-material-de-construcao.png"
     },
+     */
+    
     {
       "nome": 'Solicitar Profissional',
       "Link":"/SolicitarServico",
       "imagem":"assets/home/assets/botao-profissional.png"
     },
-    {
+    
+    /**
+     * {
       "nome": 'Calcular Material',
       "imagem":"assets/home/assets/botao-ferramentas-de-calculo2.png"
     },
-    {
+     *  {
       "nome": '',
       "imagem":"assets/home/assets/easypay.png",
       "Link":"/MeusGastos",
       "code":"assets/home/assets/qrcode-amarelo.png"
     },
+     */
+   
     {
       "nome":"Orçamentos",
       "imagem":"assets/profissional/orcamentos.png",
@@ -67,7 +75,7 @@ class _HomeState extends State<Home> {
     {
       "nome":"Serviços",
       "imagem":"assets/profissional/servicos.png",
-      "Link":"/VerServicos"
+      "Link":"/MeusServicos"
     }
   ];
   String _busca = "";
@@ -80,6 +88,13 @@ class _HomeState extends State<Home> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<DicasProvider>(context ,listen: false).getDicas();
   }
   @override
   Widget build(BuildContext context) {

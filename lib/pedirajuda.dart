@@ -57,7 +57,6 @@ class _PedirAjudaState extends State<PedirAjuda> {
     final firebaseUser = Provider.of<FirebaseUser>(context);
 
     return Scaffold(
-       resizeToAvoidBottomInset: false,
        key: scaffoldKey,
        appBar: AppBar(
          backgroundColor: Colors.white,
@@ -71,7 +70,8 @@ class _PedirAjudaState extends State<PedirAjuda> {
        ),
        body:Builder(
          builder: (BuildContext context){
-            return Padding(
+            return SingleChildScrollView(
+              child:Padding(
               padding:EdgeInsets.all(10),
               child:Align(
                 alignment: Alignment.topCenter,
@@ -185,7 +185,9 @@ class _PedirAjudaState extends State<PedirAjuda> {
                ],
              ),
               ),
-            );
+            ) ,
+            )
+             ;
          }
        ) ,
     );

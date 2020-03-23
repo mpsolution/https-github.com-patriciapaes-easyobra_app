@@ -91,6 +91,11 @@ class _IniciarDigitalizacaoState extends State<IniciarDigitalizacao> {
               ,
               actions: <Widget>[
                 FlatButton(
+                  onPressed: (){
+                    Navigator.of(context).pop();
+                  }, child: Text("Cancelar")
+                  ),
+                FlatButton(
                   child: Text("Criar"),
                   onPressed: ()async {
                     if(_formKey.currentState.validate()){
@@ -207,12 +212,7 @@ class _IniciarDigitalizacaoState extends State<IniciarDigitalizacao> {
                   )
                   
                   ,
-                  InkWell(
-                    onTap: (){
-                      print("Apertou lapis");
-                    },
-                    child: Icon(Icons.border_color),
-                  ),
+                 
                   InkWell(
                     onTap: () async {
                       print("Apertou add");

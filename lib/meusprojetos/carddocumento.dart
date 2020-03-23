@@ -32,11 +32,14 @@ class CardDocumento extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(2),
                 ),
-                Text(
+                /**
+                 * Text(
                     (qtd == 1)
                         ? (qtd.toString() + "  Documento atualmente")
                         : (qtd.toString() + "  Documentos Atualmente"),
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12))
+                 */
+                
               ],
             ),
             Padding(

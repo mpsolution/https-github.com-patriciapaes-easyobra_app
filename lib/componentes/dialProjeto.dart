@@ -1,12 +1,62 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_scaffold/provider/projetoProvider.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class DialProjeto extends StatelessWidget {
+class DialProjeto extends StatefulWidget {
+  DialProjeto({Key key}) : super(key: key);
+
+  @override
+  _DialProjetoState createState() => _DialProjetoState();
+}
+
+class _DialProjetoState extends State<DialProjeto> {
+  bool criandoProjeto = false;
+  File foto;
+
+  Future getImage(BuildContext context )async{
+      final projetoProvider = Provider.of<ProjetoProviderState>(context);
+
+    print("FUNÇÃO DEPEGAR IMAGEM SELECIONADA");
+    try{
+          foto = await ImagePicker.pickImage(source:ImageSource.gallery);
+    }catch(error){
+      print("DEU ERRO");
+      print('error taking picture ${error.toString()}');
+    }
+    if(foto == null) return;
+    print("FOTO ADICIONADA");    
+    setState(() {
+      criandoProjeto = true;
+    });
+    bool resultado = await projetoProvider.addFotoProjeto(foto);
+    print("RESULTADO DA OPREACAO DE ADD FOTO $resultado");
+    setState(() {
+      criandoProjeto = false;
+    });
+    showDialog(
+      context: context,
+      builder:(BuildContext context){
+        return AlertDialog(
+          title: Text("Foto Adicionada"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("OK"),
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      }
+    );
   
+  }
   @override
   Widget build(BuildContext context) {
    final projetoProvider = Provider.of<ProjetoProviderState>(context);
@@ -43,7 +93,9 @@ class DialProjeto extends StatelessWidget {
                 projetoProvider.adicionarServicoProjeto(context, firebaseUser);
               } 
             ),
-            SpeedDialChild(
+            
+            /**
+             * SpeedDialChild(
               child: Icon(Ionicons.md_cart),
               backgroundColor:Theme.of(context).primaryColor,
               label: 'Adicionar Material',
@@ -52,7 +104,7 @@ class DialProjeto extends StatelessWidget {
                 print("FUNÇÃO DE ADICIONAR MATERIAL");
               },
             ),
-            SpeedDialChild(
+             * SpeedDialChild(
               child: Icon(Ionicons.md_document),
               backgroundColor:Theme.of(context).primaryColor,
               label: 'Adicionar Documento',
@@ -61,13 +113,16 @@ class DialProjeto extends StatelessWidget {
                 print("FUNÇÃO DE ADICIONAR DOCUMENTO");
               },
             ),
+             */
+            
             SpeedDialChild(
               child: Icon(Icons.photo_camera),
               backgroundColor:Theme.of(context).primaryColor,
               label: 'Adicionar Foto',
               labelStyle: TextStyle(fontSize: 18.0),
-              onTap: (){
+              onTap: ()async{
                 print("FUNÇÃO DE ADICIONAR FOTO");
+                await getImage(context);
               },
             ),
            

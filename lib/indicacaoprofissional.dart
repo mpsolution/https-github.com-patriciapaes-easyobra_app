@@ -19,7 +19,6 @@ class _IndicacaoProfissionalState extends State<IndicacaoProfissional> {
    @override
   Widget build(BuildContext context) {
     return Scaffold(
-       resizeToAvoidBottomInset: false,
        key: scaffoldKey,
        appBar: AppBar(
          backgroundColor: Colors.white,
@@ -32,7 +31,8 @@ class _IndicacaoProfissionalState extends State<IndicacaoProfissional> {
        ),
        body:Builder(
          builder: (BuildContext context){
-           return Padding(
+           return SingleChildScrollView(
+             child: Padding(
              padding: EdgeInsets.all(15),
              child:Align(
              alignment: Alignment.topCenter,
@@ -44,8 +44,11 @@ class _IndicacaoProfissionalState extends State<IndicacaoProfissional> {
                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                    crossAxisAlignment: CrossAxisAlignment.center,
                    children: <Widget>[
-                        Icon(FontAwesomeIcons.heartbeat,color:Colors.black,), 
-                        Text("Faça a indicação de seu melhor Profissional",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 18),),
+                        Icon(FontAwesomeIcons.heartbeat,color:Colors.black,),
+                        Flexible(
+                          child: Text("Faça a indicação de seu melhor Profissional",overflow: TextOverflow.fade, style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 18,),textAlign: TextAlign.center,)
+                          )
+                        ,
                    ],
                  ),
                  Container(
@@ -60,7 +63,6 @@ class _IndicacaoProfissionalState extends State<IndicacaoProfissional> {
                  Text("Dados do Profissional",style:TextStyle(fontWeight: FontWeight.bold,color:Colors.black,fontSize:18)),
                  Container(
                    width: MediaQuery.of(context).size.width * 0.9,
-                   height: MediaQuery.of(context).size.height * 0.3,
                    decoration: BoxDecoration(
                      border: Border.all(width: 1,color: Colors.black)
                    ),
@@ -126,7 +128,9 @@ class _IndicacaoProfissionalState extends State<IndicacaoProfissional> {
                ],
              ),
            ) ,
+           ),
            )
+           
            ;
          },
        ) ,

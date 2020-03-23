@@ -33,7 +33,8 @@ class _LoginState extends State<Login> {
 
     return Scaffold(
       key: _scaffoldKey,      
-      body:SafeArea(
+      body:SingleChildScrollView(
+        child: SafeArea(
         top: false,
         left: false,
         right: false,
@@ -53,7 +54,7 @@ class _LoginState extends State<Login> {
               ),
               Text("Como deseja começar?",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey,fontSize: 18),),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.6,
+                width: MediaQuery.of(context).size.width * 0.7,
                 child:RaisedButton(
                 color: Colors.blueAccent,
                 elevation: 0,                
@@ -77,9 +78,10 @@ class _LoginState extends State<Login> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                           Icon(FontAwesomeIcons.facebook,color:Colors.white),
-                          Text("Logar Com o Facebook",style:TextStyle(color: Colors.white)),
+                          Text("Logar Com o Facebook",style:TextStyle(color: Colors.white) , ),
                           (logando)? SizedBox(height: 20,width: 20, child:CircularProgressIndicator( valueColor: new AlwaysStoppedAnimation<Color>(Colors.white))): Padding(padding: EdgeInsets.all(0),)
                       ],
                     ),
@@ -89,7 +91,7 @@ class _LoginState extends State<Login> {
               
             
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.6,
+                width: MediaQuery.of(context).size.width * 0.7,
                 child:RaisedButton(
                 color: Colors.grey[600],
                 onPressed: (){
@@ -102,7 +104,8 @@ class _LoginState extends State<Login> {
                     builder: (BuildContext context){
                       return StatefulBuilder(
                         builder: (context,setState){
-                          return AlertDialog(
+                          return SingleChildScrollView(
+                            child:AlertDialog(
                         title: Center(child:Text("Email e Senha")),
                         content:SizedBox(
                           height: MediaQuery.of(context).size.height * 0.32,
@@ -178,8 +181,7 @@ class _LoginState extends State<Login> {
                         actions: <Widget>[
                           FlatButton(
                             child: Text("Cancelar"),
-                            onPressed: (){
-                              
+                            onPressed: (){                              
                               Navigator.of(context).maybePop();
                               setState(() {
                                 mensagem = "";
@@ -235,7 +237,8 @@ class _LoginState extends State<Login> {
                           
                         ],
                         
-                      );
+                      ) ,
+                          );
                         },
                       );
 
@@ -248,9 +251,9 @@ class _LoginState extends State<Login> {
               ) ,
               ),
               ButtonTheme(           
-                minWidth:MediaQuery.of(context).size.width * 0.6 ,     
+                minWidth:MediaQuery.of(context).size.width * 0.7 ,     
                 child: RaisedButton(
-                  color:Colors.grey[600],
+                  color:Theme.of(context).primaryColor,
                   onPressed: (){
                     print("Cadastrar-se");
                     Navigator.of(context).pushNamed('/Cadastrar');
@@ -266,7 +269,9 @@ class _LoginState extends State<Login> {
         ),
         )
         
-         )
+         ),
+      )
+      
     );
   }
 }

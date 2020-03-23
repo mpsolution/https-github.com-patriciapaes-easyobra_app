@@ -34,6 +34,7 @@ import 'package:flutter_scaffold/profissional/versolicitacaoservico.dart';
 import 'package:flutter_scaffold/provider/agendaProvider.dart';
 import 'package:flutter_scaffold/provider/ajudaProvider.dart';
 import 'package:flutter_scaffold/provider/criacaoServicoProvider.dart';
+import 'package:flutter_scaffold/provider/dicasProvider.dart';
 import 'package:flutter_scaffold/provider/historicoProvider.dart';
 import 'package:flutter_scaffold/provider/projetoProvider.dart';
 import 'package:flutter_scaffold/provider/usuarioProvider.dart';
@@ -60,6 +61,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 initializeDateFormatting().then((_) => runApp(MultiProvider(
     providers: [ChangeNotifierProvider<CarrinhoState>.value(value: CarrinhoState()),
+                ChangeNotifierProvider<DicasProvider>.value(value: DicasProvider()),
                  ChangeNotifierProvider<AgendaProviderState>.value(value: AgendaProviderState()),
                 ChangeNotifierProvider<UsuarioProvider>.value(value: UsuarioProvider(),),
                 ChangeNotifierProvider<HistoricoProvider>.value(value:HistoricoProvider()),
@@ -77,7 +79,7 @@ initializeDateFormatting().then((_) => runApp(MultiProvider(
           primaryColor: Colors.deepOrange[500],
           accentColor: Colors.lightBlue[900],
           buttonColor: Colors.green,
-          textSelectionColor: Colors.white,
+          textSelectionColor: Colors.white,          
           fontFamily: 'Lato'),
       initialRoute: '/Login',
       routes: <String, WidgetBuilder>{

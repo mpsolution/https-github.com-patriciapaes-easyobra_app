@@ -46,7 +46,8 @@ class _AdicionarCartaoState extends State<AdicionarCartao> {
        ),
        body:Builder(
          builder: (BuildContext context){
-           return Container(
+           return SingleChildScrollView(
+             child:Container(
              child:Column(
                children: <Widget>[
                     CreditCardWidget(
@@ -97,7 +98,8 @@ class _AdicionarCartaoState extends State<AdicionarCartao> {
                   
                     
                ],
-             ));
+             )) ,
+           );
          },
        ) ,
     );

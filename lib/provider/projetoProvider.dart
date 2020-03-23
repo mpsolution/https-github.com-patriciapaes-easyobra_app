@@ -151,11 +151,29 @@ class ProjetoProviderState with ChangeNotifier{
          return  fileURL; 
        });    
      }  
+    void  alterarNome(String nome) async {
+      try {
+        String caminhoProjeto = 'projetos'+'/'+ idProjetoSelecionado;
+      await Firestore.instance.document(caminhoProjeto)
+                        .updateData({
+                          'nome':nome
+                        });
+      projetoSelecionado = await Firestore.instance.document(caminhoProjeto).get();
+      nomeProjetoSelecionado = projetoSelecionado.data['nome'];
+      notifyListeners();
+        
+      } catch (e) {
+        print('ERRO AO ATUALIZAR O NOME $e');
+      }
+      
+    }
     Future<bool> addFotoProjeto(File foto) async {
       bool projetoAlterado = false;
       String urlFoto = await uploadFile(foto);
       await Firestore.instance.document('projetos'+'/'+idProjetoSelecionado).updateData({"fotos":FieldValue.arrayUnion([urlFoto])});
+      projetoSelecionado = await Firestore.instance.document('projetos'+'/'+ idProjetoSelecionado).get();
       projetoAlterado = true;
+      notifyListeners();
       return projetoAlterado;
 
     }
@@ -264,6 +282,7 @@ class ProjetoProviderState with ChangeNotifier{
   }
     void setProjetoSelecionado(DocumentSnapshot projeto) async {
       projetoSelecionado = projeto;
+      idProjetoSelecionado = projeto.documentID;
       //await  setServicosDoProjeto(projetoSelecionado.data['servicos']);
       notifyListeners();
 

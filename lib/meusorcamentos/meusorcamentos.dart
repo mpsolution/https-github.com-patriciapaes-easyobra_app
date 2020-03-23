@@ -58,9 +58,12 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
                child: Row(
                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                  children: <Widget>[
+                   /**
+                    * 
+                    */
                    Center(
                      child:CircleAvatar(
-                     radius: 50,
+                     radius: 40,
                      backgroundColor: Colors.transparent,
                      backgroundImage: NetworkImage(imagemBase),
                    ),
@@ -171,8 +174,10 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
       return Column(
                      crossAxisAlignment: CrossAxisAlignment.start,
                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                     children: <Widget>[                       
-                       Text(StringUtils.capitalize(orcamento["tituloServico"]) ,style:TextStyle(fontWeight: FontWeight.bold)),
+                     children: <Widget>[      
+                       Flexible(
+                         child: Text(StringUtils.capitalize(orcamento["tituloServico"]).substring(0,(orcamento["tituloServico"].length > 10) ? 10 : orcamento["tituloServico"].length  ) ,style:TextStyle(fontWeight: FontWeight.bold),textAlign:TextAlign.left,overflow: TextOverflow.ellipsis, ),
+                         ),
                        Text(StringUtils.capitalize(orcamento["categoria"])),
                        Text(formatDate(DateTime.parse(orcamento["dataCriado"].toDate().toString()),[dd,'/',mm ,'/', yy])),
                        Text(qtdRespostas),

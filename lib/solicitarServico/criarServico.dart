@@ -21,6 +21,7 @@ class _CriarServicoState extends State<CriarServico> {
   String       descricao  = '';
   String       titulo     = '';
   List<File> fotos        = [];
+  final formKey           = GlobalKey<FormState>();
   File imagem;
   bool _dialVisible = true;
   Future getImage(  String s)async{
@@ -157,7 +158,6 @@ class _CriarServicoState extends State<CriarServico> {
            onPressed: () => Navigator.of(context).maybePop(),
          ),
          title: Text("Criar Serviço",style: TextStyle(color: Colors.black),),
-
        ),
        floatingActionButton:SpeedDial(
           // both default to 16
@@ -203,10 +203,13 @@ class _CriarServicoState extends State<CriarServico> {
              
              onPressed:(!criandoServico)  ?  () async {
                print("ATIVAR FUNÇÃO DE CRIAR SERVIÇO"); 
-               setState(() {
-                 criandoServico = true;
-               });     
-               await criarServico(tipoServico,criacaoServicoProvider.getTipoServico);         
+               if(formKey.currentState.validate()){
+                  setState(() {
+                  criandoServico = true;
+                });     
+                await criarServico(tipoServico,criacaoServicoProvider.getTipoServico);   
+               }
+                    
              } : null,
              color: Theme.of(context).primaryColor,
              textColor: Colors.white,
@@ -220,15 +223,23 @@ class _CriarServicoState extends State<CriarServico> {
            return Container(
              child:Padding(
                padding: EdgeInsets.only(top: 5,left: 15,right: 15,bottom: 5),
-               child: CustomScrollView(
+               child: Form(
+                 key: formKey,
+                 child: CustomScrollView(
                  slivers:<Widget>[
                    SliverList(delegate: SliverChildListDelegate(
                    [
                      if(criandoServico) LinearProgressIndicator(backgroundColor: Colors.white,valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor ),),
-                     TextField(
+                     TextFormField(
                           decoration: InputDecoration(
                            labelText: "Titulo"
                           ),
+                          validator: (s){
+                            if(s.isEmpty){
+                              return 'Coloque um titulo para o serviço';
+                            }
+                            return null;
+                          },
                           onChanged: (s){
                             setState(() {
                               titulo = s;
@@ -246,9 +257,14 @@ class _CriarServicoState extends State<CriarServico> {
                         )
                         , 
                        
-                        TextField(
+                        TextFormField(
                           maxLines: null,
-                          
+                          validator: (s){
+                            if(s.isEmpty){
+                              return 'Coloque uma descrição do serviço';
+                            }
+                            return null;
+                          },                          
                           keyboardType:TextInputType.multiline,
                           onChanged: (s){
                             setState(() {
@@ -298,7 +314,9 @@ class _CriarServicoState extends State<CriarServico> {
                  )]
                  
                 ,
-               ),
+               )
+                 )
+               ,
              )
              
              );
