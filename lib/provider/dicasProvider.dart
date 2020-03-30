@@ -12,6 +12,7 @@ import 'package:flutter_scaffold/models/dicaModel.dart';
 class DicasProvider extends ChangeNotifier{
   DicasProvider();
   String urlDicas = 'https://easyobra.com.br/wp-json/wp/v2/posts';
+  List<DicaModel> dicas = [];
   
   DicaModel criarDica(dynamic html){
     var document = parse(html['content']['rendered']);
@@ -32,6 +33,7 @@ class DicasProvider extends ChangeNotifier{
   }
 
   Future<List<DicaModel>> getDicas()async{
+    if(this.dicas.length > 0) return this.dicas;
    var dio = Dio();
    dio.transformer = FlutterTransformer();
   return dio.get(urlDicas, options: Options(responseType: ResponseType.json)).then((response) async{
@@ -42,7 +44,8 @@ class DicasProvider extends ChangeNotifier{
          dicas.add( criarDica(html));
        });      
        print("qtd de dicas ${dicas.length} ");
-       return dicas;
+       this.dicas = dicas;
+       return this.dicas;
      } catch (e) {
        print("ERRO NO GETDICAS $e" );
        return [];

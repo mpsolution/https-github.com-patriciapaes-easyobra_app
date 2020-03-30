@@ -34,17 +34,14 @@ class _LoginState extends State<Login> {
     return Scaffold(
       key: _scaffoldKey,      
       body:SingleChildScrollView(
-        child: SafeArea(
-        top: false,
-        left: false,
-        right: false,
-        child:Align(
-          alignment: Alignment.topCenter,
+        child: Align(
+          alignment: Alignment.center,
           child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(25),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize:MainAxisSize.max ,
             children: <Widget>[ 
               //Imagem Principal
               SizedBox(
@@ -52,8 +49,13 @@ class _LoginState extends State<Login> {
                 height: 300,
                 child: Image.asset("assets/images/login/logo.png")                
               ),
-              Text("Como deseja começar?",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey,fontSize: 18),),
-              SizedBox(
+              Padding(
+                padding: EdgeInsets.only(top:10),
+                child: Text("Como deseja começar?",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey,fontSize: 18),),
+                ),
+              Padding(
+                padding: EdgeInsets.only(top:10),
+                child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.7,
                 child:RaisedButton(
                 color: Colors.blueAccent,
@@ -88,9 +90,10 @@ class _LoginState extends State<Login> {
                   ),
               ) ,
               ),
-              
-            
-              SizedBox(
+                ),
+              Padding(
+                padding: EdgeInsets.only(top:10),
+                child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.7,
                 child:RaisedButton(
                 color: Colors.grey[600],
@@ -250,7 +253,10 @@ class _LoginState extends State<Login> {
                   ),
               ) ,
               ),
-              ButtonTheme(           
+                ),
+              Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: ButtonTheme(           
                 minWidth:MediaQuery.of(context).size.width * 0.7 ,     
                 child: RaisedButton(
                   color:Theme.of(context).primaryColor,
@@ -262,14 +268,14 @@ class _LoginState extends State<Login> {
                   child: Text("Cadastrar-Se",style:TextStyle(color: Colors.white)),
 
                 ),
-              )
+              ),
+                )
+              
               
             ],
           ),
         ),
-        )
-        
-         ),
+        ),
       )
       
     );

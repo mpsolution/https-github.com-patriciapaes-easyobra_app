@@ -32,13 +32,15 @@ class _HomeSliderState extends State<HomeSlider> {
   }
 }
 List<String> imagens = [];
+List<DicaModel> dicas = [];
 carregarDicas()async{
   List<DicaModel> dicas = await Provider.of<DicasProvider>(context,listen:false).getDicas();
   dicas.forEach((dica) {
-    if(dica.capa != ''){
+    if( (dica.capa != '') && (dica.capa != null) ){
       imagens.add(dica.capa);
     }
   });
+  this.dicas = dicas;
   setState(() {
     
   });
@@ -69,19 +71,24 @@ carregarDicas()async{
                                     _current = index;
                                   });
                                 },
-                                items:imagens.map((String imagem){
-                                    return Builder(
+                                items:this.dicas.map((DicaModel dica){
+                                 if((dica.capa != null)&& (dica.capa != ""))   return Builder(
                                     builder: (BuildContext context) {
                                       return Container(
                                           width: MediaQuery.of(context).size.width,
-                                          child: CachedNetworkImage(
+                                          child: InkWell(
+                                            onTap: (){
+                                              Navigator.of(context).pushNamed('/Dica',arguments:{"_id":dica.titulo, 'imagem':dica.capa,'titulo':dica.titulo,'descricao':dica.conteudo});
+                                            },
+                                            child:CachedNetworkImage(
                                             fit: BoxFit.cover,
-                                            imageUrl: imagem,
+                                            imageUrl: dica.capa,
                                             placeholder: (context, url) => Center(
                                                 child: CircularProgressIndicator()
                                             ),
                                             errorWidget: (context, url, error) => new Icon(Icons.error),
                                           )
+                                          )                                          
                                       );
                                     },
                                   );
@@ -107,7 +114,14 @@ carregarDicas()async{
                               )
                               
                                 
-              ) :Padding(padding: EdgeInsets.only(top:10), child:SizedBox(height:50,width:50 ,child: CircularProgressIndicator()) , )  ,
+              ) :Padding(
+                padding: EdgeInsets.only(top:10),
+                  child:Center(
+                    child: SizedBox(height:50,width:50 ,
+                              child: CircularProgressIndicator()
+                              ),
+                  )
+                   , )  ,
     );
   }
 }

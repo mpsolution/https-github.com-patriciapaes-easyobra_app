@@ -86,7 +86,7 @@ class _MeusServicosState extends State<MeusServicos> {
                          ],
                        ),
                        Flexible(
-                         child: Text(servico["descricaoServico"] , overflow: TextOverflow.fade,)
+                         child: Text(servico["descricaoServico"].toString().substring(0,(servico["descricaoServico"].toString().length > 30) ? 30 :servico["descricaoServico"].toString().length ) ,overflow: TextOverflow.ellipsis ,)
                          ),                       
                        Expanded(
                          child: Row(

@@ -106,6 +106,7 @@ class _SolicitarServicoState extends State<SolicitarServico> {
                                  },
                                  itemSubmitted: (item){
                                    print("ITEM ESCOLHIDO $item");
+                                   Navigator.of(context).pushNamed('/CriarServico',arguments:item);
                                  },
                                  suggestions: opcoes,
                               )

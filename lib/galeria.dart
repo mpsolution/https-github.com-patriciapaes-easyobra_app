@@ -6,6 +6,7 @@ class Galeria extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<dynamic> fotos = ModalRoute.of(context).settings.arguments;    
     return Scaffold(
       appBar: AppBar(
          backgroundColor: Colors.white,
@@ -19,11 +20,11 @@ class Galeria extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 2.0,
         mainAxisSpacing: 2.0,
-        children:List.generate(10, (index) =>      CachedNetworkImage(
+        children:List.generate((fotos != null ) ? fotos.length : 0, (index) =>      CachedNetworkImage(
                           fit: BoxFit.cover,
                           placeholder: (context,url)=>Center(child: CircularProgressIndicator(),),
                           errorWidget: (context, url, error) => new Icon(Icons.error),
-                          imageUrl: 'https://s3.amazonaws.com/mapa-da-obra-producao/wp-content/uploads/2018/06/5-equipamentos-de-obras-que-vao-aumentar-a-produtividade-da-sua-equipe.jpg'
+                          imageUrl: fotos[index]
                           )
         )
         ),

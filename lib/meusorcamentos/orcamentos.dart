@@ -46,7 +46,7 @@ class _OrcamentosState extends State<Orcamentos> {
                child:SingleChildScrollView(
                scrollDirection: Axis.vertical,              
                
-               child:StreamBuilder(
+               child:(idServico == null) ? StreamBuilder(
                  stream: Firestore.instance.collection(servico).document(idServico).snapshots(),
                  builder: (BuildContext context,AsyncSnapshot<DocumentSnapshot> snapshot){
                                     if(snapshot.hasError) Text("Error: ${snapshot.error}");
@@ -97,7 +97,13 @@ class _OrcamentosState extends State<Orcamentos> {
 
 
                  }
-               )
+               ) : Padding(
+                 padding: EdgeInsets.only(top: 20),
+                 child: Center(
+                 child: Text("Sem orçamentos!", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
+               ),
+                 )
+               
                ,
              )  ,
              ),             

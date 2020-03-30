@@ -78,7 +78,7 @@ class _MeusServicosProfissionalState extends State<MeusServicosProfissional> {
                          ],
                        ),
                       
-                       Text(servico["descricaoServico"]),
+                       Text(servico["descricaoServico"].toString().substring(0,(servico["descricaoServico"].toString().length > 30) ? 30 : servico["descricaoServico"].toString().length )),
                        Expanded(
                          child: Row(
                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,7 +87,7 @@ class _MeusServicosProfissionalState extends State<MeusServicosProfissional> {
                          children: <Widget>[
                                     Text(formatDate(DateTime.parse(servico["dataCriado"].toDate().toString()),[dd,'/',mm ,'/', yy] )),
                                     Padding(padding: EdgeInsets.all(8),),
-                                    Text("R\$${servico['valorServico']}",style:TextStyle(fontWeight: FontWeight.bold))
+                                    Text("R\$${double.tryParse(servico['valorServico'].toString()).toStringAsFixed(2).toString() }",style:TextStyle(fontWeight: FontWeight.bold))
                          ],
                        ),
                        )
@@ -96,8 +96,7 @@ class _MeusServicosProfissionalState extends State<MeusServicosProfissional> {
                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                          mainAxisSize: MainAxisSize.max,
                          crossAxisAlignment: CrossAxisAlignment.start,
-                         children: <Widget>[
-                           
+                         children: <Widget>[                           
                               ButtonTheme(
                                 minWidth: 120,
                                 height: 30,
@@ -130,7 +129,7 @@ class _MeusServicosProfissionalState extends State<MeusServicosProfissional> {
                                   color:Colors.blue ,
                                   onPressed: (){
                                     print("FUNÇÃO VER MAIS FOTOS");
-                                    Navigator.of(context).pushNamed("/Galeria");
+                                    Navigator.of(context).pushNamed("/Galeria",arguments:  servico['fotos']);
                                   },
                                   child: Text("Fotos",style:TextStyle(color: Theme.of(context).textSelectionColor)),
                                 ),
