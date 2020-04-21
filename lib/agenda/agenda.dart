@@ -10,7 +10,7 @@ class Agenda extends StatefulWidget {
   _AgendaState createState() => _AgendaState();
 }
 
-class _AgendaState extends State<Agenda> {
+class _AgendaState extends State<Agenda>  with TickerProviderStateMixin  {
   static FocusNode foco0 = FocusNode();
   static Map<String,dynamic> usuarioVendedor = {
   "label":"Agenda Atual",
@@ -19,10 +19,11 @@ class _AgendaState extends State<Agenda> {
   'tipo':'dropdown',
   "foco0":foco0
 };
+AnimationController _animationController;
 CalendarController _calendarController = CalendarController();
  List _selectedEvents = [];
  DateTime diaSelecionado;
-  Map<DateTime, List> _events;
+ Map<DateTime, List> _events;
 final Map<DateTime, List> _holidays = {
   
 
@@ -30,10 +31,13 @@ final Map<DateTime, List> _holidays = {
  void _onDaySelected(DateTime day, List events) {
     print('CALLBACK: _onDaySelected');
     print("EVENTOS DO DIA $events , dia $day");
+    _calendarController.setSelectedDay(day,isProgrammatic: true,animate: true,runCallback: false);
     setState(() {
       _selectedEvents = events;
       diaSelecionado = day;
+      
     });
+    _animationController.forward(from: 0.0);
   }
 
   void _onVisibleDaysChanged(DateTime first, DateTime last, CalendarFormat format) {
@@ -68,11 +72,13 @@ final Map<DateTime, List> _holidays = {
     );
   }
 Widget _buildTableCalendar(Map<DateTime,List> novosEventos) {
+   print("REDRAU AGENDA");
     return TableCalendar(
       locale:'pt_Br',
       calendarController: _calendarController,
       events: novosEventos,
       holidays: _holidays,      
+     initialSelectedDay: diaSelecionado,
       startingDayOfWeek: StartingDayOfWeek.monday,
       calendarStyle: CalendarStyle(
         selectedColor: Colors.deepOrange[400],
@@ -87,6 +93,37 @@ Widget _buildTableCalendar(Map<DateTime,List> novosEventos) {
           color: Colors.deepOrange[400],
           borderRadius: BorderRadius.circular(16.0),
         ),
+      ),
+      builders: CalendarBuilders(
+        selectedDayBuilder: (context, date, _) {
+          return FadeTransition(
+            opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController),
+            child: Container(
+              margin: const EdgeInsets.all(4.0),
+              padding: const EdgeInsets.only(top: 5.0, left: 6.0),
+              color: Colors.amber[400],
+              width: 100,
+              height: 100,
+              child: Text(
+                '${date.day}',
+                style: TextStyle().copyWith(fontSize: 16.0),
+              ),
+            ),
+          );
+        },
+        todayDayBuilder: (context, date, _) {
+          return Container(
+            margin: const EdgeInsets.all(4.0),
+            padding: const EdgeInsets.only(top: 5.0, left: 6.0),
+            color: Colors.blue,
+            width: 100,
+            height: 100,
+            child: Text(
+              '${date.day}',
+              style: TextStyle().copyWith(fontSize: 16.0),
+            ),
+          );
+        },
       ),
       onDaySelected: _onDaySelected,
       onVisibleDaysChanged: _onVisibleDaysChanged,
@@ -103,13 +140,20 @@ iniciarAgenda(){
      final _selectedDay = DateTime.now();
      final doisSelectedDay = DateTime.now();
     _calendarController = CalendarController();
+    _animationController = AnimationController(
+      vsync:this,
+      duration: const Duration(milliseconds: 400),
+    );
+
+    _animationController.forward();
    
       
   }
 @override
   void dispose() {
     // TODO: implement dispose
-    _calendarController = CalendarController();
+    _animationController.dispose();
+    _calendarController.dispose();
     super.dispose();
   }
   @override

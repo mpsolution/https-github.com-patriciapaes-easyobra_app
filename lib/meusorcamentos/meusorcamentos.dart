@@ -16,7 +16,7 @@ class MeusOrcamentos extends StatefulWidget {
 class _MeusOrcamentosState extends State<MeusOrcamentos> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   String imagemBase = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f5Tq7UJLc10WyFDBXoJKjlgnqmd8s6mRBxMfqj_NVLH5VEny&s';
-  final List<int> orcamentos = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+  final List<int> orcamentos = [1,2,3,4,5,6,7,8,9,10,9,12,13,14,15,16,17,18,19,20];
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +91,7 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
                               criacaoServicoProvider.setServico(orcamento.data);
                               criacaoServicoProvider.setIdSolicitacaoServico(orcamento.documentID);
                            },
-                           child:Text("Ver Orçamentos",style: TextStyle(color: Colors.white,fontSize: 11),) ,
+                           child:Text("Ver Orçamentos",style: TextStyle(color: Colors.white,fontSize: 9),) ,
                          ),
                        ),
                       
@@ -108,7 +108,7 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
                              print("IR PARA A AJUDA");
                              Navigator.of(context).pushNamed('/PedirAjuda');
                            },
-                           child:Text("Pedir Ajuda",style: TextStyle(color: Colors.green , fontSize: 11),) ,
+                           child:Text("Pedir Ajuda",style: TextStyle(color: Colors.green , fontSize: 9),) ,
                          ),
                        ),
                        ButtonTheme(
@@ -129,7 +129,7 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
                                     children:<Widget>[
                                         Icon(Icons.close,color: Colors.white,size: 15,),
                                         Padding(padding: EdgeInsets.only(left:5)),
-                                        Text("Cancelar",style: TextStyle(color: Colors.white,fontSize: 11),) 
+                                        Text("Cancelar",style: TextStyle(color: Colors.white,fontSize: 9),) 
                                     ],                           
                                   )  ,
                          ),

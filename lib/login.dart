@@ -72,7 +72,7 @@ class _LoginState extends State<Login> {
                 });
                 if(logou){
                   Navigator.of(context).maybePop();
-                  Navigator.of(context).pushNamedAndRemoveUntil('/', ModalRoute.withName('/'));
+                  Navigator.of(context).pushNamedAndRemoveUntil('/Home', ModalRoute.withName('/'));
                 }
 
                 },

@@ -218,7 +218,7 @@ class _HomeState extends State<Home> {
                 // Display a placeholder widget to visualize the shrinking size.
                 flexibleSpace: (_selectedIndex == 0) ? HomeSlider() : null,
                 // Make the initial height of the SliverAppBar larger than normal.
-                expandedHeight:(_selectedIndex == 0) ? 300 : 60,
+                expandedHeight:(_selectedIndex == 0) ? 225 : 60,
               ),
               SliverList(
                 // Use a delegate to build items as they're scrolled on screen.

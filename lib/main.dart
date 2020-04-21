@@ -83,7 +83,7 @@ initializeDateFormatting().then((_) => runApp(MultiProvider(
           fontFamily: 'Lato'),
       initialRoute: '/Login',
       routes: <String, WidgetBuilder>{
-        '/': (BuildContext context) => Home(),
+        '/Home': (BuildContext context) => Home(),
         '/Cadastrar':(BuildContext context) => Cadastro(),
         '/auth': (BuildContext context) => Auth(),
         '/shop': (BuildContext context) => Shop(),

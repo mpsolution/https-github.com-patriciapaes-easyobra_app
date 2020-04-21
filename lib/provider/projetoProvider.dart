@@ -177,6 +177,70 @@ class ProjetoProviderState with ChangeNotifier{
       return projetoAlterado;
 
     }
+    Future<bool> removerFoto(dynamic foto) async {
+      bool removido = false;
+      try {
+        await Firestore.instance.document('projetos'+'/'+idProjetoSelecionado).updateData({
+          "fotos":FieldValue.arrayRemove([foto])
+                });
+        projetoSelecionado = await Firestore.instance.document('projetos'+'/'+ idProjetoSelecionado).get();
+        removido = true;
+        notifyListeners();
+        
+      } catch (e) {
+        print("ERRO NA FUNÇÃO DE REMOVER FOTO $e");
+      }
+      return removido;
+
+    }
+    Future<bool> removerDocumento(dynamic documento) async {
+      bool removido = false;
+      try {
+           double vl = double.parse(documento['valor'].toString().substring(2,documento['valor'].toString().length));
+           vl = -vl;
+           print("VALOR A SE DIMINUIR $vl");           
+
+        await Firestore.instance.document('projetos'+'/'+idProjetoSelecionado).updateData({
+          "documentos":FieldValue.arrayRemove([{"titulo":documento['titulo'] , 'valor':documento['valor'] , 'url':documento['url']}]),
+          "gastosDocumentos":FieldValue.increment(vl),
+          'gastosTotais':FieldValue.increment(vl)
+                });
+        projetoSelecionado = await Firestore.instance.document('projetos'+'/'+ idProjetoSelecionado).get();
+        removido = true;
+        notifyListeners();
+        
+      } catch (e) {
+        print("ERRO NA FUNÇÃO DE REMOVER DOCUMENTO $e");
+      }
+      return removido;
+    }
+    Future<bool> addArquivoProjeto(File arquivo,String titulo,String valor) async {
+      bool projetoAlterado = false;
+      try {
+            String urlArquivo = await uploadFile(arquivo);
+            Map<String,String> documento = {
+              "titulo":titulo,
+              "valor":valor,
+              "url":urlArquivo
+            };
+            double vl = double.parse(valor.substring(2,valor.length));
+            print("VALOR DO SERVICO $vl");
+            await Firestore.instance
+                           .document('projetos'+'/'+idProjetoSelecionado)
+                           .updateData({'documentos':FieldValue.arrayUnion([documento]) ,
+                                        'gastosDocumentos':FieldValue.increment(vl),
+                                        'gastosTotais':FieldValue.increment(vl)});
+            projetoSelecionado = await Firestore.instance.document('projetos'+'/'+ idProjetoSelecionado).get();
+            projetoAlterado = true;
+            notifyListeners();
+        
+      } catch (e) {
+        print("ERRO NA FUNÇÃO ADICIONAR ARQUIVO $e");
+
+      }
+  
+      return projetoAlterado;
+    }
     alertaProjetoSalvo(BuildContext context){
       showDialog(
       context: context,

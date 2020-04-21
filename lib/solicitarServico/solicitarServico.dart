@@ -26,8 +26,7 @@ class _SolicitarServicoState extends State<SolicitarServico> {
   List<String> listagem = [
 
   ];
-  void getOpcoesServicos() async {
-      
+  void getOpcoesServicos() async {      
       db.collection('tiposservico')
         .getDocuments()
         .then((QuerySnapshot snapshot){
@@ -109,8 +108,7 @@ class _SolicitarServicoState extends State<SolicitarServico> {
                                    Navigator.of(context).pushNamed('/CriarServico',arguments:item);
                                  },
                                  suggestions: opcoes,
-                              )
-                              
+                              )                              
                           ) ,)
                        
                         ],) ,

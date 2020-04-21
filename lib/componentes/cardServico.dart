@@ -63,7 +63,7 @@ class CardServico extends StatelessWidget {
                          children: <Widget>[
                                     Text(formatDate(DateTime.parse(servico["dataCriado"].toDate().toString()),[dd,'/',mm ,'/', yy] )),
                                     Padding(padding: EdgeInsets.all(8),),
-                                    Text("R\$${servico['valorServico']}",style:TextStyle(fontWeight: FontWeight.bold))
+                                    Text("R\$ ${double.parse( servico['valorServico'].toString() ).toStringAsFixed(2)}",style:TextStyle(fontWeight: FontWeight.bold))
                          ],
                        ),
                        )

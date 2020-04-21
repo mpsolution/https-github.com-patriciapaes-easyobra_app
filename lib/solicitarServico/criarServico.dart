@@ -25,13 +25,18 @@ class _CriarServicoState extends State<CriarServico> {
   File imagem;
   bool _dialVisible = true;
   Future getImage(  String s)async{
-    print("FUNÇÃO DEPEGAR IMAGEM SELECIONADA");
+    try {
+       print("FUNÇÃO DEPEGAR IMAGEM SELECIONADA");
     var imagem = await ImagePicker.pickImage(source:(s == "galeria") ? ImageSource.gallery : ImageSource.camera);
     fotos.add(imagem);
     print("QUANTIDADE DE FOTOS ${fotos.length}");
     setState(() {
       
     });
+    } catch (e) {
+      print("ERRO AO ABRIR A CAMERA $e");
+    }
+   
   
   }
   void servicoCriadoDialog() {
@@ -49,7 +54,7 @@ class _CriarServicoState extends State<CriarServico> {
               child: new Text("Ok"),
               onPressed: () {
                 
-                Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                Navigator.of(context).pushNamedAndRemoveUntil('/Home', (Route<dynamic> route) => false);
               },
               )
           ],

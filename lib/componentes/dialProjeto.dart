@@ -1,8 +1,11 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_scaffold/componentes/salvarProjetoAction.dart';
 import 'package:flutter_scaffold/provider/projetoProvider.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,6 +21,8 @@ class DialProjeto extends StatefulWidget {
 class _DialProjetoState extends State<DialProjeto> {
   bool criandoProjeto = false;
   File foto;
+  File arquivo;
+  var valorController = new MoneyMaskedTextController(leftSymbol: 'R\$ ', precision: 2 ,decimalSeparator: '.',thousandSeparator: '');
 
   Future getImage(BuildContext context )async{
       final projetoProvider = Provider.of<ProjetoProviderState>(context);
@@ -56,6 +61,135 @@ class _DialProjetoState extends State<DialProjeto> {
       }
     );
   
+  }
+  Future getFile(BuildContext context )async{
+      final projetoProvider = Provider.of<ProjetoProviderState>(context);
+
+    print("FUNÇÃO DEPEGAR ARQUIVO SELECIONADO");
+    try{
+          arquivo = await FilePicker.getFile(type: FileType.custom, allowedExtensions: ['pdf','doc','xls','txt'] ,);
+    }catch(error){
+      print("DEU ERRO");
+      print('error taking picture ${error.toString()}');
+    }
+    if(arquivo == null) return;
+    print("ARQUIVO SELECIONADO");    
+    String titulo = "";
+    String valor = "";    
+    showDialog(
+      context: context,
+      builder:(BuildContext context ){
+      return  StatefulBuilder(builder: (context,setState) {
+           return AlertDialog(
+          title: Text("Salvar Documento"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[             
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Titulo'
+                ),
+                onChanged: (s){
+                  titulo = s;
+                },
+              ),
+              TextFormField(
+                controller: valorController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: 'Valor'
+                ),
+                onChanged: (s){
+                  valor = s;
+                },
+              ),
+               Text("Se o documento não tiver valor digite 0"),
+            ],
+            
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("Cancelar"),
+              onPressed: (criandoProjeto)  ? null : (){
+                Navigator.of(context).pop();
+              },
+            ),
+             FlatButton(
+              child:SalvarProjetoAction(carregando: criandoProjeto,),
+              onPressed: ()async{                
+                setState(() {
+                        criandoProjeto = true;
+                      });
+                      bool resultado = await projetoProvider.addArquivoProjeto(arquivo,titulo,valorController.text);
+                      print("RESULTADO DA OPREACAO DE ADD FOTO $resultado");
+                      if(resultado){
+                        setState(() {
+                        criandoProjeto = false;
+                        titulo = "";
+                        valor = "";
+                        valorController.text = "R\$ 0.00";
+                      });
+                     Navigator.of(context).pop();                      
+                      showDialog(
+                        context: context,
+                        builder:(BuildContext context){
+                          return AlertDialog(
+                            title: Text("Documento Adicionado"),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text("OK"),
+                                onPressed: (){
+                                  Navigator.of(context).pop();
+                                },
+                              )
+                            ],
+                          );
+                        }
+                      );
+
+                      }else{
+                           setState(() {
+                        criandoProjeto = false;
+                      });
+                      showDialog(
+                        context: context,
+                        builder:(BuildContext context){
+                          return AlertDialog(
+                            title: Text("Erro"),
+                            content: Text("Não foi possivel adicionar o arquivo ao projeto,tente mais tarde!"),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text("OK"),
+                                onPressed: (){
+                                  Navigator.of(context).pop();
+                                },
+                              )
+                            ],
+                          );
+                        }
+                      );
+                      }
+                      
+              },
+            )
+          ],
+        );
+
+        });
+       
+      }
+    );
+
+    
+  
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    valorController.text = 'R\$ 0.00';
   }
   @override
   Widget build(BuildContext context) {
@@ -104,15 +238,7 @@ class _DialProjetoState extends State<DialProjeto> {
                 print("FUNÇÃO DE ADICIONAR MATERIAL");
               },
             ),
-             * SpeedDialChild(
-              child: Icon(Ionicons.md_document),
-              backgroundColor:Theme.of(context).primaryColor,
-              label: 'Adicionar Documento',
-              labelStyle: TextStyle(fontSize: 18.0),
-              onTap: (){
-                print("FUNÇÃO DE ADICIONAR DOCUMENTO");
-              },
-            ),
+             * 
              */
             
             SpeedDialChild(
@@ -123,6 +249,16 @@ class _DialProjetoState extends State<DialProjeto> {
               onTap: ()async{
                 print("FUNÇÃO DE ADICIONAR FOTO");
                 await getImage(context);
+              },
+            ),
+             SpeedDialChild(
+              child: Icon(Icons.insert_drive_file),
+              backgroundColor:Theme.of(context).primaryColor,
+              label: 'Adicionar Documento',
+              labelStyle: TextStyle(fontSize: 18.0),
+              onTap: ()async{
+                print("FUNÇÃO DE ADICIONAR Documento");
+                await getFile(context);
               },
             ),
            

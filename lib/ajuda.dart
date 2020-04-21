@@ -112,7 +112,7 @@ Widget build(BuildContext context) {
                  ),
                  )
                  ,
-                 Padding(padding: EdgeInsets.only(top: 10),),
+                 Padding(padding: EdgeInsets.only(top: 30),),
                  Align(
                    alignment: Alignment.bottomCenter,
                    child:SizedBox(
