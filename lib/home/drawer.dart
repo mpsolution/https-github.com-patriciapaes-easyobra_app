@@ -48,6 +48,7 @@ class _AppDrawerState extends State<AppDrawer> {
 
     ];
     String imagemBase ='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f5Tq7UJLc10WyFDBXoJKjlgnqmd8s6mRBxMfqj_NVLH5VEny&s';
+    String bonus = (usuarioProvider.getUsuarioLogado['bonus']  != null) ? usuarioProvider.getUsuarioLogado['bonus'] : '--' ;
     List<Widget> criarMenu(List<Map> opcoes) {
       return opcoes.map<Widget>((opcao) {
         return Container(
@@ -89,17 +90,16 @@ class _AppDrawerState extends State<AppDrawer> {
                 ? Text('Olá  ' + firebaseUser.displayName.toString())
                 : Text(''),
           ),
-        InkWell(
-          onTap: (){
-              Navigator.pop(context);
-
-            Navigator.of(context).pushNamed('/editarPerfil');
-          },
-          child: Container(
+       Container(
           margin: EdgeInsets.only(top: 20.0, left: 5.0, right: 5.0),
           child: Column(
             children: <Widget>[
-              Row(
+              InkWell(
+                onTap: (){
+                  Navigator.pop(context);
+                  Navigator.of(context).pushNamed('/editarPerfil');
+                },
+                child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
@@ -131,7 +131,10 @@ class _AppDrawerState extends State<AppDrawer> {
                   )
                 ],
               ),
-              Card(
+              ),
+               Padding(
+                  padding: EdgeInsets.only(top:5,bottom:5),
+                  child:  Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)),
                   child: Row(
@@ -139,15 +142,14 @@ class _AppDrawerState extends State<AppDrawer> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
                       Text("Créditos + Bônus"),
-                      Text("R\$ 80,00"),
+                      Text(bonus),
                       Icon(Icons.chevron_right, color: Colors.black),
                     ],
                   )),
+                  ),
             ],
           ),
         ),
-        )
-        ,
         Expanded(
           child: ListView(
             shrinkWrap: true,

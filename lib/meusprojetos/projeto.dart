@@ -196,17 +196,21 @@ class _ProjetoState extends State<Projeto> {
              padding: EdgeInsets.all(5),             
              itemBuilder: (BuildContext context,int index){              
                dynamic foto = projetoProvider.projetoSelecionado['fotos'][index];
-               return Padding(padding: EdgeInsets.all(2),
+               return Padding(padding: EdgeInsets.all(1),
                child:Column(
                  children: <Widget>[
-                   CachedNetworkImage(
-                  fit: BoxFit.fill,
+                 SizedBox(
+                   height:100,
+                   width:150,
+                   child:CachedNetworkImage(
+                  fit: BoxFit.cover,
                   imageUrl:foto,
                   placeholder: (context,url) =>Center(
                     child: SizedBox(height: 50,width: 50,child: CircularProgressIndicator(),),
                   ),
                   errorWidget: (context,url,error) => Icon(Icons.error),
-                ),
+                )
+                 )    ,
                 Row(
                      crossAxisAlignment: CrossAxisAlignment.center,
                      mainAxisAlignment: MainAxisAlignment.center,
@@ -217,7 +221,8 @@ class _ProjetoState extends State<Projeto> {
                          onPressed: (){
                             launch(foto);                        
                          }
-                         ),                        
+                         ),  
+                         Padding(padding: EdgeInsets.only(left:2) )                      ,
                           RaisedButton(
                          child: Text('Excluir',style: TextStyle(color: Colors.white),),
                          color: Colors.red,

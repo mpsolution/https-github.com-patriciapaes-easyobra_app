@@ -24,12 +24,12 @@ class _DialProjetoState extends State<DialProjeto> {
   File arquivo;
   var valorController = new MoneyMaskedTextController(leftSymbol: 'R\$ ', precision: 2 ,decimalSeparator: '.',thousandSeparator: '');
 
-  Future getImage(BuildContext context )async{
+  Future getImage(BuildContext context , ImageSource source )async{
       final projetoProvider = Provider.of<ProjetoProviderState>(context);
 
     print("FUNÇÃO DEPEGAR IMAGEM SELECIONADA");
     try{
-          foto = await ImagePicker.pickImage(source:ImageSource.gallery);
+          foto = await ImagePicker.pickImage(source:source);
     }catch(error){
       print("DEU ERRO");
       print('error taking picture ${error.toString()}');
@@ -244,11 +244,21 @@ class _DialProjetoState extends State<DialProjeto> {
             SpeedDialChild(
               child: Icon(Icons.photo_camera),
               backgroundColor:Theme.of(context).primaryColor,
-              label: 'Adicionar Foto',
+              label: 'Adicionar Foto Galeria',
               labelStyle: TextStyle(fontSize: 18.0),
               onTap: ()async{
                 print("FUNÇÃO DE ADICIONAR FOTO");
-                await getImage(context);
+                await getImage(context,ImageSource.gallery);
+              },
+            ),
+            SpeedDialChild(
+              child: Icon(Icons.photo_camera),
+              backgroundColor:Theme.of(context).primaryColor,
+              label: 'Adicionar Foto Camera',
+              labelStyle: TextStyle(fontSize: 18.0),
+              onTap: ()async{
+                print("FUNÇÃO DE ADICIONAR FOTO");
+                await getImage(context,ImageSource.camera);
               },
             ),
              SpeedDialChild(

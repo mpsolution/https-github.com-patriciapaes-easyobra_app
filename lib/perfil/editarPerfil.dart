@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_scaffold/provider/usuarioProvider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -17,10 +18,27 @@ class MapScreenState extends State<EditarPerfil>
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
 
-     final GlobalKey<ScaffoldState> _scaffoldKey =  new GlobalKey<ScaffoldState>();
-     File imagem;
-    TextEditingController nomeControler     = TextEditingController();
-    TextEditingController telefoneControler = TextEditingController();
+    final GlobalKey<ScaffoldState> _scaffoldKey                         =  new GlobalKey<ScaffoldState>();
+    File imagem;
+    bool cpfOuCnpj                                                      = true;
+    TextEditingController nomeControler                                 = TextEditingController();
+    TextEditingController telefoneControler                             = TextEditingController();   
+    var cepControler                                                    = new MaskedTextController(mask: '00000-00', text: '00000-00');
+    var cepEmpresaControler                                             = new MaskedTextController(mask: '00000-00', text: '00000-00');
+    var cpfControler                                                    = new MaskedTextController(mask: '000.000.000-00', text: '000.000.000-00');  
+    var cnpjControler                                                   = new MaskedTextController(mask:'00.000.000/0000-00');
+    TextEditingController enderecoControler                             = TextEditingController();
+    TextEditingController ruaControler                                  = TextEditingController();
+    TextEditingController numeroControler                               = TextEditingController();
+    TextEditingController enderecoEmpresaControler                      = TextEditingController();
+    TextEditingController ruaEmpresaControler                           = TextEditingController();
+    TextEditingController numeroEmpresaControler                        = TextEditingController();
+    TextEditingController razaoSocialControler                          = TextEditingController();
+    TextEditingController inscricaoEstadualMunicipalControler           = TextEditingController();
+
+
+
+
    
 
 
@@ -51,8 +69,18 @@ class MapScreenState extends State<EditarPerfil>
   @override
   Widget build(BuildContext context) {
     final usuarioProvider = Provider.of<UsuarioProvider>(context);
-    nomeControler.text = usuarioProvider.usuario['displayName'];
-    telefoneControler.text  = (usuarioProvider.usuario['phoneNumber'] == null) ? "" : usuarioProvider.usuario['phoneNumber'];
+    nomeControler.text                             = usuarioProvider.usuario['displayName'];
+    telefoneControler.text                         = (usuarioProvider.usuario['phoneNumber'] == null) ? "" : usuarioProvider.usuario['phoneNumber'];
+    cepControler.text                              = (usuarioProvider.usuario['cep'] == null) ? "" : usuarioProvider.usuario['cep'];
+    cnpjControler.text                             = (usuarioProvider.usuario['cnpj'] == null) ? "" : usuarioProvider.usuario['cnpj'];
+    enderecoControler.text                         = (usuarioProvider.usuario['endereco'] == null) ? "" : usuarioProvider.usuario['endereco'];
+    numeroControler.text                           = (usuarioProvider.usuario['numero'] == null) ? "" : usuarioProvider.usuario['numero'];
+    enderecoEmpresaControler.text                  = (usuarioProvider.usuario['enderecoEmpresa'] == null) ? "" : usuarioProvider.usuario['enderecoEmpresa'];
+    ruaControler.text                              = (usuarioProvider.usuario['rua'] == null) ? "" : usuarioProvider.usuario['rua'];
+    ruaEmpresaControler.text                       = (usuarioProvider.usuario['ruaEmpresa'] == null) ? "" : usuarioProvider.usuario['ruaEmpresa'];
+    numeroEmpresaControler.text                    = (usuarioProvider.usuario['numeroEmpresa'] == null) ? "" : usuarioProvider.usuario['numeroEmpresa'];
+    razaoSocialControler.text                      = (usuarioProvider.usuario['razaoSocial'] == null) ? "" : usuarioProvider.usuario['razaoSocial'];
+    inscricaoEstadualMunicipalControler.text       = (usuarioProvider.usuario['inscricaoEstadualMunicipal'] == null) ? "" : usuarioProvider.usuario['inscricaoEstadualMunicipal'];
     
     return new Scaffold(
       key: _scaffoldKey,
@@ -206,15 +234,13 @@ class MapScreenState extends State<EditarPerfil>
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
                               new Flexible(
-                                child: new TextField(
-                                  
+                                child: new TextField(                                  
                                   controller: nomeControler,
                                   decoration: const InputDecoration(
                                     hintText: "Entre seu Nome",
                                   ),
                                   enabled: !_status,
                                   autofocus: !_status,
-
                                 ),
                               ),
                             ],
@@ -248,8 +274,7 @@ class MapScreenState extends State<EditarPerfil>
                             children: <Widget>[
                               new Flexible(
                                 child: new TextField(
-                                  controller: telefoneControler,
-                                  
+                                  controller: telefoneControler,                                  
                                   decoration: const InputDecoration(
                                   hintText: "Entre seu telefone"),
                                   enabled: !_status,
@@ -257,6 +282,525 @@ class MapScreenState extends State<EditarPerfil>
                               ),
                             ],
                           )),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Column(
+                            children: <Widget>[
+                               Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'Pessoa Fisica:',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                          Checkbox(value: cpfOuCnpj, onChanged:_status ? null : (value){
+                            setState(() {
+                              cpfOuCnpj = value;
+                            });
+                          }),
+                            ],
+                          ),
+                          Column(
+                            children: <Widget>[
+                               Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'Pessoa Juridica:',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                          Checkbox(value: !cpfOuCnpj, onChanged:_status ? null : (value){
+                           print("FUNCAO MUDADA $value");
+                            setState(() {
+                              cpfOuCnpj = !value;
+                            });
+                          }),
+                            ],
+                          )
+                          
+                              
+                        ],  
+                      ),
+                      //endereco pessoa
+                     (cpfOuCnpj) ?  Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                           Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'CPF:',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                            Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: cpfControler,  
+                                  keyboardType: TextInputType.number,                                
+                                  decoration: const InputDecoration(
+                                  hintText: "CPF"),
+                                  enabled: !_status,
+                                ),
+                              ),
+                            ],
+                          )),
+                           Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'CEP:',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                          Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: cepControler, 
+                                  keyboardType: TextInputType.number,                                 
+                                  decoration: const InputDecoration(
+                                  hintText: "CEP"),
+                                  enabled: !_status,
+                                ),
+                              ),
+                            ],
+                          )),
+                           Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'Rua:',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                            Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: ruaControler,                                  
+                                  decoration: const InputDecoration(
+                                  hintText: "Rua"),
+                                  enabled: !_status,
+                                ),
+                              ),
+                            ],
+                          )),
+                           Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'Endereco:',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                          Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: enderecoControler,                                  
+                                  decoration: const InputDecoration(
+                                  hintText: "Endereco"),
+                                  enabled: !_status,
+                                ),
+                              ),
+                            ],
+                          )),
+                           Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'Numero:',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                          Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: numeroControler,   
+                                  keyboardType: TextInputType.number,                             
+                                  decoration: const InputDecoration(
+                                  hintText: "Numero"),
+                                  enabled: !_status,
+                                ),
+                              ),
+                            ],
+                          )),
+                        ],
+                      ) :
+                      //endereco empresa
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                           Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'CNPJ:',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                            Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: cnpjControler,  
+                                  keyboardType: TextInputType.number,                                
+                                  decoration: const InputDecoration(
+                                  hintText: "CNPJ"),
+                                  enabled: !_status,
+                                ),
+                              ),
+                            ],
+                          )),
+                           Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'CEP Empresa:',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                          Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: cepEmpresaControler, 
+                                  keyboardType: TextInputType.number,                                 
+                                  decoration: const InputDecoration(
+                                  hintText: "CEP da Empresa"),
+                                  enabled: !_status,
+                                ),
+                              ),
+                            ],
+                          )),
+                           Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'Rua da Empresa:',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                            Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: ruaEmpresaControler,                                  
+                                  decoration: const InputDecoration(
+                                  hintText: "Rua da Empresa"),
+                                  enabled: !_status,
+                                ),
+                              ),
+                            ],
+                          )),
+                           Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'Endereco da Empresa:',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                          Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: enderecoEmpresaControler,                                  
+                                  decoration: const InputDecoration(
+                                  hintText: "Endereco da Empresa"),
+                                  enabled: !_status,
+                                ),
+                              ),
+                            ],
+                          )),
+                           Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'Numero da Empresa:',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                          Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: numeroEmpresaControler,   
+                                  keyboardType: TextInputType.number,                             
+                                  decoration: const InputDecoration(
+                                  hintText: "Numero da Empresa"),
+                                  enabled: !_status,
+                                ),
+                              ),
+                            ],
+                          )),
+                           Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'Inscrição Estadua/Municipal:',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                           Padding(
+                          padding: EdgeInsets.only(
+                          left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: inscricaoEstadualMunicipalControler,                                  
+                                  decoration: const InputDecoration(
+                                  hintText: "Inscricão Estadual/Municipal"),
+                                  enabled: !_status,
+                                ),
+                              ),
+                            ],
+                          )),
+                           Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'Razão Social:',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                          Padding(
+                          padding: EdgeInsets.only(
+                          left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: razaoSocialControler,                                  
+                                  decoration: const InputDecoration(
+                                  hintText: "Razao Social"),
+                                  enabled: !_status,
+                                ),
+                              ),
+                            ],
+                          )),
+                        ],
+                      ),
                      
                       
                       !_status ? Padding(
@@ -286,7 +830,18 @@ class MapScreenState extends State<EditarPerfil>
                  bool resultado = await usuarioProvider.atualizarUsuario({
                     'displayName':nomeControler.text,
                     "phoneNumber":telefoneControler.text,
-                    "photoUrl":fotoUrl
+                    "photoUrl":fotoUrl,
+                    "cep":cepControler.text,
+                    "cpf":cpfControler.text,
+                    "cnpj":cnpjControler.text,
+                    "endereco":enderecoControler.text,
+                    "enderecoEmpresa":enderecoEmpresaControler.text,
+                    "rua":ruaControler.text,
+                    "ruaEmpresa":ruaEmpresaControler.text,
+                    "numero":numeroControler.text,
+                    "numeroEmpresa":numeroEmpresaControler.text,
+                    "razaoSocial":razaoSocialControler.text,
+                    "inscricaoEstadualMunicipal":inscricaoEstadualMunicipalControler.text,
                     });
                     if(resultado){
                       print("ATUALIZACAO FEITA COM SUCESSO");
