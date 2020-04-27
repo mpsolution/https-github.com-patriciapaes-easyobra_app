@@ -19,30 +19,30 @@ class _AppDrawerState extends State<AppDrawer> {
     final firebaseUser = Provider.of<FirebaseUser>(context);
     final usuarioProvider = Provider.of<UsuarioProvider>(context);
     final List<Map> opcoesMinhaConta = [
-      {"icone": Icons.home, "nome": "Endereços", "link": "/Enderecos"},
-      {"icone": Icons.home, "nome": "Termos e condições", "link": "/TermoseCondicoes"},
-      {"icone": Icons.home, "nome": "Suporte", "link": "/PedirAjuda"},
-      {"icone": Icons.home, "nome": "Indique o seu profissional", "link": "/IndicacaoProfissional"},
+      {"icone": 'assets/icones/localizacao.png', "nome": "Endereços", "link": "/Enderecos"},
+      {"icone": 'assets/icones/apertodemao.png', "nome": "Termos e condições", "link": "/TermoseCondicoes"},
+      {"icone": 'assets/icones/suporte.png', "nome": "Suporte", "link": "/PedirAjuda"},
+      {"icone": 'assets/icones/maook.png', "nome": "Indique o seu profissional", "link": "/IndicacaoProfissional"},
     ];
     final List<Map> opcoesMinhaPasta = [
       {
-        "icone": Icons.home,
+        "icone": 'assets/icones/orcamento.png',
         "nome": "Meus Orçamentos",
         "link": "/MeusOrcamentos"
       },
-      {"icone": Icons.home, "nome": "Meus Serviços", "link": "/MeusServicos"},
-      {"icone": Icons.home, "nome": "Meus Serviços PRO", "link": "/MeusServicosProfissional"},
+      {"icone": 'assets/icones/servicos.png', "nome": "Meus Serviços", "link": "/MeusServicos"},
+      {"icone": 'assets/icones/servicos.png', "nome": "Meus Serviços PRO", "link": "/MeusServicosProfissional"},
      // {"icone": Icons.home, "nome": "Minhas Compras", "link": "/MinhasCompras"},
       {
-        "icone": Icons.home,
+        "icone": 'assets/icones/cartao.png',
         "nome": "Forma de Pagamento",
         "link": "/Pagamentos"
       },
-      {"icone": Icons.home, "nome": "Meus Projetos", "link": "/MeusProjetos"},
-      {"icone": Icons.chat_bubble, "nome": "Contatos", "link": "/Contatos"},
-      {"icone": Icons.format_align_justify, "nome": "Portifolio", "link": "/Portifolio"},
-      {"icone": Icons.format_indent_increase, "nome": "EditarPortifolio", "link": "/FormPortifolio"},
-      {"icone": Icons.calendar_today, "nome": "Agenda", "link": "/Agenda"},
+      {"icone":'assets/icones/pastadocumentos.png', "nome": "Meus Projetos", "link": "/MeusProjetos"},
+      {"icone":'assets/icones/contatos.png', "nome": "Contatos", "link": "/Contatos"},
+      {"icone":'assets/icones/portifolio.png', "nome": "Portifolio", "link": "/Portifolio"},
+      {"icone":'assets/icones/portifolio.png', "nome": "EditarPortifolio", "link": "/FormPortifolio"},
+      {"icone":'assets/icones/calendario.png', "nome": "Agenda", "link": "/Agenda"},
 
 
 
@@ -54,10 +54,9 @@ class _AppDrawerState extends State<AppDrawer> {
         return Container(
           decoration: BoxDecoration(
               color: Colors.white,
-              border:
-                  Border(bottom: BorderSide(width: 1.0, color: Colors.black))),
+              border:Border(bottom: BorderSide(width: 1.0, color: Colors.black))),
           child: ListTile(
-            leading: Icon(opcao['icone'], color: Theme.of(context).accentColor),
+            leading: Image.asset(opcao['icone'] , width: 40, height: 40 ,),
             title: Text(opcao['nome']),
             onTap: () {
               Navigator.pop(context);
@@ -78,7 +77,7 @@ class _AppDrawerState extends State<AppDrawer> {
             decoration: BoxDecoration(
                 image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage('assets/images/drawer-header.jpg'),
+              image: AssetImage('/images/drawer-header.jpg'),
             )),
             currentAccountPicture: CircleAvatar(
               backgroundImage: NetworkImage((usuarioProvider.getUsuarioLogado == null) ? imagemBase : usuarioProvider.getUsuarioLogado['photoUrl']),

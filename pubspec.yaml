@@ -94,21 +94,33 @@ flutter:
   #  - images/a_dot_ham.jpegslide2.jpg
   #summer-slider.png
   assets:
-    - assets/images/drawer-header.jpg
-    - assets/images/banner-1.png
-    - assets/images/banner-2.png
-    - assets/images/bannerobra.jpg
-    - assets/images/login/logo.png
-    - assets/home/assets/botao-profissional.png
-    - assets/home/assets/botao-ferramentas-de-calculo2.png
-    - assets/home/assets/easypay.png
-    - assets/home/assets/botao-material-de-construcao.png
-    - assets/home/assets/qrcode-amarelo.png
-    - assets/digitalizacao/assets/pasta-documentos-colorida.png
-    - assets/digitalizacao/assets/capacete.png
-    - assets/profissional/orcamentos.png
-    - assets/profissional/servicos.png
-
+   - assets/icones/apertodemao.png
+   - assets/icones/calendario.png
+   - assets/icones/cartao.png
+   - assets/icones/compras.png
+   - assets/icones/dadosbacarios.png
+   - assets/icones/localizacao.png
+   - assets/icones/maook.png
+   - assets/icones/orcamento.png
+   - assets/icones/pastadocumentos.png
+   - assets/icones/portifolio.png
+   - assets/icones/reacionamento.png
+   - assets/icones/servicos.png    
+   - assets/icones/suporte.png
+   - assets/images/banner-1.png
+   - assets/images/banner-2.png
+   - assets/images/bannerobra.jpg
+   - assets/images/login/logo.png
+   - assets/home/assets/botao-profissional.png
+   - assets/home/assets/botao-ferramentas-de-calculo2.png
+   - assets/home/assets/easypay.png
+   - assets/home/assets/botao-material-de-construcao.png
+   - assets/home/assets/qrcode-amarelo.png
+   - assets/digitalizacao/assets/pasta-documentos-colorida.png
+   - assets/digitalizacao/assets/capacete.png
+   - assets/profissional/orcamentos.png
+   - assets/profissional/servicos.png   
+   - assets/icones/contatos.png
 
 
     

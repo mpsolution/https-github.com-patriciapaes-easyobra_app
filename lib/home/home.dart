@@ -98,7 +98,7 @@ class _HomeState extends State<Home> {
   }
   @override
   Widget build(BuildContext context) {
-    final carrinho = Provider.of<CarrinhoState>(context);
+   
     final firebaseUser = Provider.of<FirebaseUser>(context);
     final usuarioProvider = Provider.of<UsuarioProvider>(context);
     String imagemBase ='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f5Tq7UJLc10WyFDBXoJKjlgnqmd8s6mRBxMfqj_NVLH5VEny&s';
@@ -185,31 +185,7 @@ class _HomeState extends State<Home> {
                                         ),
                       ),
                     ),
-                    (carrinho.getQtdProdutosCarrinho > 0)
-                        ? Positioned(
-                            right: 12,
-                            top: 8,
-                            child: new Container(
-                              padding: EdgeInsets.all(2),
-                              decoration: new BoxDecoration(
-                                color: Theme.of(context).primaryColor,
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              constraints: BoxConstraints(
-                                minWidth: 14,
-                                minHeight: 14,
-                              ),
-                              child: Text(
-                                carrinho.getQtdProdutosCarrinho.toString(),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 8,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          )
-                        : Container()
+                  
                   ])
                 ],
                 // Allows the user to reveal the app bar if they begin scrolling
