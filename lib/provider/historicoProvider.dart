@@ -13,8 +13,11 @@ class HistoricoProvider with ChangeNotifier{
     "cliente"      :null,
     "endereco"     :"",
     "telefone"     :"",
+    'situacao'     :'',
+    'idServico'    :'',   
     "historico"    :[]
   };
+  
   void resetarHistorico(){
       tipoHistorico = 'cliente';
       historico = {
@@ -24,10 +27,13 @@ class HistoricoProvider with ChangeNotifier{
       "cliente"      :null,
       "endereco"     :"",
       "telefone"     :"",
+      "situacao"     :"",
+      'idServico'    :'',
       "historico"    :[]
     };
      servico = null;
   }
+
   void setHistoricoProfissional(Map<String,dynamic> h , DocumentSnapshot s) async {
     print("ESTA NA FUNÇÃO DE SETAR HISTORICO PARA O PROFISSIONAL");
     print("ESTA NA FUNÇÃO SETHISTORICO PROFISSIONAL");
@@ -41,7 +47,9 @@ class HistoricoProvider with ChangeNotifier{
     historico['cliente'] = cliente['displayName'];
     historico["endereco"] = (cliente["endereco"] != null) ? cliente['endereco'] : 'Sem Endereco';
     historico["telefone"] = (cliente["phoneNumber"] != null) ? cliente['phoneNumber'] : 'Sem Telefone';
-    historico['servico']       = h['tituloServico'];
+    historico['servico']  = h['tituloServico'];
+    historico['idServico'] = s.documentID;
+    historico['situacao'] = (s['situacao']  != null)  ? s['situacao'] : 'Aguardando Pagamento';
     if(h['historico'] != null){
         h['historico'].forEach((histo)=>historico['historico'].add({
         "data":formatDate(DateTime.parse(histo['data'].toDate().toString()), [dd,'/',mm ,'/', yy]),
@@ -61,6 +69,8 @@ class HistoricoProvider with ChangeNotifier{
     historico['nomePrestador'] = prestador['displayName'];
     historico["especialidade"] = (prestador["especialidade"] != null) ? prestador['especialidade'] : 'Sem especialidade';
     historico['servico']       = h['tituloServico'];
+    historico['situacao']      = (h['situacao'] != null) ? h['situacao'] : 'Aguardando Pagamento';
+    historico['idServico']     = h['idServico']; 
     if(h['historico'] != null){
         h['historico'].forEach((histo)=>historico['historico'].add({
         "data":formatDate(DateTime.parse(histo['data'].toDate().toString()), [dd,'/',mm ,'/', yy]),
@@ -69,6 +79,22 @@ class HistoricoProvider with ChangeNotifier{
     }
     
     notifyListeners();
+    }
+    void mudarSituacaoServico(String situacao) async {
+      try {
+        print("MUDAR SITUACAO PARA $situacao");
+        print("ID DO SERVICO ${historico['idServico']}");
+        await Firestore.instance.collection('servicos').document(historico['idServico']).updateData({
+          'situacao':situacao
+        });
+        historico['situacao'] = situacao;
+
+      } catch (e) {
+        print("ERRO MUDAR SITUACAO $e");
+      }
+      
+      notifyListeners();
+
     }
 
   Map<String,dynamic> get getHistorico => historico;

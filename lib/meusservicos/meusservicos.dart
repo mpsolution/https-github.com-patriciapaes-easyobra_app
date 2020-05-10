@@ -17,7 +17,23 @@ class _MeusServicosState extends State<MeusServicos> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   String imagemBase = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f5Tq7UJLc10WyFDBXoJKjlgnqmd8s6mRBxMfqj_NVLH5VEny&s';
   final List<int> orcamentos = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
-
+  Widget buildStatus(String status){
+    print("BUILD STATUS $status");
+    if(status == 'Aguardando Pagamento') return Column(
+                                children: <Widget>[
+                                    Icon(Icons.autorenew,color: Colors.green,),
+                                    Text('Aguardando Pagametno',style:TextStyle(fontSize:7,color:Colors.green,fontWeight: FontWeight.bold))
+                                ],
+                              );
+    return Column(
+                                children: <Widget>[
+                                    Icon(Icons.check,color: Colors.green,),
+                                    Text('Concluido',style:TextStyle(fontSize:7,color:Colors.green,fontWeight: FontWeight.bold))
+                                ],
+                              );
+    
+  }
+  
   @override
   Widget build(BuildContext context) {
     final historicoProvider = Provider.of<HistoricoProvider>(context);
@@ -49,38 +65,41 @@ class _MeusServicosState extends State<MeusServicos> {
                padding: EdgeInsets.all(4),
                children: <Widget>[
                  ...snapshot.data.documents.map<Widget>((DocumentSnapshot servico)=>
-                  SizedBox(
+                  Column(
+                    children: <Widget>[
+                      SizedBox(
                width: double.infinity,
                height: 150,
-               child:Card(               
+               child:Card(                                
                child: Row(
+                 crossAxisAlignment: CrossAxisAlignment.center,                 
                  children: <Widget>[
-                   Center(
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    child:Center(
                      child:CircleAvatar(
                      radius: 40,
                      backgroundColor: Colors.transparent,
                      backgroundImage: NetworkImage(imagemBase),
                    ),
-                   ),
-                   Padding(padding: EdgeInsets.all(8),),
-                   Column(
+                   )
+                  ),                  
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    padding: EdgeInsets.only(left:10),
+                    child: Column(
                      crossAxisAlignment: CrossAxisAlignment.start,
-                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                     mainAxisAlignment: MainAxisAlignment.start,
                      mainAxisSize: MainAxisSize.max,
                      children: <Widget>[
                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.center,
                            children: <Widget>[
                               Text(servico["tituloServico"],style:TextStyle(fontWeight: FontWeight.bold)),
                               Padding(padding: EdgeInsets.all(8)),
-                              Column(
-                                children: <Widget>[
-                                      Icon(Icons.check,color: Colors.green,),
-                                      Text("Concluido",style:TextStyle(fontSize:7,color:Colors.green,fontWeight: FontWeight.bold))
-                                ],
-                              )
+                              buildStatus(servico['status'])
                              
 
                          ],
@@ -96,13 +115,12 @@ class _MeusServicosState extends State<MeusServicos> {
                          children: <Widget>[
                                     Text(formatDate(DateTime.parse(servico["dataCriado"].toDate().toString()),[dd,'/',mm ,'/', yy] )),
                                     Padding(padding: EdgeInsets.all(8),),
-                                    Text("R\$${servico['valorServico']}",style:TextStyle(fontWeight: FontWeight.bold))
+                                    Text("R\$${ double.parse(servico['valorServico'].toString()).toStringAsFixed(2)  }",style:TextStyle(fontWeight: FontWeight.bold))
                          ],
                        ),
-                       )
-                       ,                       
+                       ),                       
                        Row(
-                         mainAxisAlignment: MainAxisAlignment.spaceAround,
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                          mainAxisSize: MainAxisSize.max,
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: <Widget>[
@@ -118,7 +136,9 @@ class _MeusServicosState extends State<MeusServicos> {
                                     historicoProvider.setHistorico({
                                       "idPrestador":servico['idPrestador'],
                                       "tituloServico":servico['tituloServico'],
-                                      "historico":servico['historico']
+                                      "historico":servico['historico'],
+                                      'situacao':(servico['situacao'] != null) ? servico['situacao'] : 'Aguardando Pagamento',
+                                      'idServico':servico.documentID
                                     });
                                     Navigator.of(context).pushNamed('/HistoricoServico');
                                     
@@ -148,13 +168,19 @@ class _MeusServicosState extends State<MeusServicos> {
                        )
                       
                      ],
-                   ),                   
+                   ),
+                  )
+                   ,                   
                    
 
                  ],
                ),
              ) ,
-             )
+             ),
+            
+                    ],
+                  )
+                  
                  
                  ).toList()
                ],

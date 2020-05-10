@@ -31,6 +31,7 @@ class CriacaoServicoState with ChangeNotifier {
           ...servico,
           "idPrestador":idPrestador,
           "valorServico":valorServico,
+          "status":"Aguardando Pagamento",
           "historico":[
             {
               "data":servico['dataCriado'],
@@ -40,6 +41,10 @@ class CriacaoServicoState with ChangeNotifier {
             {
               "data":DateTime.now(),
               "status":"Foi aceito o orçamento do profissional"
+            },            
+            {
+              "data":DateTime.now(),
+              "status":"Aguardando Pagamento"
             }
           ]
         }
@@ -68,12 +73,12 @@ class CriacaoServicoState with ChangeNotifier {
   }
   void setServico(Map<String,dynamic> s){
     servico = s;
-   // notifyListeners();
+    notifyListeners();
     
   }
   void setIdSolicitacaoServico(String id){
     idSolicitacaoServico = id;
-  //  notifyListeners();
+    notifyListeners();
   }
   void setIdPrestadorServicoValorServico(String id,double v)async{
     idPrestador = id;

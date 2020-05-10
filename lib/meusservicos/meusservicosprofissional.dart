@@ -17,6 +17,22 @@ class _MeusServicosProfissionalState extends State<MeusServicosProfissional> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   String imagemBase = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f5Tq7UJLc10WyFDBXoJKjlgnqmd8s6mRBxMfqj_NVLH5VEny&s';
   final List<int> orcamentos = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+  Widget buildStatus(String status){
+    print("BUILD STATUS $status");
+    if(status == 'Aguardando Pagamento') return Column(
+                                children: <Widget>[
+                                    Icon(Icons.autorenew,color: Colors.green,),
+                                    Text('Aguardando Pagametno',style:TextStyle(fontSize:7,color:Colors.green,fontWeight: FontWeight.bold))
+                                ],
+                              );
+    return Column(
+                                children: <Widget>[
+                                    Icon(Icons.check,color: Colors.green,),
+                                    Text('Concluido',style:TextStyle(fontSize:7,color:Colors.green,fontWeight: FontWeight.bold))
+                                ],
+                              );
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +83,7 @@ class _MeusServicosProfissionalState extends State<MeusServicosProfissional> {
                            children: <Widget>[
                               Text(servico["tituloServico"],style:TextStyle(fontWeight: FontWeight.bold)),
                               Padding(padding: EdgeInsets.all(8)),
-                              Column(
-                                children: <Widget>[
-                                      Icon(Icons.check,color: Colors.green,),
-                                      Text("Concluido",style:TextStyle(fontSize:7,color:Colors.green,fontWeight: FontWeight.bold))
-                                ],
-                              )
+                              buildStatus(servico['status'])
                              
 
                          ],

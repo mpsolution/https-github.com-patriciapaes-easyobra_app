@@ -20,6 +20,7 @@ class ProjetoProviderState with ChangeNotifier{
       bool projetoSalvo = false;
       DocumentReference projetoDb =  await Firestore.instance.collection('projetos').add({
         ...projeto,
+        "status":"Aguardando Orcamentos",
         "idCliente": (usuario != null) ? usuario.uid : "123456"
       });
       if(projetoDb.documentID != null){

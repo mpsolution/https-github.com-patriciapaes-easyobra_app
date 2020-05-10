@@ -33,17 +33,143 @@ class _HistoricoServicoState extends State<HistoricoServico> {
   bool ativandoChat = false;
 
  Widget topoHistorico(Map<String,dynamic> h){
+   final historicoProvider = Provider.of<HistoricoProvider>(context , listen: false);
+   List<String> situacoes = [
+     'Aguardando Pagamento',
+     'Servico Cancelado',
+     'Pago',
+     'Aguardando Inicio do Serviço',
+     'Em Execução',
+     'Finalizado',
+     'Em Mediação',
+     'Servico Concluido',
+     'Pagamento em Disputa',
+     'Pagamento Aprovado',
+     'Pagamento Liberado',
+   ];
+   String situacao =( h['situacao'] != null) ? h['situacao'] : 'Servico Concluido';
+   print("TIPO DE SITUACAO ${h['situacao']}");
    if(h['cliente'] == null){
+     Widget row = Padding(padding: EdgeInsets.all(0) );
+     if(situacao == 'Aguardando Pagamento'){
+       row = Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: <Widget>[
+                                          RaisedButton(
+                                            color: Colors.red,
+                                            onPressed: (){
+                                              print("FUNCAO DE CANCELAR");
+                                              historicoProvider.mudarSituacaoServico('Servico Cancelado');
+                                            },
+                                            child: Text("Cancelar", style: TextStyle(color: Colors.white),),
+                                            ),
+                                         RaisedButton(
+                                            color: Colors.blue,
+                                            onPressed: (){
+                                              print("FUNCAO PAGAR");
+                                              historicoProvider.mudarSituacaoServico('Pago');
+                                            },
+                                            child: Text("Pagar", style: TextStyle(color: Colors.white),),
+                                            ),   
+                                        ],
+                                      );
+     }
+     
+     if(situacao == 'Servico Concluido'){
+       row = Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: <Widget>[
+                                          RaisedButton(
+                                            color: Colors.red,
+                                            onPressed: (){
+                                              print("FUNCAO DE REPROVAR SERVICO");
+                                              historicoProvider.mudarSituacaoServico('Pagamento em disputa');
+                                            },
+                                            child: Text("Reprovar Serviço", style: TextStyle(color: Colors.white),),
+                                            ),
+                                         RaisedButton(
+                                            color: Colors.blue,
+                                            onPressed: (){
+                                              print("FUNCAO APROVAR SERVIÇO");
+                                              historicoProvider.mudarSituacaoServico('Servico Aprovado');
+                                            },
+                                            child: Text("Aprovar Serviço", style: TextStyle(color: Colors.white),),
+                                            ),   
+                                        ],
+                                      );
+     }
+     if(situacao == 'Execucao Finalizada'){
+       row = Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: <Widget>[
+                                          RaisedButton(
+                                            color: Colors.red,
+                                            onPressed: (){
+                                              print("FUNCAO DE CANCELAR");
+                                              historicoProvider.mudarSituacaoServico('Servico Cancelado');
+                                            },
+                                            child: Text("Cancelar", style: TextStyle(color: Colors.white),),
+                                            ),
+                                         RaisedButton(
+                                            color: Colors.blue,
+                                            onPressed: (){
+                                              print("FUNCAO PAGAR");
+                                              historicoProvider.mudarSituacaoServico('Pago');
+                                            },
+                                            child: Text("Pagar", style: TextStyle(color: Colors.white),),
+                                            ),   
+                                        ],
+                                      );
+     }
+     
      return Column(
        mainAxisAlignment: MainAxisAlignment.start,
        crossAxisAlignment: CrossAxisAlignment.start,
        children: <Widget>[
          Text("Profissional: "+h['nomePrestador']),
          Text("Especialidade: "+h['especialidade']),
-         Text("Serviço: "+h['servico']),         
+         Text("Serviço: "+h['servico']),
+         Text("Situação: ${(h['situacao'] == null) ? '--' : h['situacao'] }" ),         
+         row
        ],
      );
    }else{
+     Widget row = Padding(padding: EdgeInsets.all(0) );
+      if(situacao == 'Pago'){
+       row = Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: <Widget>[                                          
+                                         RaisedButton(
+                                            color: Colors.blue,
+                                            onPressed: (){
+                                              print("FUNCAO INICIAR TRABALHO");
+                                              historicoProvider.mudarSituacaoServico('Em Execucao');
+                                            },
+                                            child: Text("Iniciar Trabalho", style: TextStyle(color: Colors.white),),
+                                            ),   
+                                        ],
+                                      );
+     }     
+     if(situacao == 'Em Execucao'){
+       row = Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: <Widget>[                                          
+                                         RaisedButton(
+                                            color: Colors.blue,
+                                            onPressed: (){
+                                              print("FUNCAO FINALIZAR TRABALHO");
+                                              historicoProvider.mudarSituacaoServico('Execucao Finalizada');
+                                            },
+                                            child: Text("Finalizar Serviço", style: TextStyle(color: Colors.white),),
+                                            ),   
+                                        ],
+                                      );
+     } 
       return Column(        
        mainAxisAlignment: MainAxisAlignment.start,
        crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,7 +177,8 @@ class _HistoricoServicoState extends State<HistoricoServico> {
          Text("Cliente: "+h['cliente']),
          Text("Endereço: "+h['endereco']),
          Text("Telefone: "+h['telefone']),
-         Text("Serviço: "+h['servico']),         
+         Text("Situação: ${(h['situacao'] == null) ? '--' : h['situacao'] }" ),     
+         row         
        ],
      );
    }
@@ -61,7 +188,7 @@ class _HistoricoServicoState extends State<HistoricoServico> {
     final historicoProvider = Provider.of<HistoricoProvider>(context);
     final usuarioProvider   = Provider.of<UsuarioProvider>(context);
 
-    h.addStatus(status);
+   // h.addStatus(status);
     return Scaffold(
        resizeToAvoidBottomInset: false,
        key: scaffoldKey,
@@ -92,7 +219,7 @@ class _HistoricoServicoState extends State<HistoricoServico> {
                    ),
                    child:Padding(
                      padding: EdgeInsets.all(10),
-                     child: SingleChildScrollView(
+                     child:  SingleChildScrollView(
                      child: Column(
                        mainAxisAlignment: MainAxisAlignment.start,
                        crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,13 +273,15 @@ class _HistoricoServicoState extends State<HistoricoServico> {
                            ],
                          ),
                          ...historicoProvider.getHistorico['historico'].map<Widget>((status){
-                           return 
+                           print("status $status");
+                           return                             
                              Padding(
                                padding: EdgeInsets.only(top:10),
-                               child:Column(
+                               child:
+                               Column(
                              mainAxisAlignment: MainAxisAlignment.start,
                              crossAxisAlignment: CrossAxisAlignment.start,
-                             children: <Widget>[
+                             children: <Widget>[                                 
                                   Container(
                                     height: 1,width: MediaQuery.of(context).size.width ,
                                     decoration: BoxDecoration(
@@ -160,21 +289,17 @@ class _HistoricoServicoState extends State<HistoricoServico> {
                                     ),
                                     ),
                                   Text(status["data"]),
-                                  Text(status["status"])
+                                  Text(status["status"]),
                              ],
                            ) ,
                              );
-                           
-                         })
+                         }),
                        ],
                      ),
                    ),
                    )
-                   
                     ,
                  ),
-                 
-                 
                ],
              ),
            ) ,

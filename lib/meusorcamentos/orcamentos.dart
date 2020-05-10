@@ -24,7 +24,7 @@ class _OrcamentosState extends State<Orcamentos> {
 
   final String idServico     = ModalRoute.of(context).settings.arguments;
         String servico       ="SolicitacoesServicos";
-
+   print("ID DO SERVICO $idServico em orcamentos");
     
     return Scaffold(
        resizeToAvoidBottomInset: false,
@@ -44,9 +44,8 @@ class _OrcamentosState extends State<Orcamentos> {
              child:Align(
                alignment: Alignment.topCenter,
                child:SingleChildScrollView(
-               scrollDirection: Axis.vertical,              
-               
-               child:(idServico == null) ? StreamBuilder(
+               scrollDirection: Axis.vertical,           
+               child:(idServico != null) ? StreamBuilder(
                  stream: Firestore.instance.collection(servico).document(idServico).snapshots(),
                  builder: (BuildContext context,AsyncSnapshot<DocumentSnapshot> snapshot){
                                     if(snapshot.hasError) Text("Error: ${snapshot.error}");
