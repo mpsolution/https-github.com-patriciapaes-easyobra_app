@@ -46,7 +46,7 @@ class _MeusServicosState extends State<MeusServicos> {
          backgroundColor: Colors.white,
          leading:  new IconButton(
            icon: new Icon(Icons.arrow_back,color:Colors.black),
-           onPressed: () => Navigator.of(context).maybePop(),
+           onPressed: () => Navigator.of(context).pop(),
          ),
          title: Text("Meus Serviços",style: TextStyle(color: Colors.black),),
        ),
@@ -99,8 +99,7 @@ class _MeusServicosState extends State<MeusServicos> {
                            children: <Widget>[
                               Text(servico["tituloServico"],style:TextStyle(fontWeight: FontWeight.bold)),
                               Padding(padding: EdgeInsets.all(8)),
-                              buildStatus(servico['status'])
-                             
+                              buildStatus(servico['status'])                             
 
                          ],
                        ),

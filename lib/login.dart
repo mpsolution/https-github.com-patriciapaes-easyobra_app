@@ -33,12 +33,10 @@ class _LoginState extends State<Login> {
 
     return Scaffold(
       key: _scaffoldKey,      
-      body:SingleChildScrollView(
+      body:SafeArea(
         child: Align(
-          alignment: Alignment.center,
-          child: Padding(
-          padding: EdgeInsets.all(25),
-          child: Column(
+          alignment: Alignment.topCenter,
+          child:Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize:MainAxisSize.max ,
@@ -46,14 +44,19 @@ class _LoginState extends State<Login> {
               //Imagem Principal
               SizedBox(
                 width: MediaQuery.of(context).size.width*0.8,
-                height: 300,
+                height: MediaQuery.of(context).size.height * 0.4,                
                 child: Image.asset("assets/images/login/logo.png")                
               ),
               Padding(
                 padding: EdgeInsets.only(top:10),
                 child: Text("Como deseja começar?",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey,fontSize: 18),),
                 ),
-              Padding(
+              Container(
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
                 padding: EdgeInsets.only(top:10),
                 child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.7,
@@ -271,12 +274,16 @@ class _LoginState extends State<Login> {
               ),
                 )
               
-              
+
+                  ],),
+              )
+                            
             ],
-          ),
-        ),
-        ),
-      )
+          ) ,
+        )
+           
+        )
+      
       
     );
   }

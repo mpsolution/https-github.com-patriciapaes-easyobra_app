@@ -28,7 +28,7 @@ class _VerOrcamentosState extends State<VerOrcamentos> {
          backgroundColor: Colors.white,
          leading:  new IconButton(
            icon: new Icon(Icons.arrow_back,color:Colors.black),
-           onPressed: () => Navigator.of(context).maybePop(),
+           onPressed: () => Navigator.of(context).pop(),
          ),
          title: Text("Orçamentos",style: TextStyle(color: Colors.black),),
        ),

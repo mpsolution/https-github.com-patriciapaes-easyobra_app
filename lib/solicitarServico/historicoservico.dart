@@ -60,7 +60,30 @@ class _HistoricoServicoState extends State<HistoricoServico> {
                                             color: Colors.red,
                                             onPressed: (){
                                               print("FUNCAO DE CANCELAR");
-                                              historicoProvider.mudarSituacaoServico('Servico Cancelado');
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context){
+                                                  return AlertDialog(
+                                                              title: new Text("Deseja Cancelar o Projeto"),
+                                                              content: new Text("Não será possivel desfazer a ação!"),
+                                                              actions: <Widget>[
+                                                                // define os botões na base do dialogo
+                                                                new FlatButton(
+                                                                  child: new Text("Não"),
+                                                                  onPressed: () {                
+                                                                    Navigator.of(context).pop();
+                                                                  },),
+                                                                new FlatButton(
+                                                                  child: new Text("Sim"),
+                                                                  onPressed: () {          
+                                                                    historicoProvider.mudarSituacaoServico('Servico Cancelado');      
+                                                                    Navigator.of(context).pop();
+                                                                  },)
+                                                              ],
+                                                            );
+                                                }
+                                                );
+                                              
                                             },
                                             child: Text("Cancelar", style: TextStyle(color: Colors.white),),
                                             ),
@@ -85,7 +108,30 @@ class _HistoricoServicoState extends State<HistoricoServico> {
                                             color: Colors.red,
                                             onPressed: (){
                                               print("FUNCAO DE REPROVAR SERVICO");
-                                              historicoProvider.mudarSituacaoServico('Pagamento em disputa');
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context){
+                                                  return AlertDialog(
+                                                              title: new Text("Deseja Reprovar A Execução do Serviço"),
+                                                              content: new Text("Ao não aceitar a finalização do serviço,entrará em disputa o projeto"),
+                                                              actions: <Widget>[
+                                                                // define os botões na base do dialogo
+                                                                new FlatButton(
+                                                                  child: new Text("Não"),
+                                                                  onPressed: () {                
+                                                                    Navigator.of(context).pop();
+                                                                  },),
+                                                                new FlatButton(
+                                                                  child: new Text("Sim"),
+                                                                  onPressed: () {          
+                                                                    historicoProvider.mudarSituacaoServico('Pagamento em disputa');      
+                                                                    Navigator.of(context).pop();
+                                                                  },)
+                                                              ],
+                                                            );
+                                                }
+                                                );
+                                              
                                             },
                                             child: Text("Reprovar Serviço", style: TextStyle(color: Colors.white),),
                                             ),
@@ -107,19 +153,41 @@ class _HistoricoServicoState extends State<HistoricoServico> {
                                         children: <Widget>[
                                           RaisedButton(
                                             color: Colors.red,
-                                            onPressed: (){
+                                            onPressed: (){                                              
                                               print("FUNCAO DE CANCELAR");
-                                              historicoProvider.mudarSituacaoServico('Servico Cancelado');
+                                              showDialog(
+                                                context: context,
+                                                builder:(BuildContext context){
+                                                     return AlertDialog(
+                                                              title: new Text("Deseja Cancelar o Projeto"),
+                                                              content: new Text("Não será possivel desfazer a ação!"),
+                                                              actions: <Widget>[
+                                                                // define os botões na base do dialogo
+                                                                new FlatButton(
+                                                                  child: new Text("Não"),
+                                                                  onPressed: () {                
+                                                                    Navigator.of(context).pop();
+                                                                  },),
+                                                                new FlatButton(
+                                                                  child: new Text("Sim"),
+                                                                  onPressed: () {          
+                                                                    historicoProvider.mudarSituacaoServico('Servico Cancelado');
+                                                                    Navigator.of(context).pop();
+                                                                  },)
+                                                              ],
+                                                            );
+                                                  } 
+                                                );
                                             },
-                                            child: Text("Cancelar", style: TextStyle(color: Colors.white),),
+                                            child: Text("Recusar Execução", style: TextStyle(color: Colors.white),),
                                             ),
                                          RaisedButton(
                                             color: Colors.blue,
                                             onPressed: (){
                                               print("FUNCAO PAGAR");
-                                              historicoProvider.mudarSituacaoServico('Pago');
+                                              historicoProvider.mudarSituacaoServico('Pagamento Liberado');
                                             },
-                                            child: Text("Pagar", style: TextStyle(color: Colors.white),),
+                                            child: Text("Aceitar Execução", style: TextStyle(color: Colors.white),),
                                             ),   
                                         ],
                                       );

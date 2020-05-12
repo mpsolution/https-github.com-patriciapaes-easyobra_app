@@ -56,6 +56,7 @@ class HistoricoProvider with ChangeNotifier{
         "status":histo['status']
         }));
     }    
+    
     notifyListeners();
   }
    
@@ -84,10 +85,22 @@ class HistoricoProvider with ChangeNotifier{
       try {
         print("MUDAR SITUACAO PARA $situacao");
         print("ID DO SERVICO ${historico['idServico']}");
+        DateTime dataAgora = new DateTime.now();
         await Firestore.instance.collection('servicos').document(historico['idServico']).updateData({
-          'situacao':situacao
+          'situacao':situacao,
+          'historico':FieldValue.arrayUnion([{
+            "data":dataAgora,
+            "status":situacao
+          }])
         });
         historico['situacao'] = situacao;
+        DocumentSnapshot servico = await Firestore.instance.collection('servicos').document(historico['idServico']).get();
+        historico['historico'] = [];
+        servico['historico'].forEach((histo)=>historico['historico'].add({
+        "data":formatDate(DateTime.parse(histo['data'].toDate().toString()), [dd,'/',mm ,'/', yy]),
+        "status":histo['status']
+        }));
+        
 
       } catch (e) {
         print("ERRO MUDAR SITUACAO $e");
