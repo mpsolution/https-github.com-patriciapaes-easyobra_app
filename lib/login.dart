@@ -224,7 +224,7 @@ class _LoginState extends State<Login> {
                                      DocumentSnapshot usuario = await Firestore.instance.collection('usuarios').document(userUid).get();
                                      print("USUARIO QUE FOI LOGADO ${usuario.data}");
                                      usuarioProvider.setUsuario(usuario);
-                                      Navigator.of(context).pushNamedAndRemoveUntil('/', ModalRoute.withName('/'));
+                                      Navigator.of(context).pushNamedAndRemoveUntil('/Home', ModalRoute.withName('/'));
 
 
 
