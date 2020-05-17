@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scaffold/provider/projetoProvider.dart';
+import 'package:flutter_scaffold/provider/usuarioProvider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -28,40 +29,44 @@ class _IniciarDigitalizacaoState extends State<IniciarDigitalizacao> {
 
    Future getImage(BuildContext context )async{
       final projetoProvider = Provider.of<ProjetoProviderState>(context);
+      final usuarioProvider = Provider.of<UsuarioProvider>(context);
+      final result = await Navigator.of(context).pushNamed('/Camera');
+      print("PATH DA IMAGEM ${usuarioProvider.tempFotoPath}");
+      if (usuarioProvider.tempFotoPath != ''){
+           File foto = new File(usuarioProvider.tempFotoPath);         
+            if(foto == null) return;
+            print("FOTO ADICIONADA");    
+            setState(() {
+              criandoProjeto = true;
+            });
+            bool resultado = await projetoProvider.addFotoProjeto(foto);
+            print("RESULTADO DA OPREACAO DE ADD FOTO $resultado");
+            usuarioProvider.tempFotoPath = '';
+            setState(() {
+              criandoProjeto = false;
+            });
+            showDialog(
+              context: context,
+              builder:(BuildContext context){
+                return AlertDialog(
+                  title: Text("Foto Adicionada"),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text("OK"),
+                      onPressed: (){
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                );
+              }
+            );
 
-    print("FUNÇÃO DEPEGAR IMAGEM SELECIONADA");
-    try{
-          foto = await ImagePicker.pickImage(source:ImageSource.camera);
-    }catch(error){
-      print("DEU ERRO");
-      print('error taking picture ${error.toString()}');
-    }
-    if(foto == null) return;
-    print("FOTO ADICIONADA");    
-    setState(() {
-      criandoProjeto = true;
-    });
-    bool resultado = await projetoProvider.addFotoProjeto(foto);
-    print("RESULTADO DA OPREACAO DE ADD FOTO $resultado");
-    setState(() {
-      criandoProjeto = false;
-    });
-    showDialog(
-      context: context,
-      builder:(BuildContext context){
-        return AlertDialog(
-          title: Text("Foto Adicionada"),
-          actions: <Widget>[
-            FlatButton(
-              child: Text("OK"),
-              onPressed: (){
-                Navigator.of(context).pop();
-              },
-            )
-          ],
-        );
       }
-    );
+      
+     
+
+    
   
   }
   void dialogCriarProjeto(BuildContext context){

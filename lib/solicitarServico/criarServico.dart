@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scaffold/provider/criacaoServicoProvider.dart';
+import 'package:flutter_scaffold/provider/usuarioProvider.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
@@ -25,10 +26,20 @@ class _CriarServicoState extends State<CriarServico> {
   File imagem;
   bool _dialVisible = true;
   Future getImage(  String s)async{
+    final usuarioProvider = Provider.of<UsuarioProvider>(context);
     try {
        print("FUNÇÃO DEPEGAR IMAGEM SELECIONADA");
-    var imagem = await ImagePicker.pickImage(source:(s == "galeria") ? ImageSource.gallery : ImageSource.camera);
+    if(s == 'galeria'){
+       imagem = await ImagePicker.pickImage(source:ImageSource.gallery);
+    }else{
+      final result = await Navigator.of(context).pushNamed('/Camera');
+      if(usuarioProvider.tempFotoPath != ''){
+         imagem = new File(usuarioProvider.tempFotoPath);  
+      }
+    }    
+    
     fotos.add(imagem);
+    usuarioProvider.tempFotoPath = '';
     print("QUANTIDADE DE FOTOS ${fotos.length}");
     setState(() {
       
@@ -124,6 +135,12 @@ class _CriarServicoState extends State<CriarServico> {
           actions: <Widget>[
             // define os botões na base do dialogo
             new FlatButton(
+              child: new Text("Não"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
               child: new Text("Sim"),
               onPressed: () {
                 fotos.removeWhere((f) => f == foto);
@@ -133,12 +150,7 @@ class _CriarServicoState extends State<CriarServico> {
                 Navigator.of(context).pop();
               },
               ),
-              new FlatButton(
-              child: new Text("Não"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
+              
           ],
         );
       },
@@ -298,17 +310,18 @@ class _CriarServicoState extends State<CriarServico> {
                                       onTap: (){
                                         removerFoto(foto);
                                       },
-                                      child:Container(
-                                              decoration: BoxDecoration(
-                                                border: Border.all(width: 1,color: Colors.black)
-                                              ),child: Padding(
+                                      child:Card(
+                                        child: Container(
+                                              child: Padding(
                                                 padding: EdgeInsets.all(2),
                                                 child:Image.file(
                                                     foto,
                                                     fit: BoxFit.contain,
                                                     ),
                                               ),
-                                              ) ,
+                                              ),
+                                      )
+                                       ,
                                     )
 
                                              )

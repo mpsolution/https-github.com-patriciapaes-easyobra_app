@@ -7,6 +7,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_scaffold/componentes/salvarProjetoAction.dart';
 import 'package:flutter_scaffold/provider/projetoProvider.dart';
+import 'package:flutter_scaffold/provider/usuarioProvider.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -26,14 +27,26 @@ class _DialProjetoState extends State<DialProjeto> {
 
   Future getImage(BuildContext context , ImageSource source )async{
       final projetoProvider = Provider.of<ProjetoProviderState>(context);
-
+      final usuarioProvider = Provider.of<UsuarioProvider>(context);
+     
     print("FUNÇÃO DEPEGAR IMAGEM SELECIONADA");
-    try{
-          foto = await ImagePicker.pickImage(source:source);
-    }catch(error){
-      print("DEU ERRO");
-      print('error taking picture ${error.toString()}');
-    }
+    if(source.toString() == 'ImageSource.gallery'){
+      print("ESCOLHEU GALERIA");
+      try{
+          print("IMAGEM SOURCE USADA $source");
+              foto = await ImagePicker.pickImage(source:source);
+        }catch(error){
+          print("DEU ERRO");
+          print('error taking picture ${error.toString()}');
+        }
+    } 
+    if(source.toString() == 'ImageSource.camera'){
+      print("ESCOLHEU Camera");
+      final result = await Navigator.of(context).pushNamed('/Camera');
+      if(usuarioProvider.tempFotoPath != ''){
+         foto = new File(usuarioProvider.tempFotoPath); 
+      }
+    }    
     if(foto == null) return;
     print("FOTO ADICIONADA");    
     setState(() {
@@ -44,6 +57,7 @@ class _DialProjetoState extends State<DialProjeto> {
     setState(() {
       criandoProjeto = false;
     });
+    usuarioProvider.tempFotoPath = '';
     showDialog(
       context: context,
       builder:(BuildContext context){

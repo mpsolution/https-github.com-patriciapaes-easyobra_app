@@ -4,6 +4,7 @@ import 'package:flutter_scaffold/agenda/agenda2.dart';
 import 'package:flutter_scaffold/auth/auth.dart';
 import 'package:flutter_scaffold/blocks/auth_block.dart';
 import 'package:flutter_scaffold/cadastro.dart';
+import 'package:flutter_scaffold/camera/camera_screen.dart';
 import 'package:flutter_scaffold/cart.dart';
 import 'package:flutter_scaffold/categorise.dart';
 import 'package:flutter_scaffold/dicas/dica.dart';
@@ -122,7 +123,9 @@ initializeDateFormatting().then((_) => runApp(MultiProvider(
         '/VerOrcamentos':(BuildContext context) => VerOrcamentos(),
         '/VerSolicitacaoServico':(BuildContext context) => VerSolicitacaoServico(),
         '/Agenda':(BuildContext context) => Agenda(),
-        '/Galeria':(BuildContext  context) => Galeria()
+        '/Galeria':(BuildContext  context) => Galeria(),
+        '/Camera':(BuildContext context) =>CameraScreen(),
+        
 
       },
     ),

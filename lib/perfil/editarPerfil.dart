@@ -52,12 +52,17 @@ class MapScreenState extends State<EditarPerfil>
 
   Future getImage(  String s)async{
     print("FUNÇÃO DEPEGAR IMAGEM SELECIONADA");
+    final usuarioProvider = Provider.of<UsuarioProvider>(context);
+    final result = await Navigator.of(context).pushNamed('/Camera');
     try {
-          imagem = await ImagePicker.pickImage(source:(s == "galeria") ? ImageSource.gallery : ImageSource.camera);  
+          if(usuarioProvider.tempFotoPath != ''){
+            imagem = new File(usuarioProvider.tempFotoPath);
+          }
+          
     } catch (e) {
       print("QUANTIDADE DE FOTOS $e");
     }
-    
+    usuarioProvider.tempFotoPath = '';
    
     
     setState(() {

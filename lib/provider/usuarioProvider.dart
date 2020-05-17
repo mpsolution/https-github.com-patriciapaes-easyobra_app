@@ -14,6 +14,8 @@ class UsuarioProvider with ChangeNotifier{
   ChatUser chatUser;
   String idChatEmUso = '';
   String imagemBase = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f5Tq7UJLc10WyFDBXoJKjlgnqmd8s6mRBxMfqj_NVLH5VEny&s';
+  String tempFotoPath = '';
+  
 
   Future<bool> enviarProposta(DocumentSnapshot servico,String valorProposta) async {
   bool salvou = false;
