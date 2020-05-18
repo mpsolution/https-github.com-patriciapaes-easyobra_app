@@ -60,7 +60,8 @@ class _OrcamentosState extends State<Orcamentos> {
                                                           DataColumn(label:Expanded(child:Text("Nome"),) ),
                                                           DataColumn(label:Expanded(child:Text("Preço") ,) )
                                                         ],
-                                                        rows:snapshot.data['orcamentos'].map<DataRow>((dynamic itemrow) => DataRow(
+                                                        rows:(snapshot.data['orcamentos'] != null) ?
+                                                        snapshot.data['orcamentos'].map<DataRow>((dynamic itemrow) => DataRow(
                                                             selected: ( rowSelecionada == itemrow['idPrestador'] ),                
                                                             cells: [
                                                             DataCell(Text(formatDate(DateTime.parse(itemrow["data"].toDate().toString()),[dd,'/',mm ,'/', yy])),onTap: (){
@@ -90,7 +91,8 @@ class _OrcamentosState extends State<Orcamentos> {
                                                                                                     Navigator.pushNamed(context, '/PortifolioDoProfissional');
                                                                                                     criacaoServicoProvider.setIdPrestadorServicoValorServico(itemrow['idPrestador'],double.parse(itemrow['valor'].replaceAll('R\$','').replaceAll(',','.')) );
                                                                                                     })
-                                                          ])).toList(),
+                                                          ])).toList() : [
+                                                            ],
                                                       ) ;
                                     }
 

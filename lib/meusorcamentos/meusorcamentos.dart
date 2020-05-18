@@ -44,7 +44,7 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
                builder:(BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
                  if(snapshot.hasError) Text("Error: ${snapshot.error}");
                  switch(snapshot.connectionState){
-                   case ConnectionState.waiting : return new Center(child: SizedBox(height: 50,width: 50,child: CircularProgressIndicator(),));
+                   case ConnectionState.waiting : return new Center(child: SizedBox(height: 50,width: 50,child: CircularProgressIndicator(),));                   
                    default:
                     return (snapshot.data.documents.length == 0) ? Center(child: Text("Crie Um Serviço Para Receber Orçamentos."),) :  new  ListView( 
                padding: EdgeInsets.all(4),
@@ -176,7 +176,7 @@ class _MeusOrcamentosState extends State<MeusOrcamentos> {
                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                      children: <Widget>[      
                        Flexible(
-                         child: Text(StringUtils.capitalize(orcamento["tituloServico"]).substring(0,(orcamento["tituloServico"].length > 10) ? 10 : orcamento["tituloServico"].length  ) ,style:TextStyle(fontWeight: FontWeight.bold),textAlign:TextAlign.left,overflow: TextOverflow.ellipsis, ),
+                         child: Text(StringUtils.capitalize(orcamento["tituloServico"]).substring(0,(orcamento["tituloServico"].length > 17) ? 17 : orcamento["tituloServico"].length  ) ,style:TextStyle(fontWeight: FontWeight.bold),textAlign:TextAlign.left,overflow: TextOverflow.ellipsis, ),
                          ),
                        Text(StringUtils.capitalize(orcamento["categoria"])),
                        Text(formatDate(DateTime.parse(orcamento["dataCriado"].toDate().toString()),[dd,'/',mm ,'/', yy])),

@@ -111,7 +111,7 @@ class _CriarServicoState extends State<CriarServico> {
                     
 
                 }).then((salvo){
-                  dbSolicitacoesServicos.add({
+                  dbSolicitacoesServicos.document(salvo.documentID).updateData({
                     "idServico":salvo.documentID
                   });
                 });   
